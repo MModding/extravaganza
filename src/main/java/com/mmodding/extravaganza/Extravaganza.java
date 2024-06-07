@@ -1,6 +1,7 @@
 package com.mmodding.extravaganza;
 
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
+import com.mmodding.extravaganza.init.ExtravaganzaEntities;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
 import net.fabricmc.api.ModInitializer;
 
@@ -17,6 +18,7 @@ public class Extravaganza implements ModInitializer {
 		Extravaganza.getLogger().info("Time to add some extravaganza to your game!");
 
 		ExtravaganzaBlocks.register();
+		ExtravaganzaEntities.register();
 		ExtravaganzaItems.register();
 	}
 

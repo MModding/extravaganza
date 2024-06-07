@@ -1,9 +1,11 @@
 {
-	"required": true,
-	"package": "com.mmodding.extravaganza.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "com.mmodding.extravaganza.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "EntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }
