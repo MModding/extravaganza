@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "extravaganza:block/blue_wooded_festive_rubber"
+  }
+}

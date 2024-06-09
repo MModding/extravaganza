@@ -8,6 +8,7 @@ All rights reserved.
 
 ### Are Considered As Assets:
 ```
+- All Files in the ./src/main/java/com/mmodding/extravaganza/client/entity/model Directory
 - All Files in the ./src/main/resources/assets Directory
 - All Files in the ./external Directory
 ```

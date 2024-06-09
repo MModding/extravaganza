@@ -6,7 +6,6 @@ import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
@@ -33,8 +32,9 @@ public abstract class EntityMixin {
 
 	@Inject(method = "baseTick", at = @At("HEAD"))
 	private void applyBallPoolContentLogic(CallbackInfo ci) {
-		BlockState state = this.getWorld().getBlockState(this.getBlockPos());
-		if (state.isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT)) {
+		BlockState underState = this.getWorld().getBlockState(this.getBlockPos().down());
+		BlockState currentState = this.getWorld().getBlockState(this.getBlockPos());
+		if (!underState.isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT) && currentState.isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT)) {
 			this.addVelocity(
 				this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1),
 				this.getRandom().nextDouble(),
