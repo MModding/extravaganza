@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "extravaganza:block/pink_festive_rubber_ladder"
+  }
+}

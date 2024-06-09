@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "extravaganza:block/plant_festive_rubber_grate",
+    "side": "extravaganza:block/plant_festive_rubber_grate",
+    "top": "extravaganza:block/plant_festive_rubber_grate"
+  }
+}

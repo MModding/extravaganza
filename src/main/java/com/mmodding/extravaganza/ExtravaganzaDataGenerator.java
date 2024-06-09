@@ -6,10 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.block.Block;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.WallBlock;
+import net.minecraft.block.*;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
@@ -62,6 +59,8 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 	public static class ExtravaganzaModelProvider extends FabricModelProvider {
 
 		private static final Predicate<Block> UNCOMMON = block ->
+			block instanceof TransparentBlock ||
+			block instanceof LadderBlock ||
 			block.equals(ExtravaganzaBlocks.BALL_POOL_CORE) ||
 			block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT);
 
@@ -81,6 +80,16 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 						pool.slab(Registries.BLOCK.get(identifier.withPath(string -> string + "_slab")));
 						pool.wall(Registries.BLOCK.get(identifier.withPath(string -> string + "_wall")));
 					}
+				}
+				else if (block instanceof TransparentBlock) {
+					blockStateModelGenerator.registerSimpleCubeAll(block);
+				}
+				else if (block instanceof LadderBlock) {
+					blockStateModelGenerator.registerNorthDefaultHorizontalRotation(block);
+					blockStateModelGenerator.registerItemModel(block);
+				}
+				else if (block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT)) {
+					blockStateModelGenerator.registerItemModel(block);
 				}
 			});
 		}

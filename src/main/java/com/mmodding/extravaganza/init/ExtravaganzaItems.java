@@ -4,6 +4,7 @@ import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.item.FestiveBallItem;
 import com.mmodding.extravaganza.item.WrenchAganzaItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -32,6 +33,13 @@ public class ExtravaganzaItems {
 	public static final Item WHITE_FESTIVE_BALL = new FestiveBallItem(() -> ExtravaganzaEntities.WHITE_FESTIVE_BALL, new Item.Settings().maxCount(16));
 	public static final Item YELLOW_FESTIVE_BALL = new FestiveBallItem(() -> ExtravaganzaEntities.YELLOW_FESTIVE_BALL, new Item.Settings().maxCount(16));
 
+	public static final Item GOLDEN_CANDY_CANE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(1.5f).alwaysEdible().snack().build()));
+	public static final Item GREEN_CANDY_CANE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(1.5f).alwaysEdible().snack().build()));
+	public static final Item RED_CANDY_CANE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(1.5f).alwaysEdible().snack().build()));
+
+	public static final Item HOT_DOG = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(1.0f).snack().build()));
+	public static final Item HOT_DOG_WITH_MAYONNAISE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(1.5f).snack().build()));
+
 	public static void register() {
 		Registry.register(Registries.ITEM, Extravaganza.createId("wrench_aganza"), ExtravaganzaItems.WRENCH_AGANZA);
 		Registry.register(Registries.ITEM, Extravaganza.createId("black_festive_ball"), ExtravaganzaItems.BLACK_FESTIVE_BALL);
@@ -50,6 +58,11 @@ public class ExtravaganzaItems {
 		Registry.register(Registries.ITEM, Extravaganza.createId("red_festive_ball"), ExtravaganzaItems.RED_FESTIVE_BALL);
 		Registry.register(Registries.ITEM, Extravaganza.createId("white_festive_ball"), ExtravaganzaItems.WHITE_FESTIVE_BALL);
 		Registry.register(Registries.ITEM, Extravaganza.createId("yellow_festive_ball"), ExtravaganzaItems.YELLOW_FESTIVE_BALL);
+		Registry.register(Registries.ITEM, Extravaganza.createId("golden_candy_cane"), ExtravaganzaItems.GOLDEN_CANDY_CANE);
+		Registry.register(Registries.ITEM, Extravaganza.createId("green_candy_cane"), ExtravaganzaItems.GREEN_CANDY_CANE);
+		Registry.register(Registries.ITEM, Extravaganza.createId("red_candy_cane"), ExtravaganzaItems.RED_CANDY_CANE);
+		Registry.register(Registries.ITEM, Extravaganza.createId("hot_dog"), ExtravaganzaItems.HOT_DOG);
+		Registry.register(Registries.ITEM, Extravaganza.createId("hot_dog_with_mayonnaise"), ExtravaganzaItems.HOT_DOG_WITH_MAYONNAISE);
 
 		Stream<Item> stream = Extravaganza.extractFromRegistry(Registries.ITEM);
 

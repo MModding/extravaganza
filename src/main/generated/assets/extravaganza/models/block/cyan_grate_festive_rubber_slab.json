@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "extravaganza:block/cyan_grate_festive_rubber",
-    "side": "extravaganza:block/cyan_grate_festive_rubber",
-    "top": "extravaganza:block/cyan_grate_festive_rubber"
-  }
-}

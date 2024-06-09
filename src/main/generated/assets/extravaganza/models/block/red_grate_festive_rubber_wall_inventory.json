@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/wall_inventory",
-  "textures": {
-    "wall": "extravaganza:block/red_grate_festive_rubber"
-  }
-}

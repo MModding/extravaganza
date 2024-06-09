@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "extravaganza:block/brown_festive_rubber_grate_slab"
+    },
+    "type=double": {
+      "model": "extravaganza:block/brown_festive_rubber_grate"
+    },
+    "type=top": {
+      "model": "extravaganza:block/brown_festive_rubber_grate_slab_top"
+    }
+  }
+}

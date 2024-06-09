@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "extravaganza:block/gray_festive_rubber_grate",
+    "side": "extravaganza:block/gray_festive_rubber_grate",
+    "top": "extravaganza:block/gray_festive_rubber_grate"
+  }
+}
