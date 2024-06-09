@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side",
+  "textures": {
+    "wall": "extravaganza:block/red_perforated_festive_rubber"
+  }
+}

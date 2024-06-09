@@ -7,6 +7,9 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.block.WallBlock;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
@@ -14,6 +17,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.util.Identifier;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
@@ -69,7 +73,14 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
 			Extravaganza.executeForRegistry(Registries.BLOCK, block -> {
 				if (!ExtravaganzaModelProvider.UNCOMMON.test(block)) {
-					blockStateModelGenerator.registerSimpleCubeAll(block);
+					if (!(block instanceof StairsBlock) && !(block instanceof SlabBlock) && !(block instanceof WallBlock)) {
+						BlockStateModelGenerator.BlockTexturePool pool = blockStateModelGenerator.registerCubeAllModelTexturePool(block);
+						Identifier identifier = Registries.BLOCK.getId(block);
+						Extravaganza.getLogger().info(identifier.toString());
+						pool.stairs(Registries.BLOCK.get(identifier.withPath(string -> string + "_stairs")));
+						pool.slab(Registries.BLOCK.get(identifier.withPath(string -> string + "_slab")));
+						pool.wall(Registries.BLOCK.get(identifier.withPath(string -> string + "_wall")));
+					}
 				}
 			});
 		}

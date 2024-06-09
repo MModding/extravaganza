@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side",
+  "textures": {
+    "wall": "extravaganza:block/white_split_festive_rubber"
+  }
+}

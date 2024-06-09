@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_post",
+  "textures": {
+    "wall": "extravaganza:block/plant_bent_festive_rubber"
+  }
+}

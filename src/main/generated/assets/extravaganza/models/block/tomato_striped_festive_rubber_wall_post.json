@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_post",
+  "textures": {
+    "wall": "extravaganza:block/tomato_striped_festive_rubber"
+  }
+}

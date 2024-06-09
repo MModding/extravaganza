@@ -30,16 +30,21 @@ public abstract class EntityMixin {
 	@Shadow
 	public abstract void addVelocity(double deltaX, double deltaY, double deltaZ);
 
+	@Shadow
+	public abstract boolean bypassesLandingEffects();
+
 	@Inject(method = "baseTick", at = @At("HEAD"))
 	private void applyBallPoolContentLogic(CallbackInfo ci) {
 		BlockState underState = this.getWorld().getBlockState(this.getBlockPos().down());
 		BlockState currentState = this.getWorld().getBlockState(this.getBlockPos());
 		if (!underState.isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT) && currentState.isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT)) {
-			this.addVelocity(
-				this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1),
-				this.getRandom().nextDouble(),
-				this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1)
-			);
+			if (!this.bypassesLandingEffects()) {
+				this.addVelocity(
+					this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1),
+					this.getRandom().nextDouble(),
+					this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1)
+				);
+			}
 		}
 	}
 

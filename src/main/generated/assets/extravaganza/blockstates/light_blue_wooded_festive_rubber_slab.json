@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "extravaganza:block/light_blue_wooded_festive_rubber_slab"
+    },
+    "type=double": {
+      "model": "extravaganza:block/light_blue_wooded_festive_rubber"
+    },
+    "type=top": {
+      "model": "extravaganza:block/light_blue_wooded_festive_rubber_slab_top"
+    }
+  }
+}

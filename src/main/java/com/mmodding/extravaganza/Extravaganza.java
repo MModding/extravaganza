@@ -20,7 +20,8 @@ public class Extravaganza implements ModInitializer {
 		"black", "blue", "brown", "cyan",
 		"gray", "green", "light_blue", "light_gray",
 		"lime", "magenta", "orange", "pink",
-		"purple", "red", "white", "yellow"
+		"purple", "red", "white", "yellow",
+		"plant", "tomato", "tear", "nymph" // ModFest Carnival Colors
 	);
 
     private static final Logger LOGGER = LoggerFactory.getLogger("extravaganza");
