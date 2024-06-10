@@ -1,5 +1,6 @@
 package com.mmodding.extravaganza.entity;
 
+import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.init.ExtravaganzaParticles;
 import com.mmodding.extravaganza.item.FestiveBallItem;
 import net.minecraft.entity.Entity;
@@ -16,11 +17,14 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
 
 public class FestiveBallEntity extends ThrownEntity {
 
@@ -35,8 +39,6 @@ public class FestiveBallEntity extends ThrownEntity {
 		this.source = source;
 		this.setOwner(owner);
 		this.setPosition(owner.getX(), owner.getEyeY() - 0.1f, owner.getZ());
-		/* this.setYaw(owner.getYaw());
-		this.setPitch(owner.getPitch()); */
 		this.setVelocity(
 			owner.getRotationVec(1).getX(),
 			owner.getRotationVec(1).getY(),
@@ -111,33 +113,58 @@ public class FestiveBallEntity extends ThrownEntity {
 		}
 	}
 
-	private boolean collides(BlockPos pos) {
-		return !this.getWorld().getBlockState(pos).getCollisionShape(this.getWorld(), pos).isEmpty();
+	private double extractDecimalPart(double value) {
+		BigDecimal decimal = new BigDecimal(String.valueOf(value));
+		return decimal.subtract(new BigDecimal(decimal.intValue())).doubleValue();
 	}
 
-	private boolean isLess(BlockPos than, double value) {
-		return Math.abs(this.getX() - than.getX()) <= value || Math.abs(this.getY() - than.getY()) <= value || Math.abs(this.getZ() - than.getZ()) <= value;
+	private Vec3d extractCenterAnchored(Vec3d position) {
+		return position.relativize(BlockPos.ofFloored(position).toCenterPos());
+	}
+
+	private boolean collidable(Vec3d position) {
+		return !this.getWorld()
+			.getBlockState(BlockPos.ofFloored(position))
+			.getCollisionShape(this.getWorld(), BlockPos.ofFloored(position))
+			.isEmpty();
+	}
+
+	private boolean collidableFor(Vec3d position, Direction.Axis axis, boolean negative) {
+		return switch (axis) {
+			case X -> this.collidable(position.add(negative ? -1 : 1, 0, 0));
+			case Y -> this.collidable(position.add(0, negative ? -1 : 1, 0));
+			case Z -> this.collidable(position.add(0, 0, negative ? -1 : 1));
+		};
 	}
 
 	private void manageVelocity(Vec3d velocity, Runnable notInBounds) {
-		/*
-		 * TODO: potential better way to do it: calculate pitch and yaw based on previous values (prevX, prevY, prevZ)
-		 * TODO: and current values (position) to then apply them and retrieve the lookingDirection to choose which
-		 * TODO: velocity coordinate should apply first
-		*/
-		boolean bl = Math.abs(velocity.y) > 0.3 || (Math.abs(velocity.y) > 0.05 && Math.abs(velocity.x) > 0.1 && Math.abs(velocity.z) > 0.1);
-		if (!this.getWorld().getBlockState(this.getBlockPos()).getCollisionShape(this.getWorld(), this.getBlockPos()).isEmpty()) {
-			notInBounds.run();
-		}
-		else if (Math.abs(velocity.y) >= Math.abs(velocity.x) && Math.abs(velocity.y) >= Math.abs(velocity.z) && bl) {
-			this.setVelocity(velocity.x, velocity.y * -0.8, velocity.z);
-		}
-		else if (Math.abs(velocity.x) >= Math.abs(velocity.y) && Math.abs(velocity.x) >= Math.abs(velocity.z) && Math.abs(velocity.x) > 0.3) {
-			this.setVelocity(velocity.x * -0.8, velocity.y, velocity.z);
-		}
-		else if (Math.abs(velocity.z) >= Math.abs(velocity.x) && Math.abs(velocity.z) >= Math.abs(velocity.y) && Math.abs(velocity.z) > 0.3) {
-			this.setVelocity(velocity.x, velocity.y, velocity.z * -0.8);
-		}
+		// if (velocity.x > 0.1 || velocity.y > 0.1 || velocity.z > 0.1) {
+			/* double x = Math.abs(this.extractDecimalPart(this.getPos().x) - 0.5);
+			double y = Math.abs(this.extractDecimalPart(this.getPos().y) - 0.5);
+			double z = Math.abs(this.extractDecimalPart(this.getPos().z) - 0.5);
+			// Extravaganza.getLogger().info("x {} ; y {} ; z {}", x, y, z);
+			Vec3d united = new Vec3d(x, y, z); */
+			Vec3d united = this.extractCenterAnchored(this.getPos());
+			Extravaganza.getLogger().info("x {} ; y {} ; z {}", united.x, united.y, united.z);
+			if (Math.abs(united.y) >= Math.abs(united.x) && Math.abs(united.y) >= Math.abs(united.z)) {
+				if (this.collidableFor(this.getPos(), Direction.Axis.Y, united.y < 0)) {
+					this.setVelocity(velocity.x, velocity.y * -0.8, velocity.z);
+					return;
+				}
+			}
+			else if (Math.abs(united.x) >= Math.abs(united.y) && Math.abs(united.x) >= Math.abs(united.z)) {
+				if (this.collidableFor(this.getPos(), Direction.Axis.X, united.x < 0)) {
+					this.setVelocity(velocity.x * -0.8, velocity.y, velocity.z);
+					return;
+				}
+			}
+			else {
+				if (this.collidableFor(this.getPos(), Direction.Axis.Z, united.z < 0)) {
+					this.setVelocity(velocity.x, velocity.y, velocity.z * -0.8);
+					return;
+				}
+			}
+		// notInBounds.run();
 	}
 
 	@Override
