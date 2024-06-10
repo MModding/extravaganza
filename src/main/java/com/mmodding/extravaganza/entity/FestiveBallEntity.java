@@ -1,6 +1,6 @@
 package com.mmodding.extravaganza.entity;
 
-import com.mmodding.extravaganza.Extravaganza;
+import com.mmodding.extravaganza.init.ExtravaganzaGameRules;
 import com.mmodding.extravaganza.init.ExtravaganzaParticles;
 import com.mmodding.extravaganza.item.FestiveBallItem;
 import net.minecraft.entity.Entity;
@@ -24,7 +24,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Predicate;
 
 public class FestiveBallEntity extends ThrownEntity {
 
@@ -66,20 +65,21 @@ public class FestiveBallEntity extends ThrownEntity {
 
 	@Override
 	protected void onBlockHit(BlockHitResult blockHitResult) {
-		this.manageVelocity(this.getVelocity(), () -> {
-			this.discard();
-			this.dropItem(this.source);
-		});
+		Vec3d velocity = this.getVelocity();
+		switch (blockHitResult.getSide()) {
+			case WEST, EAST -> this.setVelocity(velocity.x * -0.8, velocity.y, velocity.z);
+			case UP, DOWN -> this.setVelocity(velocity.x, velocity.y * -0.8, velocity.z);
+			case NORTH, SOUTH -> this.setVelocity(velocity.x, velocity.y, velocity.z * -0.8);
+		}
 	}
 
 	@Override
 	protected void onEntityHit(EntityHitResult entityHitResult) {
-		this.manageVelocity(this.getVelocity(), () -> {
+		this.manageVelocityForEntity(this.getVelocity(), () -> {
 			this.discard();
 			if (entityHitResult.getEntity() instanceof PlayerEntity player) {
 				player.getInventory().insertStack(this.source.getDefaultStack());
-			}
-			else if (entityHitResult.getEntity() instanceof InventoryOwner owner) {
+			} else if (entityHitResult.getEntity() instanceof InventoryOwner owner) {
 				owner.getInventory().addStack(this.source.getDefaultStack());
 			}
 		});
@@ -88,7 +88,7 @@ public class FestiveBallEntity extends ThrownEntity {
 	@Override
 	protected void onDeflected(@Nullable Entity deflector, boolean fromAttack) {
 		AtomicBoolean bool = new AtomicBoolean();
-		this.manageVelocity(this.getVelocity(), () -> {
+		this.manageVelocityForEntity(this.getVelocity(), () -> {
 			this.discard();
 			if (deflector != null) {
 				if (deflector instanceof PlayerEntity player) {
@@ -96,6 +96,10 @@ public class FestiveBallEntity extends ThrownEntity {
 				}
 				else if (deflector instanceof InventoryOwner owner) {
 					owner.getInventory().addStack(this.source.getDefaultStack());
+				}
+				else {
+					this.discard();
+					this.dropItem(this.source);
 				}
 			}
 			else {
@@ -118,10 +122,6 @@ public class FestiveBallEntity extends ThrownEntity {
 		return decimal.subtract(new BigDecimal(decimal.intValue())).doubleValue();
 	}
 
-	private Vec3d extractCenterAnchored(Vec3d position) {
-		return position.relativize(BlockPos.ofFloored(position).toCenterPos());
-	}
-
 	private boolean collidable(Vec3d position) {
 		return !this.getWorld()
 			.getBlockState(BlockPos.ofFloored(position))
@@ -137,39 +137,31 @@ public class FestiveBallEntity extends ThrownEntity {
 		};
 	}
 
-	private void manageVelocity(Vec3d velocity, Runnable notInBounds) {
-		// if (velocity.x > 0.1 || velocity.y > 0.1 || velocity.z > 0.1) {
-			/* double x = Math.abs(this.extractDecimalPart(this.getPos().x) - 0.5);
-			double y = Math.abs(this.extractDecimalPart(this.getPos().y) - 0.5);
-			double z = Math.abs(this.extractDecimalPart(this.getPos().z) - 0.5);
-			// Extravaganza.getLogger().info("x {} ; y {} ; z {}", x, y, z);
-			Vec3d united = new Vec3d(x, y, z); */
-			Vec3d united = this.extractCenterAnchored(this.getPos());
-			Extravaganza.getLogger().info("x {} ; y {} ; z {}", united.x, united.y, united.z);
-			if (Math.abs(united.y) >= Math.abs(united.x) && Math.abs(united.y) >= Math.abs(united.z)) {
-				if (this.collidableFor(this.getPos(), Direction.Axis.Y, united.y < 0)) {
-					this.setVelocity(velocity.x, velocity.y * -0.8, velocity.z);
-					return;
-				}
+	private void manageVelocityForEntity(Vec3d velocity, Runnable halfAction) {
+		if (this.age <= this.getWorld().getGameRules().getInt(ExtravaganzaGameRules.FESTIVE_BALL_AGE_PERCENTAGE_BEFORE_PICKING) * 2) {
+			boolean bl = Math.abs(velocity.y) > 0.3 || (Math.abs(velocity.y) > 0.05 && Math.abs(velocity.x) > 0.1 && Math.abs(velocity.z) > 0.1);
+			if (Math.abs(velocity.y) >= Math.abs(velocity.x) && Math.abs(velocity.y) >= Math.abs(velocity.z) && bl) {
+				this.setVelocity(velocity.x, velocity.y * -0.8, velocity.z);
 			}
-			else if (Math.abs(united.x) >= Math.abs(united.y) && Math.abs(united.x) >= Math.abs(united.z)) {
-				if (this.collidableFor(this.getPos(), Direction.Axis.X, united.x < 0)) {
-					this.setVelocity(velocity.x * -0.8, velocity.y, velocity.z);
-					return;
-				}
+			else if (Math.abs(velocity.x) >= Math.abs(velocity.y) && Math.abs(velocity.x) >= Math.abs(velocity.z) && Math.abs(velocity.x) > 0.3) {
+				this.setVelocity(velocity.x * -0.8, velocity.y, velocity.z);
 			}
-			else {
-				if (this.collidableFor(this.getPos(), Direction.Axis.Z, united.z < 0)) {
-					this.setVelocity(velocity.x, velocity.y, velocity.z * -0.8);
-					return;
-				}
+			else if (Math.abs(velocity.z) >= Math.abs(velocity.x) && Math.abs(velocity.z) >= Math.abs(velocity.y) && Math.abs(velocity.z) > 0.3) {
+				this.setVelocity(velocity.x, velocity.y, velocity.z * -0.8);
 			}
-		// notInBounds.run();
+		}
+		else {
+			halfAction.run();
+		}
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
 		this.getWorld().addParticle(ExtravaganzaParticles.createRandomConfetti(this.getRandom()), this.getX(), this.getY(), this.getZ(), 0.2, 0.2, 0.2);
+		if (this.age >= 10 * 20) {
+			this.discard();
+			this.dropItem(this.source);
+		}
 	}
 }

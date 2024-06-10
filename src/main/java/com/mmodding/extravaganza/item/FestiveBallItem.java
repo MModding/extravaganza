@@ -24,6 +24,9 @@ public class FestiveBallItem extends Item {
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		FestiveBallEntity ball = new FestiveBallEntity(this, this.typeGetter.get(), world, user);
 		world.spawnEntity(ball);
+		if (!user.getAbilities().creativeMode) {
+			user.setStackInHand(hand, new ItemStack(user.getStackInHand(hand).getItem(), user.getStackInHand(hand).getCount() - 1));
+		}
 		return TypedActionResult.success(user.getStackInHand(hand));
 	}
 }

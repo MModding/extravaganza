@@ -33,6 +33,7 @@ public class Extravaganza implements ModInitializer {
 		ExtravaganzaBlocks.register();
 		ExtravaganzaBlockEntities.register();
 		ExtravaganzaEntities.register();
+		ExtravaganzaGameRules.register();
 		ExtravaganzaItems.register();
 		ExtravaganzaParticles.register();
 	}
