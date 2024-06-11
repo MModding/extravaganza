@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "extravaganza:block/ball_pool_content"
-  }
+  "parent": "extravaganza:block/ball_pool_content"
 }

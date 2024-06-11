@@ -10,19 +10,10 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class Extravaganza implements ModInitializer {
-
-	public static final List<String> COLOR_QUALIFIERS = List.of(
-		"black", "blue", "brown", "cyan",
-		"gray", "green", "light_blue", "light_gray",
-		"lime", "magenta", "orange", "pink",
-		"purple", "red", "white", "yellow",
-		"plant", "tomato", "tear", "nymph" // ModFest Carnival Colors
-	);
 
     private static final Logger LOGGER = LoggerFactory.getLogger("extravaganza");
 
@@ -35,7 +26,7 @@ public class Extravaganza implements ModInitializer {
 		ExtravaganzaEntities.register();
 		ExtravaganzaGameRules.register();
 		ExtravaganzaItems.register();
-		ExtravaganzaParticles.register();
+		ExtravaganzaParticleTypes.register();
 	}
 
 	public static Logger getLogger() {

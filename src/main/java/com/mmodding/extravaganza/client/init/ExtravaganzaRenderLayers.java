@@ -12,7 +12,7 @@ public class ExtravaganzaRenderLayers {
 	public static void register() {
 		Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
 			Predicate<String> checker = word -> key.getValue().getPath().contains(word);
-			if (checker.test("grate") || checker.test("windowed") || checker.test("ladder")) {
+			if (checker.test("pinata") || checker.test("grate") || checker.test("windowed") || checker.test("ladder")) {
 				BlockRenderLayerMap.INSTANCE.putBlock(Registries.BLOCK.get(key), RenderLayer.getCutout());
 			}
 			else if(checker.test("stained")) {

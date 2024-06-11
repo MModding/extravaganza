@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.*;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
+import net.minecraft.data.client.ModelIds;
 import net.minecraft.data.client.Models;
 import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
@@ -62,7 +63,8 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			block instanceof TransparentBlock ||
 			block instanceof LadderBlock ||
 			block.equals(ExtravaganzaBlocks.BALL_POOL_CORE) ||
-			block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT);
+			block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) ||
+			block.equals(ExtravaganzaBlocks.PINATA);
 
 		private ExtravaganzaModelProvider(FabricDataOutput output) {
 			super(output);
@@ -88,8 +90,8 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					blockStateModelGenerator.registerNorthDefaultHorizontalRotation(block);
 					blockStateModelGenerator.registerItemModel(block);
 				}
-				else if (block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT)) {
-					blockStateModelGenerator.registerItemModel(block);
+				else if (block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) || block.equals(ExtravaganzaBlocks.PINATA)) {
+					blockStateModelGenerator.registerParentedItemModel(block, ModelIds.getBlockModelId(block));
 				}
 			});
 		}
