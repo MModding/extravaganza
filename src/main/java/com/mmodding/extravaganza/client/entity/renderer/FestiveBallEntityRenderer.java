@@ -27,10 +27,12 @@ public class FestiveBallEntityRenderer extends EntityRenderer<FestiveBallEntity>
 
 	@Override
 	public void render(FestiveBallEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-		matrices.push();
-		matrices.translate(0.0f, -1.1f, 0.0f);
-		matrices.scale(0.8f, 0.8f, 0.8f);
-		this.model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(this.getTexture(entity))), light, OverlayTexture.DEFAULT_UV, 654311423);
-		matrices.pop();
+		if (entity.age >= 2 || !(this.dispatcher.camera.getFocusedEntity().squaredDistanceTo(entity) < 12.25)) {
+			matrices.push();
+			matrices.translate(0.0f, -1.1f, 0.0f);
+			matrices.scale(0.8f, 0.8f, 0.8f);
+			this.model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(this.getTexture(entity))), light, OverlayTexture.DEFAULT_UV, 654311423);
+			matrices.pop();
+		}
 	}
 }
