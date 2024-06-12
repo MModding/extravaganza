@@ -3,7 +3,8 @@
   "package": "com.mmodding.extravaganza.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "EntityMixin"
+    "EntityMixin",
+    "TallPlantBlockAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

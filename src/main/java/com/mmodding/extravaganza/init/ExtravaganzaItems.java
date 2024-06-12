@@ -17,6 +17,10 @@ public class ExtravaganzaItems {
 
 	public static final Item WRENCH_AGANZA = new WrenchAganzaItem(new Item.Settings().maxCount(1));
 
+	public static final Item COMMON_FESTIVE_COIN = new Item(new Item.Settings().maxCount(96));
+	public static final Item UNCOMMON_FESTIVE_COIN = new Item(new Item.Settings().maxCount(96));
+	public static final Item GOLDEN_FESTIVE_COIN = new Item(new Item.Settings().maxCount(96));
+
 	public static final Item GOLDEN_CANDY_CANE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(1.5f).alwaysEdible().snack().build()));
 	public static final Item GREEN_CANDY_CANE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(1.5f).alwaysEdible().snack().build()));
 	public static final Item RED_CANDY_CANE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(1.5f).alwaysEdible().snack().build()));
@@ -26,6 +30,9 @@ public class ExtravaganzaItems {
 
 	public static void register() {
 		Registry.register(Registries.ITEM, Extravaganza.createId("wrench_aganza"), ExtravaganzaItems.WRENCH_AGANZA);
+		Registry.register(Registries.ITEM, Extravaganza.createId("common_festive_coin"), ExtravaganzaItems.COMMON_FESTIVE_COIN);
+		Registry.register(Registries.ITEM, Extravaganza.createId("uncommon_festive_coin"), ExtravaganzaItems.UNCOMMON_FESTIVE_COIN);
+		Registry.register(Registries.ITEM, Extravaganza.createId("golden_festive_coin"), ExtravaganzaItems.GOLDEN_FESTIVE_COIN);
 		ExtravaganzaColor.VALUES.forEach(color -> Registry.register(
 			Registries.ITEM,
 			Extravaganza.createId(color.asString() + "_festive_ball"),

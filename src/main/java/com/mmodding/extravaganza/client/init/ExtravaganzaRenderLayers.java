@@ -15,7 +15,7 @@ public class ExtravaganzaRenderLayers {
 			if (checker.test("pinata") || checker.test("grate") || checker.test("windowed") || checker.test("ladder")) {
 				BlockRenderLayerMap.INSTANCE.putBlock(Registries.BLOCK.get(key), RenderLayer.getCutout());
 			}
-			else if(checker.test("stained")) {
+			else if(checker.test("distributor") || checker.test("stained")) {
 				BlockRenderLayerMap.INSTANCE.putBlock(Registries.BLOCK.get(key), RenderLayer.getTranslucent());
 			}
 		});

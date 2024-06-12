@@ -2,6 +2,7 @@ package com.mmodding.extravaganza.init;
 
 import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.ExtravaganzaColor;
+import com.mmodding.extravaganza.block.BallDistributorBlock;
 import com.mmodding.extravaganza.block.BallPoolContentBlock;
 import com.mmodding.extravaganza.block.BallPoolCoreBlock;
 import com.mmodding.extravaganza.block.PinataBlock;
@@ -17,6 +18,8 @@ public class ExtravaganzaBlocks {
 	public static final Block BALL_POOL_CORE = new BallPoolCoreBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.BASALT));
 	public static final Block BALL_POOL_CONTENT = new BallPoolContentBlock(AbstractBlock.Settings.create().noCollision().sounds(BlockSoundGroup.SLIME));
 
+	public static final Block BALL_DISTRIBUTOR = new BallDistributorBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.LANTERN));
+
 	public static final Block PINATA = new PinataBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.WOOL));
 
 	public static final Block TEAR_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.GLASS));
@@ -27,6 +30,7 @@ public class ExtravaganzaBlocks {
 	public static void register() {
 		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_core", ExtravaganzaBlocks.BALL_POOL_CORE);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_content", ExtravaganzaBlocks.BALL_POOL_CONTENT);
+		ExtravaganzaBlocks.registerBlockWithItem("ball_distributor", ExtravaganzaBlocks.BALL_DISTRIBUTOR);
 		ExtravaganzaBlocks.registerBlockWithItem("pinata", ExtravaganzaBlocks.PINATA);
 		ExtravaganzaBlocks.registerBlockWithItem("tear_stained_glass", ExtravaganzaBlocks.TEAR_STAINED_GLASS);
 		ExtravaganzaBlocks.registerBlockWithItem("plant_stained_glass", ExtravaganzaBlocks.PLANT_STAINED_GLASS);
