@@ -61,12 +61,17 @@ public class BallDistributorBlock extends Block {
 		World world = ctx.getWorld();
 		if (blockPos.getY() < world.getTopY() - 1 && world.getBlockState(blockPos.up()).canReplace(ctx)) {
 			return this.getDefaultState()
-				.with(BallDistributorBlock.FACING, ctx.getHorizontalPlayerFacing())
+				.with(BallDistributorBlock.FACING, ctx.getHorizontalPlayerFacing().getOpposite())
 				.with(BallDistributorBlock.HALF, DoubleBlockHalf.LOWER);
 		}
 		else {
 			return null;
 		}
+	}
+
+	@Override
+	protected BlockRenderType getRenderType(BlockState state) {
+		return super.getRenderType(state);
 	}
 
 	@Override

@@ -28,6 +28,8 @@ public class ExtravaganzaItems {
 	public static final Item HOT_DOG = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(1.0f).snack().build()));
 	public static final Item HOT_DOG_WITH_MAYONNAISE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(1.5f).snack().build()));
 
+	public static final Item BAT = new Item(new Item.Settings().maxCount(1));
+
 	public static void register() {
 		Registry.register(Registries.ITEM, Extravaganza.createId("wrench_aganza"), ExtravaganzaItems.WRENCH_AGANZA);
 		Registry.register(Registries.ITEM, Extravaganza.createId("common_festive_coin"), ExtravaganzaItems.COMMON_FESTIVE_COIN);
@@ -43,6 +45,7 @@ public class ExtravaganzaItems {
 		Registry.register(Registries.ITEM, Extravaganza.createId("red_candy_cane"), ExtravaganzaItems.RED_CANDY_CANE);
 		Registry.register(Registries.ITEM, Extravaganza.createId("hot_dog"), ExtravaganzaItems.HOT_DOG);
 		Registry.register(Registries.ITEM, Extravaganza.createId("hot_dog_with_mayonnaise"), ExtravaganzaItems.HOT_DOG_WITH_MAYONNAISE);
+		Registry.register(Registries.ITEM, Extravaganza.createId("bat"), ExtravaganzaItems.BAT);
 
 		Stream<Item> stream = Extravaganza.extractFromRegistry(Registries.ITEM);
 

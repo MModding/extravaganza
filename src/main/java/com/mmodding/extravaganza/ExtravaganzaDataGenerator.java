@@ -2,20 +2,20 @@ package com.mmodding.extravaganza;
 
 import com.mmodding.extravaganza.block.BallDistributorBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
+import com.mmodding.extravaganza.init.ExtravaganzaItems;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.DoorHinge;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.data.client.*;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
@@ -61,13 +61,16 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
 	public static class ExtravaganzaModelProvider extends FabricModelProvider {
 
-		private static final Predicate<Block> UNCOMMON = block ->
+		private static final Predicate<Block> UNCOMMON_BLOCKS = block ->
 			block instanceof TransparentBlock ||
 			block instanceof LadderBlock ||
 			block.equals(ExtravaganzaBlocks.BALL_POOL_CORE) ||
 			block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) ||
 			block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR) ||
 			block.equals(ExtravaganzaBlocks.PINATA);
+
+		private static final Predicate<Item> UNCOMMON_ITEMS = item ->
+			item.equals(ExtravaganzaItems.BAT);
 
 		private ExtravaganzaModelProvider(FabricDataOutput output) {
 			super(output);
@@ -76,7 +79,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
 			Extravaganza.executeForRegistry(Registries.BLOCK, block -> {
-				if (!ExtravaganzaModelProvider.UNCOMMON.test(block)) {
+				if (!ExtravaganzaModelProvider.UNCOMMON_BLOCKS.test(block)) {
 					if (!(block instanceof StairsBlock) && !(block instanceof SlabBlock) && !(block instanceof WallBlock)) {
 						BlockStateModelGenerator.BlockTexturePool pool = blockStateModelGenerator.registerCubeAllModelTexturePool(block);
 						Identifier identifier = Registries.BLOCK.getId(block);
@@ -101,58 +104,58 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 							.coordinate(
 								BlockStateVariantMap.create(BallDistributorBlock.FACING, BallDistributorBlock.HALF)
 									.register(
-										Direction.SOUTH,
-										DoubleBlockHalf.UPPER,
-										BlockStateVariant.create()
-											.put(VariantSettings.MODEL, up)
-											.put(VariantSettings.Y, VariantSettings.Rotation.R90)
-									)
-									.register(
-										Direction.WEST,
-										DoubleBlockHalf.UPPER,
-										BlockStateVariant.create()
-											.put(VariantSettings.MODEL, up)
-											.put(VariantSettings.Y, VariantSettings.Rotation.R180)
-									)
-									.register(
 										Direction.NORTH,
 										DoubleBlockHalf.UPPER,
 										BlockStateVariant.create()
 											.put(VariantSettings.MODEL, up)
-											.put(VariantSettings.Y, VariantSettings.Rotation.R270)
 									)
 									.register(
 										Direction.EAST,
 										DoubleBlockHalf.UPPER,
 										BlockStateVariant.create()
 											.put(VariantSettings.MODEL, up)
-									)
-									.register(
-										Direction.SOUTH,
-										DoubleBlockHalf.LOWER,
-										BlockStateVariant.create()
-											.put(VariantSettings.MODEL, down)
 											.put(VariantSettings.Y, VariantSettings.Rotation.R90)
 									)
 									.register(
-										Direction.WEST,
-										DoubleBlockHalf.LOWER,
+										Direction.SOUTH,
+										DoubleBlockHalf.UPPER,
 										BlockStateVariant.create()
-											.put(VariantSettings.MODEL, down)
+											.put(VariantSettings.MODEL, up)
 											.put(VariantSettings.Y, VariantSettings.Rotation.R180)
+									)
+									.register(
+										Direction.WEST,
+										DoubleBlockHalf.UPPER,
+										BlockStateVariant.create()
+											.put(VariantSettings.MODEL, up)
+											.put(VariantSettings.Y, VariantSettings.Rotation.R270)
 									)
 									.register(
 										Direction.NORTH,
 										DoubleBlockHalf.LOWER,
 										BlockStateVariant.create()
 											.put(VariantSettings.MODEL, down)
-											.put(VariantSettings.Y, VariantSettings.Rotation.R270)
 									)
 									.register(
 										Direction.EAST,
 										DoubleBlockHalf.LOWER,
 										BlockStateVariant.create()
 											.put(VariantSettings.MODEL, down)
+											.put(VariantSettings.Y, VariantSettings.Rotation.R90)
+									)
+									.register(
+										Direction.SOUTH,
+										DoubleBlockHalf.LOWER,
+										BlockStateVariant.create()
+											.put(VariantSettings.MODEL, down)
+											.put(VariantSettings.Y, VariantSettings.Rotation.R180)
+									)
+									.register(
+										Direction.WEST,
+										DoubleBlockHalf.LOWER,
+										BlockStateVariant.create()
+											.put(VariantSettings.MODEL, down)
+											.put(VariantSettings.Y, VariantSettings.Rotation.R270)
 									)
 							)
 					);
@@ -166,7 +169,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		public void generateItemModels(ItemModelGenerator itemModelGenerator) {
 			Extravaganza.executeForRegistry(Registries.ITEM, item -> {
-				if (!(item instanceof BlockItem)) {
+				if (!(item instanceof BlockItem) && !ExtravaganzaModelProvider.UNCOMMON_ITEMS.test(item)) {
 					itemModelGenerator.register(item, Models.GENERATED);
 				}
 			});
