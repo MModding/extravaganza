@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "minecraft:light_blue_dye"
+    },
+    "R": {
+      "item": "extravaganza:rubber"
+    }
+  },
+  "pattern": [
+    "CRC",
+    "RCR",
+    "CRC"
+  ],
+  "result": {
+    "count": 16,
+    "id": "extravaganza:light_blue_festive_rubber"
+  }
+}

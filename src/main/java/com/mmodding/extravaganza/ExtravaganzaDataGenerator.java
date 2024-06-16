@@ -8,17 +8,24 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.data.client.*;
+import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
@@ -29,6 +36,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 		pack.addProvider(ExtravaganzaLanguageProvider::new);
 		pack.addProvider(ExtravaganzaModelProvider::new);
+		pack.addProvider(ExtravaganzaRecipeProvider::new);
 	}
 
 	public static class ExtravaganzaLanguageProvider extends FabricLanguageProvider {
@@ -172,6 +180,47 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				if (!(item instanceof BlockItem) && !ExtravaganzaModelProvider.UNCOMMON_ITEMS.test(item)) {
 					itemModelGenerator.register(item, Models.GENERATED);
 				}
+			});
+		}
+	}
+
+	public static class ExtravaganzaRecipeProvider extends FabricRecipeProvider {
+
+		public ExtravaganzaRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+			super(output, registriesFuture);
+		}
+
+		@Override
+		public void generate(RecipeExporter exporter) {
+			ExtravaganzaColor.VALUES.forEach(color -> {
+				Item item = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber"));
+				if (!color.equals(ExtravaganzaColor.PLANT) && !color.equals(ExtravaganzaColor.TOMATO) && !color.equals(ExtravaganzaColor.TEAR) && !color.equals(ExtravaganzaColor.NYMPH)) {
+					ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, item, 16)
+						.criterion(ExtravaganzaRecipeProvider.hasItem(item), ExtravaganzaRecipeProvider.conditionsFromItem(item))
+						.input('C', Registries.ITEM.get(Identifier.of(color.asString() + "_dye")))
+						.input('R', ExtravaganzaItems.RUBBER)
+						.pattern("CRC")
+						.pattern("RCR")
+						.pattern("CRC")
+						.offerTo(exporter);
+				}
+				Set.of(
+					"striped", "poured", "sharped", "scratched",
+					"dotted", "screwed", "split", "wooded",
+					"barred", "perforated", "slipped", "padded",
+					"curved", "bent", "windowed", "tiled"
+				).forEach(
+					prefix -> StonecuttingRecipeJsonBuilder.createStonecutting(
+						Ingredient.ofItems(item),
+						RecipeCategory.BUILDING_BLOCKS,
+						Registries.ITEM.get(Extravaganza.createId(color.asString() + "_" + prefix + "_festive_rubber"))
+					).criterion(ExtravaganzaRecipeProvider.hasItem(item), ExtravaganzaRecipeProvider.conditionsFromItem(item)).offerTo(exporter)
+				);
+				StonecuttingRecipeJsonBuilder.createStonecutting(
+					Ingredient.ofItems(item),
+					RecipeCategory.BUILDING_BLOCKS,
+					Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_grate"))
+				).criterion(ExtravaganzaRecipeProvider.hasItem(item), ExtravaganzaRecipeProvider.conditionsFromItem(item)).offerTo(exporter);
 			});
 		}
 	}

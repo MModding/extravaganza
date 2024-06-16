@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "extravaganza:white_festive_rubber"
+  },
+  "result": {
+    "count": 1,
+    "id": "extravaganza:white_scratched_festive_rubber"
+  }
+}

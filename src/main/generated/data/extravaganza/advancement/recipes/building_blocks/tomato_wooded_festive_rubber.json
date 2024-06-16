@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:tomato_wooded_festive_rubber"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tomato_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:tomato_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_tomato_festive_rubber"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:tomato_wooded_festive_rubber"
+    ]
+  }
+}

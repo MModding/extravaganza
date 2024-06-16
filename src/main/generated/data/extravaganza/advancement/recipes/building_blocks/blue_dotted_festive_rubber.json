@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_blue_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:blue_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:blue_dotted_festive_rubber"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_blue_festive_rubber"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:blue_dotted_festive_rubber"
+    ]
+  }
+}

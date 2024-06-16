@@ -17,6 +17,8 @@ public class ExtravaganzaItems {
 
 	public static final Item WRENCH_AGANZA = new WrenchAganzaItem(new Item.Settings().maxCount(1));
 
+	public static final Item RUBBER = new Item(new Item.Settings());
+
 	public static final Item COMMON_FESTIVE_COIN = new Item(new Item.Settings().maxCount(96));
 	public static final Item UNCOMMON_FESTIVE_COIN = new Item(new Item.Settings().maxCount(96));
 	public static final Item GOLDEN_FESTIVE_COIN = new Item(new Item.Settings().maxCount(96));
@@ -32,6 +34,7 @@ public class ExtravaganzaItems {
 
 	public static void register() {
 		Registry.register(Registries.ITEM, Extravaganza.createId("wrench_aganza"), ExtravaganzaItems.WRENCH_AGANZA);
+		Registry.register(Registries.ITEM, Extravaganza.createId("rubber"), ExtravaganzaItems.RUBBER);
 		Registry.register(Registries.ITEM, Extravaganza.createId("common_festive_coin"), ExtravaganzaItems.COMMON_FESTIVE_COIN);
 		Registry.register(Registries.ITEM, Extravaganza.createId("uncommon_festive_coin"), ExtravaganzaItems.UNCOMMON_FESTIVE_COIN);
 		Registry.register(Registries.ITEM, Extravaganza.createId("golden_festive_coin"), ExtravaganzaItems.GOLDEN_FESTIVE_COIN);
