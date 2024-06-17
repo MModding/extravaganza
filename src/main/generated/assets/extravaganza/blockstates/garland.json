@@ -1,0 +1,193 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "extravaganza:block/garland"
+      },
+      "when": {
+        "OR": [
+          {
+            "AND": [
+              {
+                "up": "false"
+              },
+              {
+                "down": "false"
+              },
+              {
+                "north": "false"
+              },
+              {
+                "south": "false"
+              },
+              {
+                "west": "false"
+              },
+              {
+                "east": "false"
+              }
+            ]
+          },
+          {
+            "OR": [
+              {
+                "up": "true"
+              },
+              {
+                "down": "true"
+              },
+              {
+                "north": "true"
+              },
+              {
+                "south": "true"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/garland_horizontal"
+      },
+      "when": {
+        "OR": [
+          {
+            "AND": [
+              {
+                "up": "false"
+              },
+              {
+                "down": "false"
+              },
+              {
+                "north": "false"
+              },
+              {
+                "south": "false"
+              },
+              {
+                "west": "false"
+              },
+              {
+                "east": "false"
+              }
+            ]
+          },
+          {
+            "OR": [
+              {
+                "north": "true"
+              },
+              {
+                "south": "true"
+              },
+              {
+                "west": "true"
+              },
+              {
+                "east": "true"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/garland_vertical"
+      },
+      "when": {
+        "OR": [
+          {
+            "AND": [
+              {
+                "up": "false"
+              },
+              {
+                "down": "false"
+              },
+              {
+                "north": "false"
+              },
+              {
+                "south": "false"
+              },
+              {
+                "west": "false"
+              },
+              {
+                "east": "false"
+              }
+            ]
+          },
+          {
+            "OR": [
+              {
+                "up": "true"
+              },
+              {
+                "down": "true"
+              },
+              {
+                "west": "true"
+              },
+              {
+                "east": "true"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/garland_up"
+      },
+      "when": {
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/garland_down"
+      },
+      "when": {
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/garland_north"
+      },
+      "when": {
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/garland_south"
+      },
+      "when": {
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/garland_west"
+      },
+      "when": {
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/garland_east"
+      },
+      "when": {
+        "east": "true"
+      }
+    }
+  ]
+}

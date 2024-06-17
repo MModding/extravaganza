@@ -2,10 +2,7 @@ package com.mmodding.extravaganza.init;
 
 import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.ExtravaganzaColor;
-import com.mmodding.extravaganza.block.BallDistributorBlock;
-import com.mmodding.extravaganza.block.BallPoolContentBlock;
-import com.mmodding.extravaganza.block.BallPoolCoreBlock;
-import com.mmodding.extravaganza.block.PinataBlock;
+import com.mmodding.extravaganza.block.*;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -20,6 +17,8 @@ public class ExtravaganzaBlocks {
 
 	public static final Block BALL_DISTRIBUTOR = new BallDistributorBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.LANTERN));
 
+	public static final Block GARLAND = new GarlandBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.WOOD));
+
 	public static final Block PINATA = new PinataBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.WOOL));
 
 	public static final Block TEAR_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.GLASS));
@@ -31,6 +30,7 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_core", ExtravaganzaBlocks.BALL_POOL_CORE);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_content", ExtravaganzaBlocks.BALL_POOL_CONTENT);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_distributor", ExtravaganzaBlocks.BALL_DISTRIBUTOR);
+		ExtravaganzaBlocks.registerBlockWithItem("garland", ExtravaganzaBlocks.GARLAND);
 		ExtravaganzaBlocks.registerBlockWithItem("pinata", ExtravaganzaBlocks.PINATA);
 		ExtravaganzaBlocks.registerBlockWithItem("tear_stained_glass", ExtravaganzaBlocks.TEAR_STAINED_GLASS);
 		ExtravaganzaBlocks.registerBlockWithItem("plant_stained_glass", ExtravaganzaBlocks.PLANT_STAINED_GLASS);

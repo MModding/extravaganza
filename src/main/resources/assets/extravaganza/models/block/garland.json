@@ -1,0 +1,22 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"main": "extravaganza:block/garland",
+		"particle": "extravaganza:block/garland"
+	},
+	"elements": [
+		{
+			"from": [8, 6, 6],
+			"to": [8, 10, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 6]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 16], "texture": "#main"},
+				"east": {"uv": [4, 6, 8, 10], "texture": "#main"},
+				"south": {"uv": [0, 0, 0, 16], "texture": "#main"},
+				"west": {"uv": [4, 6, 8, 10], "texture": "#main"},
+				"up": {"uv": [0, 0, 0, 4], "texture": "#main"},
+				"down": {"uv": [0, 0, 0, 4], "texture": "#main"}
+			}
+		}
+	]
+}

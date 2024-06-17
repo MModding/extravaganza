@@ -22,6 +22,7 @@ import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
@@ -75,6 +76,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			block.equals(ExtravaganzaBlocks.BALL_POOL_CORE) ||
 			block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) ||
 			block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR) ||
+			block.equals(ExtravaganzaBlocks.GARLAND) ||
 			block.equals(ExtravaganzaBlocks.PINATA);
 
 		private static final Predicate<Item> UNCOMMON_ITEMS = item ->
@@ -103,6 +105,70 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				else if (block instanceof LadderBlock) {
 					blockStateModelGenerator.registerNorthDefaultHorizontalRotation(block);
 					blockStateModelGenerator.registerItemModel(block);
+				}
+				else if (block.equals(ExtravaganzaBlocks.GARLAND)) {
+					Identifier garland = Extravaganza.createId("block/garland");
+					Identifier horizontal = Extravaganza.createId("block/garland_horizontal");
+					Identifier vertical = Extravaganza.createId("block/garland_vertical");
+					Identifier up = Extravaganza.createId("block/garland_up");
+					Identifier down = Extravaganza.createId("block/garland_down");
+					Identifier north = Extravaganza.createId("block/garland_north");
+					Identifier south = Extravaganza.createId("block/garland_south");
+					Identifier west = Extravaganza.createId("block/garland_west");
+					Identifier east = Extravaganza.createId("block/garland_east");
+					When none = When.allOf(
+						When.create().set(Properties.UP, false),
+						When.create().set(Properties.DOWN, false),
+						When.create().set(Properties.NORTH, false),
+						When.create().set(Properties.SOUTH, false),
+						When.create().set(Properties.WEST, false),
+						When.create().set(Properties.EAST, false)
+					);
+					blockStateModelGenerator.blockStateCollector.accept(
+						MultipartBlockStateSupplier.create(ExtravaganzaBlocks.GARLAND)
+							.with(
+								When.anyOf(
+									none,
+									When.anyOf(
+										When.create().set(Properties.UP, true),
+										When.create().set(Properties.DOWN, true),
+										When.create().set(Properties.NORTH, true),
+										When.create().set(Properties.SOUTH, true)
+									)
+								),
+								BlockStateVariant.create().put(VariantSettings.MODEL, garland)
+							)
+							.with(
+								When.anyOf(
+									none,
+									When.anyOf(
+										When.create().set(Properties.NORTH, true),
+										When.create().set(Properties.SOUTH, true),
+										When.create().set(Properties.WEST, true),
+										When.create().set(Properties.EAST, true)
+									)
+								),
+								BlockStateVariant.create().put(VariantSettings.MODEL, horizontal)
+							)
+							.with(
+								When.anyOf(
+									none,
+									When.anyOf(
+										When.create().set(Properties.UP, true),
+										When.create().set(Properties.DOWN, true),
+										When.create().set(Properties.WEST, true),
+										When.create().set(Properties.EAST, true)
+									)
+								),
+								BlockStateVariant.create().put(VariantSettings.MODEL, vertical)
+							)
+							.with(When.create().set(Properties.UP, true), BlockStateVariant.create().put(VariantSettings.MODEL, up))
+							.with(When.create().set(Properties.DOWN, true), BlockStateVariant.create().put(VariantSettings.MODEL, down))
+							.with(When.create().set(Properties.NORTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, north))
+							.with(When.create().set(Properties.SOUTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, south))
+							.with(When.create().set(Properties.WEST, true), BlockStateVariant.create().put(VariantSettings.MODEL, west))
+							.with(When.create().set(Properties.EAST, true), BlockStateVariant.create().put(VariantSettings.MODEL, east))
+					);
 				}
 				else if (block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR)) {
 					Identifier up = Extravaganza.createId("block/ball_distributor_up");
