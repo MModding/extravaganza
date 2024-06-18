@@ -1,0 +1,6 @@
+{
+  "parent": "extravaganza:block/trash_can_lid_open",
+  "textures": {
+    "main": "extravaganza:block/white_trash_can"
+  }
+}
