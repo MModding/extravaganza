@@ -1,3 +1,6 @@
 {
-  "parent": "extravaganza:block/black_trash_can"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "extravaganza:item/black_trash_can"
+  }
 }

@@ -15,16 +15,16 @@ public class ExtravaganzaBlocks {
 	public static final Block BALL_POOL_CORE = new BallPoolCoreBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.BASALT));
 	public static final Block BALL_POOL_CONTENT = new BallPoolContentBlock(AbstractBlock.Settings.create().noCollision().sounds(BlockSoundGroup.SLIME));
 
-	public static final Block BALL_DISTRIBUTOR = new BallDistributorBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.LANTERN));
+	public static final Block BALL_DISTRIBUTOR = new BallDistributorBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN));
 
-	public static final Block GARLAND = new GarlandBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.WOOD));
+	public static final Block GARLAND = new GarlandBlock(AbstractBlock.Settings.create().strength(0.5f, 2.0f).nonOpaque().sounds(BlockSoundGroup.WOOD));
 
-	public static final Block PINATA = new PinataBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.WOOL));
+	public static final Block PINATA = new PinataBlock(AbstractBlock.Settings.create().strength(0.5f, 2.0f).nonOpaque().sounds(BlockSoundGroup.WOOL));
 
-	public static final Block TEAR_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.GLASS));
-	public static final Block PLANT_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.GLASS));
-	public static final Block TOMATO_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.GLASS));
-	public static final Block NYMPH_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.GLASS));
+	public static final Block TEAR_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
+	public static final Block PLANT_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
+	public static final Block TOMATO_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
+	public static final Block NYMPH_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
 
 	public static void register() {
 		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_core", ExtravaganzaBlocks.BALL_POOL_CORE);
@@ -36,8 +36,8 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerBlockWithItem("plant_stained_glass", ExtravaganzaBlocks.PLANT_STAINED_GLASS);
 		ExtravaganzaBlocks.registerBlockWithItem("tomato_stained_glass", ExtravaganzaBlocks.TOMATO_STAINED_GLASS);
 		ExtravaganzaBlocks.registerBlockWithItem("nymph_stained_glass", ExtravaganzaBlocks.NYMPH_STAINED_GLASS);
-		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_trash_can", new TrashCanBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.LANTERN))));
-		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_festive_rubber_ladder", new LadderBlock(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.SLIME))));
+		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_trash_can", new TrashCanBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN))));
+		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_festive_rubber_ladder", new LadderBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.SLIME))));
 		ExtravaganzaBlocks.registerColoredBlockSet("festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.SLIME));
 		ExtravaganzaBlocks.registerColoredBlockSet("striped_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.SLIME));
 		ExtravaganzaBlocks.registerColoredBlockSet("poured_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.SLIME));
@@ -66,7 +66,7 @@ public class ExtravaganzaBlocks {
 	private static void registerColoredBlockSet(String path, AbstractBlock.Settings settings) {
 		ExtravaganzaColor.VALUES.forEach(
 			color -> {
-				Block block = new Block(settings);
+				Block block = new Block(settings.strength(1.5f, 3.0f));
 				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path, block);
 				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path + "_stairs", new StairsBlock(block.getDefaultState(), settings));
 				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path + "_slab", new SlabBlock(settings));

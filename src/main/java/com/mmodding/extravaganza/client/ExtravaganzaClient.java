@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import java.util.List;
 
@@ -28,10 +29,10 @@ public class ExtravaganzaClient implements ClientModInitializer {
 
 	private static void itemTooltipCallback(ItemStack stack, Item.TooltipContext tooltipContext, TooltipType tooltipType, List<Text> lines) {
 		if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TrashCanBlock) {
-			lines.add(Text.translatable("message.extravaganza.trash_can.right_click"));
-			lines.add(Text.translatable("message.extravaganza.trash_can.quick_throw"));
-			lines.add(Text.translatable("message.extravaganza.trash_can.opening_trash"));
-			lines.add(Text.translatable("message.extravaganza.trash_can.throw_whole_stack"));
+			lines.add(Text.translatable("message.extravaganza.trash_can.right_click").formatted(Formatting.GRAY));
+			lines.add(Text.translatable("message.extravaganza.trash_can.quick_throw").formatted(Formatting.GRAY));
+			lines.add(Text.translatable("message.extravaganza.trash_can.opening_trash").formatted(Formatting.GRAY));
+			lines.add(Text.translatable("message.extravaganza.trash_can.throw_whole_stack").formatted(Formatting.GRAY));
 		}
 	}
 }

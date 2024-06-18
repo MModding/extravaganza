@@ -7,9 +7,7 @@ import com.mmodding.extravaganza.init.ExtravaganzaItems;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.*;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.data.client.*;
@@ -23,6 +21,7 @@ import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -66,6 +65,8 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ExtravaganzaLanguageProvider::new);
 		pack.addProvider(ExtravaganzaModelProvider::new);
 		pack.addProvider(ExtravaganzaRecipeProvider::new);
+		pack.addProvider(ExtravaganzaBlockLootTableGenerator::new);
+		pack.addProvider(ExtravaganzaBlockTagProvider::new);
 	}
 
 	public static class ExtravaganzaLanguageProvider extends FabricLanguageProvider {
@@ -299,7 +300,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 							)
 					);
 				}
-				else if (block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) || block.equals(ExtravaganzaBlocks.PINATA)) {
+				else if (block.equals(ExtravaganzaBlocks.PINATA)) {
 					blockStateModelGenerator.registerParentedItemModel(block, ModelIds.getBlockModelId(block));
 				}
 			});
@@ -308,7 +309,13 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		public void generateItemModels(ItemModelGenerator itemModelGenerator) {
 			Extravaganza.executeForRegistry(Registries.ITEM, item -> {
-				if (!(item instanceof BlockItem) && !ExtravaganzaModelProvider.UNCOMMON_ITEMS.test(item)) {
+				if (item instanceof BlockItem blockItem) {
+					Block block = blockItem.getBlock();
+					if (block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) || block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR) || block.equals(ExtravaganzaBlocks.GARLAND) || block instanceof TrashCanBlock) {
+						itemModelGenerator.register(item, Models.GENERATED);
+					}
+				}
+				else if (!ExtravaganzaModelProvider.UNCOMMON_ITEMS.test(item)) {
 					itemModelGenerator.register(item, Models.GENERATED);
 				}
 			});
@@ -352,6 +359,35 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					RecipeCategory.BUILDING_BLOCKS,
 					Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_grate"))
 				).criterion(ExtravaganzaRecipeProvider.hasItem(item), ExtravaganzaRecipeProvider.conditionsFromItem(item)).offerTo(exporter);
+			});
+		}
+	}
+
+	public static class ExtravaganzaBlockLootTableGenerator extends FabricBlockLootTableProvider {
+
+		public ExtravaganzaBlockLootTableGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+			super(output, registryLookup);
+		}
+
+		@Override
+		public void generate() {
+			Extravaganza.executeForRegistry(Registries.BLOCK, block -> this.addDrop(block, this.drops(block)));
+		}
+	}
+
+	public static class ExtravaganzaBlockTagProvider extends FabricTagProvider.BlockTagProvider {
+
+		public ExtravaganzaBlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+			super(output, registriesFuture);
+		}
+
+		@Override
+		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+			Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
+				if (!key.getValue().getPath().contains("content") && !key.getValue().getPath().contains("rubber") && !key.getValue().getPath().contains("glass") && !key.getValue().getPath().contains("garland") && !key.getValue().getPath().contains("pinata")) {
+					this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(Registries.BLOCK.get(key));
+					this.getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL).add(Registries.BLOCK.get(key));
+				}
 			});
 		}
 	}
