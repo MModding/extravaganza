@@ -1,5 +1,9 @@
 package com.mmodding.extravaganza.block;
 
+import com.mmodding.extravaganza.ExtravaganzaColor;
+import com.mmodding.extravaganza.entity.FestiveBallEntity;
+import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
+import com.mmodding.extravaganza.init.ExtravaganzaItems;
 import com.mmodding.extravaganza.mixin.TallPlantBlockAccessor;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
@@ -13,8 +17,12 @@ import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
@@ -29,6 +37,45 @@ public class BallDistributorBlock extends Block {
 	public BallDistributorBlock(Settings settings) {
 		super(settings);
 		this.setDefaultState(this.getDefaultState().with(BallDistributorBlock.FACING, Direction.NORTH).with(BallDistributorBlock.HALF, DoubleBlockHalf.LOWER));
+	}
+
+	@Override
+	protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		int number = 0;
+		boolean remove = false;
+		if (stack.isOf(ExtravaganzaItems.COMMON_FESTIVE_COIN)) {
+			number = 1;
+			remove = true;
+		}
+		else if (stack.isOf(ExtravaganzaItems.UNCOMMON_FESTIVE_COIN)) {
+			number = 2;
+			remove = true;
+		}
+		else if (stack.isOf(ExtravaganzaItems.GOLDEN_FESTIVE_COIN)) {
+			number = 3;
+			remove = true;
+		}
+		for (int i = 0; i < number; i++) {
+			FestiveBallEntity entity = ExtravaganzaColor.values()[world.getRandom().nextInt(ExtravaganzaColor.values().length)].createBallEntity(world, player);
+			Vec3d position = world.getBlockState(pos.up()).isOf(ExtravaganzaBlocks.BALL_DISTRIBUTOR) ? Vec3d.ofCenter(pos.up()) : Vec3d.ofCenter(pos);
+			entity.setPosition(position.add(0.0, 0.5, 0.0));
+			entity.setVelocity(
+				world.getRandom().nextDouble() * (world.getRandom().nextBoolean() ? -0.25 : 0.25),
+				0.6,
+				world.getRandom().nextDouble() * (world.getRandom().nextBoolean() ? -0.25 : 0.25)
+			);
+			world.spawnEntity(entity);
+		}
+		if (remove) {
+			if (!player.getAbilities().creativeMode) {
+				stack.decrement(1);
+				player.setStackInHand(hand, stack);
+			}
+			return ItemActionResult.SUCCESS;
+		}
+		else {
+			return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
+		}
 	}
 
 	@Override

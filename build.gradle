@@ -1,7 +1,7 @@
 import com.mmodding.gradle.api.EnvironmentTarget
 
 plugins {
-	id "com.mmodding.gradle" version "0.0.6"
+	id "com.mmodding.gradle" version "0.0.8"
 	id "fabric-loom" version "1.6-SNAPSHOT"
 	id "maven-publish"
 }
@@ -37,6 +37,7 @@ mmodding {
 		addContributor("Chatoine (Model Artist & Animator)")
 		addContributor("Aeramisu (Pixel Artist & Music Composer)")
 		addContributor("Aethyus (Pixel Artist)")
+		addContributor("Neokys (Icon Artist)")
 		withContact {
 			it.homepage = "https://modrinth.com/mod/extravaganza"
 			it.sources = "https://github.com/MModding/extravaganza"
@@ -66,7 +67,6 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
 }
 
 processResources {
