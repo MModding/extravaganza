@@ -1,0 +1,7 @@
+{
+  "parent": "extravaganza:block/trash_can",
+  "textures": {
+    "main": "extravaganza:block/cyan_trash_can",
+    "particle": "extravaganza:block/cyan_trash_can"
+  }
+}

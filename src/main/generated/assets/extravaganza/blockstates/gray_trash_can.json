@@ -1,0 +1,56 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "extravaganza:block/gray_trash_can"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/gray_trash_can_lid"
+      },
+      "when": {
+        "open": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/gray_trash_can_lid_open"
+      },
+      "when": {
+        "facing": "north",
+        "open": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/gray_trash_can_lid_open",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "open": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/gray_trash_can_lid_open",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "open": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/gray_trash_can_lid_open",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "open": "true"
+      }
+    }
+  ]
+}

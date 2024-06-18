@@ -1,6 +1,7 @@
 package com.mmodding.extravaganza;
 
 import com.mmodding.extravaganza.block.BallDistributorBlock;
+import com.mmodding.extravaganza.block.TrashCanBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -26,11 +27,38 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
+
+	public static final TextureKey MAIN_KEY = TextureKey.of("main");
+
+	public static final Function<String, Model> MAIN_MODEL = path -> new Model(Optional.of(Extravaganza.createId(path)), Optional.empty(), ExtravaganzaDataGenerator.MAIN_KEY);
+
+	public static final Function<String, Model> MAIN_PARTICLE_MODEL = path -> new Model(Optional.of(Extravaganza.createId(path)), Optional.empty(), ExtravaganzaDataGenerator.MAIN_KEY, TextureKey.PARTICLE);
+
+	public static final Function<Block, TextureMap> MAIN = block -> TextureMap.of(ExtravaganzaDataGenerator.MAIN_KEY, TextureMap.getId(block));
+
+	public static final Function<Block, TextureMap> MAIN_PARTICLE = block -> ExtravaganzaDataGenerator.MAIN.apply(block).put(TextureKey.PARTICLE, TextureMap.getId(block));
+
+	public static final TexturedModel.Factory TRASH_CAN = TexturedModel.makeFactory(
+		ExtravaganzaDataGenerator.MAIN_PARTICLE,
+		ExtravaganzaDataGenerator.MAIN_PARTICLE_MODEL.apply("block/trash_can")
+	);
+
+	public static final TexturedModel.Factory TRASH_CAN_LID = TexturedModel.makeFactory(
+		ExtravaganzaDataGenerator.MAIN,
+		ExtravaganzaDataGenerator.MAIN_MODEL.apply("block/trash_can_lid")
+	);
+
+	public static final TexturedModel.Factory TRASH_CAN_LID_OPEN = TexturedModel.makeFactory(
+		ExtravaganzaDataGenerator.MAIN,
+		ExtravaganzaDataGenerator.MAIN_MODEL.apply("block/trash_can_lid_open")
+	);
 
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
@@ -49,6 +77,10 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
 			translationBuilder.add("itemGroup.extravaganza.main", "Extravaganza!");
+			translationBuilder.add("message.extravaganza.trash_can.right_click", "The player can open the trash by right-clicking.");
+			translationBuilder.add("message.extravaganza.trash_can.quick_throw", "The player can throw items to trash (one by one) by sneaking + right-clicking whenever the trash is open or not.");
+			translationBuilder.add("message.extravaganza.trash_can.opening_trash", "The player can throw entities to trash by putting them on top of the opened trash.");
+			translationBuilder.add("message.extravaganza.trash_can.throw_whole_stack", "If the player wants to throw an entire stack, he needs to open the trash and then throw the whole stack.");
 			Extravaganza.executeKeyForRegistry(Registries.ITEM, key -> translationBuilder.add(Registries.ITEM.get(key), this.makeItReadable(key)));
 		}
 
@@ -72,6 +104,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
 		private static final Predicate<Block> UNCOMMON_BLOCKS = block ->
 			block instanceof TransparentBlock ||
+			block instanceof TrashCanBlock ||
 			block instanceof LadderBlock ||
 			block.equals(ExtravaganzaBlocks.BALL_POOL_CORE) ||
 			block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) ||
@@ -93,7 +126,6 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					if (!(block instanceof StairsBlock) && !(block instanceof SlabBlock) && !(block instanceof WallBlock)) {
 						BlockStateModelGenerator.BlockTexturePool pool = blockStateModelGenerator.registerCubeAllModelTexturePool(block);
 						Identifier identifier = Registries.BLOCK.getId(block);
-						Extravaganza.getLogger().info(identifier.toString());
 						pool.stairs(Registries.BLOCK.get(identifier.withPath(string -> string + "_stairs")));
 						pool.slab(Registries.BLOCK.get(identifier.withPath(string -> string + "_slab")));
 						pool.wall(Registries.BLOCK.get(identifier.withPath(string -> string + "_wall")));
@@ -101,6 +133,39 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				}
 				else if (block instanceof TransparentBlock) {
 					blockStateModelGenerator.registerSimpleCubeAll(block);
+				}
+				else if (block instanceof TrashCanBlock) {
+					Identifier trashCan = ExtravaganzaDataGenerator.TRASH_CAN.upload(block, blockStateModelGenerator.modelCollector);
+					Identifier trashCanLid = ExtravaganzaDataGenerator.TRASH_CAN_LID.upload(block, "_lid", blockStateModelGenerator.modelCollector);
+					Identifier trashCanLidOpen = ExtravaganzaDataGenerator.TRASH_CAN_LID_OPEN.upload(block, "_lid_open", blockStateModelGenerator.modelCollector);
+					blockStateModelGenerator.blockStateCollector.accept(
+						MultipartBlockStateSupplier.create(block)
+							.with(BlockStateVariant.create().put(VariantSettings.MODEL, trashCan))
+							.with(When.create().set(TrashCanBlock.OPEN, false), BlockStateVariant.create().put(VariantSettings.MODEL, trashCanLid))
+							.with(
+								When.create().set(TrashCanBlock.FACING, Direction.NORTH).set(TrashCanBlock.OPEN, true),
+								BlockStateVariant.create()
+									.put(VariantSettings.MODEL, trashCanLidOpen)
+							)
+							.with(
+								When.create().set(TrashCanBlock.FACING, Direction.SOUTH).set(TrashCanBlock.OPEN, true),
+								BlockStateVariant.create()
+									.put(VariantSettings.MODEL, trashCanLidOpen)
+									.put(VariantSettings.Y, VariantSettings.Rotation.R180)
+							)
+							.with(
+								When.create().set(TrashCanBlock.FACING, Direction.EAST).set(TrashCanBlock.OPEN, true),
+								BlockStateVariant.create()
+									.put(VariantSettings.MODEL, trashCanLidOpen)
+									.put(VariantSettings.Y, VariantSettings.Rotation.R90)
+							)
+							.with(
+								When.create().set(TrashCanBlock.FACING, Direction.WEST).set(TrashCanBlock.OPEN, true),
+								BlockStateVariant.create()
+									.put(VariantSettings.MODEL, trashCanLidOpen)
+									.put(VariantSettings.Y, VariantSettings.Rotation.R270)
+							)
+					);
 				}
 				else if (block instanceof LadderBlock) {
 					blockStateModelGenerator.registerNorthDefaultHorizontalRotation(block);

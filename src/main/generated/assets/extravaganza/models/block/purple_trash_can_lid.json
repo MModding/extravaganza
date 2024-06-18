@@ -1,0 +1,6 @@
+{
+  "parent": "extravaganza:block/trash_can_lid",
+  "textures": {
+    "main": "extravaganza:block/purple_trash_can"
+  }
+}

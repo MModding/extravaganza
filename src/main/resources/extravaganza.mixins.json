@@ -4,9 +4,13 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "EntityMixin",
+    "ServerPlayerInteractionManagerMixin",
     "TallPlantBlockAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  },
+  "client": [
+    "ClientPlayerInteractionManagerMixin"
+  ]
 }

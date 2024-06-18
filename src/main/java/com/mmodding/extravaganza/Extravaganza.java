@@ -21,11 +21,11 @@ public class Extravaganza implements ModInitializer {
 	public void onInitialize() {
 		Extravaganza.getLogger().info("Time to add some extravaganza to your game!");
 
+		ExtravaganzaItems.register();
 		ExtravaganzaBlocks.register();
 		ExtravaganzaBlockEntities.register();
 		ExtravaganzaEntities.register();
 		ExtravaganzaGameRules.register();
-		ExtravaganzaItems.register();
 		ExtravaganzaParticleTypes.register();
 	}
 
