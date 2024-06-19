@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "extravaganza:ball_pool_core"
+          "name": "extravaganza:popcorn_machine"
         }
       ],
       "rolls": 1.0

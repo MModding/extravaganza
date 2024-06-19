@@ -12,10 +12,12 @@ import net.minecraft.sound.BlockSoundGroup;
 
 public class ExtravaganzaBlocks {
 
-	public static final Block BALL_POOL_CORE = new BallPoolCoreBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.BASALT));
+	public static final Block BALL_POOL_INSCRIPTION_TABLE = new BallPoolInscriptionTable(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.WOOD));
 	public static final Block BALL_POOL_CONTENT = new BallPoolContentBlock(AbstractBlock.Settings.create().noCollision().sounds(BlockSoundGroup.SLIME));
 
 	public static final Block BALL_DISTRIBUTOR = new BallDistributorBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN));
+
+	public static final Block POPCORN_MACHINE = new PopcornMachineBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN));
 
 	public static final Block GARLAND = new GarlandBlock(AbstractBlock.Settings.create().strength(0.5f, 2.0f).nonOpaque().sounds(BlockSoundGroup.WOOD));
 
@@ -27,9 +29,10 @@ public class ExtravaganzaBlocks {
 	public static final Block NYMPH_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
 
 	public static void register() {
-		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_core", ExtravaganzaBlocks.BALL_POOL_CORE);
+		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_inscription_table", ExtravaganzaBlocks.BALL_POOL_INSCRIPTION_TABLE);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_content", ExtravaganzaBlocks.BALL_POOL_CONTENT);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_distributor", ExtravaganzaBlocks.BALL_DISTRIBUTOR);
+		ExtravaganzaBlocks.registerBlockWithItem("popcorn_machine", ExtravaganzaBlocks.POPCORN_MACHINE);
 		ExtravaganzaBlocks.registerBlockWithItem("garland", ExtravaganzaBlocks.GARLAND);
 		ExtravaganzaBlocks.registerBlockWithItem("pinata", ExtravaganzaBlocks.PINATA);
 		ExtravaganzaBlocks.registerBlockWithItem("tear_stained_glass", ExtravaganzaBlocks.TEAR_STAINED_GLASS);

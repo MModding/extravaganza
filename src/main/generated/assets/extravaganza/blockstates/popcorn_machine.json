@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "extravaganza:block/popcorn_machine",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "extravaganza:block/popcorn_machine"
+    },
+    "facing=south": {
+      "model": "extravaganza:block/popcorn_machine",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "extravaganza:block/popcorn_machine",
+      "y": 270
+    }
+  }
+}

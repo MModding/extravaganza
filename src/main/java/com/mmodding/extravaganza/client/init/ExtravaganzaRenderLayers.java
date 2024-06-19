@@ -5,17 +5,23 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.registry.Registries;
 
+import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ExtravaganzaRenderLayers {
+
+	private static final Set<String> CUTOUT = Set.of("table", "popcorn", "garland", "pinata", "grate", "windowed", "ladder");
+
+	private static final Set<String> TRANSLUCENT = Set.of("distributor", "stained");
 
 	public static void register() {
 		Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
 			Predicate<String> checker = word -> key.getValue().getPath().contains(word);
-			if (checker.test("garland") || checker.test("pinata") || checker.test("grate") || checker.test("windowed") || checker.test("ladder")) {
+			if (!ExtravaganzaRenderLayers.CUTOUT.stream().map(checker::test).filter(Boolean::booleanValue).collect(Collectors.toSet()).isEmpty()) {
 				BlockRenderLayerMap.INSTANCE.putBlock(Registries.BLOCK.get(key), RenderLayer.getCutout());
 			}
-			else if(checker.test("distributor") || checker.test("stained")) {
+			else if (!ExtravaganzaRenderLayers.TRANSLUCENT.stream().map(checker::test).filter(Boolean::booleanValue).collect(Collectors.toSet()).isEmpty()) {
 				BlockRenderLayerMap.INSTANCE.putBlock(Registries.BLOCK.get(key), RenderLayer.getTranslucent());
 			}
 		});

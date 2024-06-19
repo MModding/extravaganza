@@ -3,6 +3,7 @@ package com.mmodding.extravaganza.init;
 import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.ExtravaganzaColor;
 import com.mmodding.extravaganza.item.FestiveBallItem;
+import com.mmodding.extravaganza.item.MerryGoRoundItem;
 import com.mmodding.extravaganza.item.WrenchAganzaItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.component.type.FoodComponent;
@@ -32,6 +33,8 @@ public class ExtravaganzaItems {
 
 	public static final Item BAT = new Item(new Item.Settings().maxCount(1));
 
+	public static final Item MERRY_GO_ROUND = new MerryGoRoundItem(new Item.Settings().maxCount(1));
+
 	public static void register() {
 		Registry.register(Registries.ITEM, Extravaganza.createId("wrench_aganza"), ExtravaganzaItems.WRENCH_AGANZA);
 		Registry.register(Registries.ITEM, Extravaganza.createId("rubber"), ExtravaganzaItems.RUBBER);
@@ -49,6 +52,7 @@ public class ExtravaganzaItems {
 		Registry.register(Registries.ITEM, Extravaganza.createId("hot_dog"), ExtravaganzaItems.HOT_DOG);
 		Registry.register(Registries.ITEM, Extravaganza.createId("hot_dog_with_mayonnaise"), ExtravaganzaItems.HOT_DOG_WITH_MAYONNAISE);
 		Registry.register(Registries.ITEM, Extravaganza.createId("bat"), ExtravaganzaItems.BAT);
+		Registry.register(Registries.ITEM, Extravaganza.createId("merry_go_round"), ExtravaganzaItems.MERRY_GO_ROUND);
 
 		Stream<Item> stream = Extravaganza.extractFromRegistry(Registries.ITEM);
 

@@ -107,9 +107,10 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			block instanceof TransparentBlock ||
 			block instanceof TrashCanBlock ||
 			block instanceof LadderBlock ||
-			block.equals(ExtravaganzaBlocks.BALL_POOL_CORE) ||
+			block.equals(ExtravaganzaBlocks.BALL_POOL_INSCRIPTION_TABLE) ||
 			block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) ||
 			block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR) ||
+			block.equals(ExtravaganzaBlocks.POPCORN_MACHINE) ||
 			block.equals(ExtravaganzaBlocks.GARLAND) ||
 			block.equals(ExtravaganzaBlocks.PINATA);
 
@@ -236,6 +237,10 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 							.with(When.create().set(Properties.EAST, true), BlockStateVariant.create().put(VariantSettings.MODEL, east))
 					);
 				}
+				else if (block.equals(ExtravaganzaBlocks.BALL_POOL_INSCRIPTION_TABLE) || block.equals(ExtravaganzaBlocks.POPCORN_MACHINE)) {
+					blockStateModelGenerator.registerNorthDefaultHorizontalRotation(block);
+					blockStateModelGenerator.registerParentedItemModel(block, ModelIds.getBlockModelId(block));
+				}
 				else if (block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR)) {
 					Identifier up = Extravaganza.createId("block/ball_distributor_up");
 					Identifier down = Extravaganza.createId("block/ball_distributor_down");
@@ -300,9 +305,6 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 							)
 					);
 				}
-				else if (block.equals(ExtravaganzaBlocks.PINATA)) {
-					blockStateModelGenerator.registerParentedItemModel(block, ModelIds.getBlockModelId(block));
-				}
 			});
 		}
 
@@ -311,7 +313,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			Extravaganza.executeForRegistry(Registries.ITEM, item -> {
 				if (item instanceof BlockItem blockItem) {
 					Block block = blockItem.getBlock();
-					if (block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) || block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR) || block.equals(ExtravaganzaBlocks.GARLAND) || block instanceof TrashCanBlock) {
+					if (block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) || block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR) || block.equals(ExtravaganzaBlocks.GARLAND) || block.equals(ExtravaganzaBlocks.PINATA) || block instanceof TrashCanBlock) {
 						itemModelGenerator.register(item, Models.GENERATED);
 					}
 				}

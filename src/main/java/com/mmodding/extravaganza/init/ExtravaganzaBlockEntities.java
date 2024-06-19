@@ -12,7 +12,7 @@ public class ExtravaganzaBlockEntities {
 
 	public static final BlockEntityType<BallPoolCoreBlockEntity> BALL_POOL_CORE = new BlockEntityType<>(
 		BallPoolCoreBlockEntity::new,
-		Set.of(ExtravaganzaBlocks.BALL_POOL_CORE),
+		Set.of(ExtravaganzaBlocks.BALL_POOL_INSCRIPTION_TABLE),
 		null
 	);
 

@@ -1,7 +1,8 @@
 {
   "values": [
-    "extravaganza:ball_pool_core",
+    "extravaganza:ball_pool_inscription_table",
     "extravaganza:ball_distributor",
+    "extravaganza:popcorn_machine",
     "extravaganza:black_trash_can",
     "extravaganza:blue_trash_can",
     "extravaganza:brown_trash_can",

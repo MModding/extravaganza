@@ -25,6 +25,10 @@ fabricApi {
 	configureDataGeneration()
 }
 
+loom {
+	accessWidenerPath = file("src/main/resources/extravaganza.accesswidener")
+}
+
 mmodding {
 	configureFabricModJson {
 		name = "Extravaganza!"
@@ -50,6 +54,7 @@ mmodding {
 			it.custom("fabric-datagen", "com.mmodding.extravaganza.ExtravaganzaDataGenerator")
 		}
 		addMixin("extravaganza.mixins.json")
+		accessWidener = "extravaganza.accesswidener"
 		withDependencies {
 			it.javaVersion = ">=" + 21
 			it.minecraftVersion = "~" + project.minecraft_version
