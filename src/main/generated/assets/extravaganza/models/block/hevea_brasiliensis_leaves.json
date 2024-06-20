@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "extravaganza:block/hevea_brasiliensis_leaves"
+  }
+}

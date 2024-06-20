@@ -11,9 +11,9 @@ import net.fabricmc.fabric.api.datagen.v1.provider.*;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.data.client.*;
-import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
+import net.minecraft.data.family.BlockFamilies;
+import net.minecraft.data.family.BlockFamily;
+import net.minecraft.data.server.recipe.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.Ingredient;
@@ -22,6 +22,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -33,6 +35,19 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
+
+	public static final BlockFamily HEVEA_BRASILIENSIS = BlockFamilies.register(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG)
+		.button(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_BUTTON)
+		.fence(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE)
+		.fenceGate(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE_GATE)
+		.pressurePlate(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PRESSURE_PLATE)
+		.slab(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SLAB)
+		.stairs(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_STAIRS)
+		.door(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_DOOR)
+		.trapdoor(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TRAPDOOR)
+		.group("wooden")
+		.unlockCriterionName("has_planks")
+		.build();
 
 	public static final TextureKey MAIN_KEY = TextureKey.of("main");
 
@@ -125,8 +140,24 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+			BlockStateModelGenerator.LogTexturePool log = blockStateModelGenerator.registerLog(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG);
+			log.log(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG);
+			log.wood(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_WOOD);
+			BlockStateModelGenerator.LogTexturePool stripped = blockStateModelGenerator.registerLog(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG);
+			stripped.log(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG);
+			stripped.wood(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD);
+			BlockStateModelGenerator.BlockTexturePool planks = blockStateModelGenerator.registerCubeAllModelTexturePool(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS);
+			planks.stairs(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_STAIRS);
+			planks.slab(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SLAB);
+			planks.fence(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE);
+			planks.fenceGate(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE_GATE);
+			blockStateModelGenerator.registerDoor(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_DOOR);
+			blockStateModelGenerator.registerTrapdoor(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TRAPDOOR);
+			planks.pressurePlate(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PRESSURE_PLATE);
+			planks.button(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_BUTTON);
+			blockStateModelGenerator.registerSingleton(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES, TexturedModel.LEAVES);
 			Extravaganza.executeForRegistry(Registries.BLOCK, block -> {
-				if (!ExtravaganzaModelProvider.UNCOMMON_BLOCKS.test(block)) {
+				if (!ExtravaganzaModelProvider.UNCOMMON_BLOCKS.test(block) && !Registries.BLOCK.getId(block).getPath().contains("hevea_brasiliensis")) {
 					if (!(block instanceof StairsBlock) && !(block instanceof SlabBlock) && !(block instanceof WallBlock)) {
 						BlockStateModelGenerator.BlockTexturePool pool = blockStateModelGenerator.registerCubeAllModelTexturePool(block);
 						Identifier identifier = Registries.BLOCK.getId(block);
@@ -334,6 +365,19 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generate(RecipeExporter exporter) {
+			ShapelessRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS, 4)
+				.input(Ingredient.ofItems(
+					ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG,
+					ExtravaganzaBlocks.HEVEA_BRASILIENSIS_WOOD,
+					ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG,
+					ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD
+				))
+				.group("planks")
+				.criterion("has_logs", ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG))
+				.offerTo(exporter);
+			ExtravaganzaRecipeProvider.offerBarkBlockRecipe(exporter, ExtravaganzaBlocks.HEVEA_BRASILIENSIS_WOOD, ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG);
+			ExtravaganzaRecipeProvider.offerBarkBlockRecipe(exporter, ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD, ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG);
+			ExtravaganzaRecipeProvider.generateFamily(exporter, ExtravaganzaDataGenerator.HEVEA_BRASILIENSIS, FeatureSet.of(FeatureFlags.VANILLA));
 			ExtravaganzaColor.VALUES.forEach(color -> {
 				Item item = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber"));
 				if (!color.equals(ExtravaganzaColor.PLANT) && !color.equals(ExtravaganzaColor.TOMATO) && !color.equals(ExtravaganzaColor.TEAR) && !color.equals(ExtravaganzaColor.NYMPH)) {
@@ -393,6 +437,15 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					this.getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL).add(Registries.BLOCK.get(key));
 				}
 			});
+			this.getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
+				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG)
+				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_WOOD)
+				.add(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG)
+				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_WOOD);
+			this.getOrCreateTagBuilder(BlockTags.PLANKS)
+				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS);
+			this.getOrCreateTagBuilder(BlockTags.LEAVES)
+				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES);
 		}
 	}
 }

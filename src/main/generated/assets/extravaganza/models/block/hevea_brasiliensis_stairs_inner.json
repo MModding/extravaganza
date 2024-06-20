@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "extravaganza:block/hevea_brasiliensis_planks",
+    "side": "extravaganza:block/hevea_brasiliensis_planks",
+    "top": "extravaganza:block/hevea_brasiliensis_planks"
+  }
+}

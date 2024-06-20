@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "extravaganza:block/hevea_brasiliensis_slab"
+    },
+    "type=double": {
+      "model": "extravaganza:block/hevea_brasiliensis_planks"
+    },
+    "type=top": {
+      "model": "extravaganza:block/hevea_brasiliensis_slab_top"
+    }
+  }
+}

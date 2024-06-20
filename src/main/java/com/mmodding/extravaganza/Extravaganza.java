@@ -3,8 +3,10 @@ package com.mmodding.extravaganza;
 import com.mmodding.extravaganza.init.*;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -27,6 +29,12 @@ public class Extravaganza implements ModInitializer {
 		ExtravaganzaEntities.register();
 		ExtravaganzaGameRules.register();
 		ExtravaganzaParticleTypes.register();
+		ExtravaganzaWorldGeneration.register();
+		DynamicRegistrySetupCallback.EVENT.register(view -> {
+			if (view.getOptional(RegistryKeys.CONFIGURED_FEATURE).isPresent() && view.getOptional(RegistryKeys.PLACED_FEATURE).isPresent()) {
+				ExtravaganzaWorldGeneration.callback(view.getOptional(RegistryKeys.CONFIGURED_FEATURE).get(), view.getOptional(RegistryKeys.PLACED_FEATURE).get());
+			}
+		});
 	}
 
 	public static Logger getLogger() {

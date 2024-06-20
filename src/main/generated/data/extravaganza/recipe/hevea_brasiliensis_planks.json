@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [
+    [
+      {
+        "item": "extravaganza:hevea_brasiliensis_log"
+      },
+      {
+        "item": "extravaganza:hevea_brasiliensis_wood"
+      },
+      {
+        "item": "extravaganza:stripped_hevea_brasiliensis_log"
+      },
+      {
+        "item": "extravaganza:stripped_hevea_brasiliensis_wood"
+      }
+    ]
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:hevea_brasiliensis_planks"
+  }
+}

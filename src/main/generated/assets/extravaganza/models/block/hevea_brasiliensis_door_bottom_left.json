@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_left",
+  "textures": {
+    "bottom": "extravaganza:block/hevea_brasiliensis_door_bottom",
+    "top": "extravaganza:block/hevea_brasiliensis_door_top"
+  }
+}

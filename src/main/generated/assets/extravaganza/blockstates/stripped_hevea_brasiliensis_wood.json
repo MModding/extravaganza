@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "extravaganza:block/stripped_hevea_brasiliensis_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "extravaganza:block/stripped_hevea_brasiliensis_wood"
+    },
+    "axis=z": {
+      "model": "extravaganza:block/stripped_hevea_brasiliensis_wood",
+      "x": 90
+    }
+  }
+}

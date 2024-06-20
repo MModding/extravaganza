@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_side",
+  "textures": {
+    "texture": "extravaganza:block/hevea_brasiliensis_planks"
+  }
+}

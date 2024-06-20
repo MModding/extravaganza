@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "extravaganza:block/stripped_hevea_brasiliensis_log",
+    "side": "extravaganza:block/stripped_hevea_brasiliensis_log"
+  }
+}

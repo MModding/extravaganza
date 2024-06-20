@@ -12,6 +12,28 @@ import net.minecraft.sound.BlockSoundGroup;
 
 public class ExtravaganzaBlocks {
 
+	public static final BlockSetType HEVEA_BRASILIENSIS_TYPE = new BlockSetType("hevea_brasiliensis");
+
+	public static final WoodType HEVEA_BRASILIENSIS = new WoodType("hevea_brasiliensis", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE);
+
+	public static final Block HEVEA_BRASILIENSIS_LOG = new PillarBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block HEVEA_BRASILIENSIS_WOOD = new PillarBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+
+	public static final Block STRIPPED_HEVEA_BRASILIENSIS_LOG = new PillarBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block STRIPPED_HEVEA_BRASILIENSIS_WOOD = new PillarBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+
+	public static final Block HEVEA_BRASILIENSIS_PLANKS = new Block(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block HEVEA_BRASILIENSIS_STAIRS = new StairsBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS.getDefaultState(), AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block HEVEA_BRASILIENSIS_SLAB = new SlabBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block HEVEA_BRASILIENSIS_FENCE = new FenceBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block HEVEA_BRASILIENSIS_FENCE_GATE = new FenceGateBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block HEVEA_BRASILIENSIS_DOOR = new DoorBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block HEVEA_BRASILIENSIS_TRAPDOOR = new TrapdoorBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block HEVEA_BRASILIENSIS_PRESSURE_PLATE = new PressurePlateBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block HEVEA_BRASILIENSIS_BUTTON = Blocks.createWoodenButtonBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE);
+
+	public static final Block HEVEA_BRASILIENSIS_LEAVES = Blocks.createLeavesBlock(BlockSoundGroup.AZALEA_LEAVES);
+
 	public static final Block BALL_POOL_INSCRIPTION_TABLE = new BallPoolInscriptionTable(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.WOOD));
 	public static final Block BALL_POOL_CONTENT = new BallPoolContentBlock(AbstractBlock.Settings.create().noCollision().sounds(BlockSoundGroup.SLIME));
 
@@ -29,6 +51,20 @@ public class ExtravaganzaBlocks {
 	public static final Block NYMPH_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
 
 	public static void register() {
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_log", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_wood", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_WOOD);
+		ExtravaganzaBlocks.registerBlockWithItem("stripped_hevea_brasiliensis_log", ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG);
+		ExtravaganzaBlocks.registerBlockWithItem("stripped_hevea_brasiliensis_wood", ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_planks", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_stairs", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_STAIRS);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_slab", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SLAB);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_fence", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_fence_gate", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE_GATE);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_door", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_DOOR);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_trapdoor", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TRAPDOOR);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_pressure_plate", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PRESSURE_PLATE);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_button", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_BUTTON);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_leaves", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_inscription_table", ExtravaganzaBlocks.BALL_POOL_INSCRIPTION_TABLE);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_content", ExtravaganzaBlocks.BALL_POOL_CONTENT);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_distributor", ExtravaganzaBlocks.BALL_DISTRIBUTOR);
