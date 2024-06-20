@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "extravaganza:block/hevea_brasiliensis_sapling"
+  }
+}

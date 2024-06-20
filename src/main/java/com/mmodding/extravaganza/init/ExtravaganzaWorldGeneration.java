@@ -3,12 +3,10 @@ package com.mmodding.extravaganza.init;
 import com.mmodding.extravaganza.Extravaganza;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
-import net.minecraft.world.dimension.DimensionOptions;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
@@ -52,7 +50,7 @@ public class ExtravaganzaWorldGeneration {
 			ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS_CHECKED,
 			new PlacedFeature(
 				configuredFeatures.getEntry(ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS).orElseThrow(),
-				List.of(PlacedFeatures.wouldSurvive(Blocks.SHORT_GRASS))
+				List.of(PlacedFeatures.wouldSurvive(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SAPLING))
 			)
 		);
 	}

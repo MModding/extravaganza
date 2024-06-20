@@ -10,13 +10,15 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 
+import java.util.Optional;
+
 public class ExtravaganzaBlocks {
 
 	public static final BlockSetType HEVEA_BRASILIENSIS_TYPE = new BlockSetType("hevea_brasiliensis");
 
 	public static final WoodType HEVEA_BRASILIENSIS = new WoodType("hevea_brasiliensis", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE);
 
-	public static final Block HEVEA_BRASILIENSIS_LOG = new PillarBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block HEVEA_BRASILIENSIS_LOG = new HeveaBrasiliensisLog(AbstractBlock.Settings.create().ticksRandomly().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
 	public static final Block HEVEA_BRASILIENSIS_WOOD = new PillarBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
 
 	public static final Block STRIPPED_HEVEA_BRASILIENSIS_LOG = new PillarBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
@@ -34,8 +36,11 @@ public class ExtravaganzaBlocks {
 
 	public static final Block HEVEA_BRASILIENSIS_LEAVES = Blocks.createLeavesBlock(BlockSoundGroup.AZALEA_LEAVES);
 
-	public static final Block BALL_POOL_INSCRIPTION_TABLE = new BallPoolInscriptionTableBlock(AbstractBlock.Settings.create().nonOpaque().strength(2.0f).sounds(BlockSoundGroup.WOOD));
+	public static final Block HEVEA_BRASILIENSIS_SAPLING = new SaplingBlock(new SaplingGenerator("hevea_brasiliensis", Optional.empty(), Optional.of(ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS), Optional.empty()), AbstractBlock.Settings.create().sounds(BlockSoundGroup.AZALEA_LEAVES));
+
+	public static final Block BALL_POOL_REGISTRATION_TABLE = new BallPoolRegistrationTableBlock(AbstractBlock.Settings.create().nonOpaque().strength(2.0f).sounds(BlockSoundGroup.WOOD));
 	public static final Block BALL_POOL_CONTENT = new BallPoolContentBlock(AbstractBlock.Settings.create().noCollision().sounds(BlockSoundGroup.SLIME));
+	public static final Block BALL_POOL_PROTECTION = new BallPoolProtectionBlock(AbstractBlock.Settings.create().noCollision().allowsSpawning(Blocks::never).solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::always).replaceable());
 
 	public static final Block BALL_DISTRIBUTOR = new BallDistributorBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN));
 
@@ -65,8 +70,10 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_pressure_plate", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PRESSURE_PLATE);
 		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_button", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_BUTTON);
 		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_leaves", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES);
-		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_inscription_table", ExtravaganzaBlocks.BALL_POOL_INSCRIPTION_TABLE);
+		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_sapling", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SAPLING);
+		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_registration_table", ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_content", ExtravaganzaBlocks.BALL_POOL_CONTENT);
+		Registry.register(Registries.BLOCK, "ball_pool_protection", ExtravaganzaBlocks.BALL_POOL_PROTECTION);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_distributor", ExtravaganzaBlocks.BALL_DISTRIBUTOR);
 		ExtravaganzaBlocks.registerBlockWithItem("popcorn_machine", ExtravaganzaBlocks.POPCORN_MACHINE);
 		ExtravaganzaBlocks.registerBlockWithItem("garland", ExtravaganzaBlocks.GARLAND);

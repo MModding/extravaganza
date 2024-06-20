@@ -1,6 +1,6 @@
 package com.mmodding.extravaganza.client.init;
 
-import com.mmodding.extravaganza.client.block.entity.renderer.BallPoolInscriptionTableBlockEntityRenderer;
+import com.mmodding.extravaganza.client.block.entity.renderer.BallPoolRegistrationTableBlockEntityRenderer;
 import com.mmodding.extravaganza.client.entity.renderer.FestiveBallEntityRenderer;
 import com.mmodding.extravaganza.client.entity.renderer.HeliumBalloonEntityRenderer;
 import com.mmodding.extravaganza.client.entity.renderer.MerryGoRoundEntityRenderer;
@@ -15,6 +15,6 @@ public class ExtravaganzaRenderers {
 		EntityRendererRegistry.register(ExtravaganzaEntities.FESTIVE_BALL, FestiveBallEntityRenderer::new);
 		EntityRendererRegistry.register(ExtravaganzaEntities.HELIUM_BALLOON, HeliumBalloonEntityRenderer::new);
 		EntityRendererRegistry.register(ExtravaganzaEntities.MERRY_GO_ROUND, MerryGoRoundEntityRenderer::new);
-		BlockEntityRendererFactories.register(ExtravaganzaBlockEntities.BALL_POOl_INSCRIPTION_TABLE, ctx -> new BallPoolInscriptionTableBlockEntityRenderer());
+		BlockEntityRendererFactories.register(ExtravaganzaBlockEntities.BALL_POOl_REGISTRATION_TABLE, ctx -> new BallPoolRegistrationTableBlockEntityRenderer());
 	}
 }

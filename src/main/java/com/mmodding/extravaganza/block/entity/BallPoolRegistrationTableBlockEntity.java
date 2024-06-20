@@ -1,6 +1,8 @@
 package com.mmodding.extravaganza.block.entity;
 
+import com.mmodding.extravaganza.block.BallPoolContentBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlockEntities;
+import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -12,9 +14,10 @@ import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class BallPoolInscriptionTableBlockEntity extends BlockEntity  {
+public class BallPoolRegistrationTableBlockEntity extends BlockEntity  {
 
 	private final PoolSettings poolSettings = new PoolSettings();
 
@@ -25,8 +28,8 @@ public class BallPoolInscriptionTableBlockEntity extends BlockEntity  {
 
 	private boolean source = true;
 
-	public BallPoolInscriptionTableBlockEntity(BlockPos pos, BlockState state) {
-		super(ExtravaganzaBlockEntities.BALL_POOl_INSCRIPTION_TABLE, pos, state);
+	public BallPoolRegistrationTableBlockEntity(BlockPos pos, BlockState state) {
+		super(ExtravaganzaBlockEntities.BALL_POOl_REGISTRATION_TABLE, pos, state);
 	}
 
 	@Override
@@ -71,6 +74,19 @@ public class BallPoolInscriptionTableBlockEntity extends BlockEntity  {
 		return this.createComponentlessNbt(registryLookup);
 	}
 
+	public static void tick(World world, BlockPos pos, BlockState state, BallPoolRegistrationTableBlockEntity bpitbe) {
+		for (BlockPos current : BlockPos.iterate(bpitbe.getRelativeScannedStart(pos), bpitbe.getRelativeScannedEnd(pos))) {
+			if (world.getBlockState(current).isAir()) {
+				world.setBlockState(current, ExtravaganzaBlocks.BALL_POOL_PROTECTION.getDefaultState());
+			}
+			else if (world.getBlockState(current).isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT)) {
+				if (world.getBlockState(current).get(BallPoolContentBlock.POWER) != bpitbe.getPoolSettings().power) {
+					world.setBlockState(current, world.getBlockState(current).with(BallPoolContentBlock.POWER, bpitbe.getPoolSettings().power));
+				}
+			}
+		}
+	}
+
 	public BlockPos getScannedStart() {
 		return this.scannedStart;
 	}
@@ -80,7 +96,19 @@ public class BallPoolInscriptionTableBlockEntity extends BlockEntity  {
 	}
 
 	public Box getFullScanned() {
-		return new Box(Vec3d.of(this.getScannedStart()), Vec3d.of(this.getScannedEnd()));
+		return new Box(Vec3d.of(this.getScannedStart()), Vec3d.of(this.getScannedEnd())).stretch(1, 1, 1);
+	}
+
+	public BlockPos getRelativeScannedStart(BlockPos pos) {
+		return pos.add(this.getScannedStart());
+	}
+
+	public BlockPos getRelativeScannedEnd(BlockPos pos) {
+		return pos.add(this.getScannedEnd());
+	}
+
+	public Box getRelativeFullScanned(BlockPos pos) {
+		return new Box(Vec3d.of(this.getRelativeScannedStart(pos)), Vec3d.of(this.getRelativeScannedEnd(pos))).stretch(1, 1, 1);
 	}
 
 	public PoolSettings getPoolSettings() {

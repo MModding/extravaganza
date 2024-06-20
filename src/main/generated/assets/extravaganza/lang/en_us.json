@@ -1,7 +1,7 @@
 {
   "block.extravaganza.ball_distributor": "Ball Distributor",
   "block.extravaganza.ball_pool_content": "Ball Pool Content",
-  "block.extravaganza.ball_pool_inscription_table": "Ball Pool Inscription Table",
+  "block.extravaganza.ball_pool_registration_table": "Ball Pool Registration Table",
   "block.extravaganza.black_barred_festive_rubber": "Black Barred Festive Rubber",
   "block.extravaganza.black_barred_festive_rubber_slab": "Black Barred Festive Rubber Slab",
   "block.extravaganza.black_barred_festive_rubber_stairs": "Black Barred Festive Rubber Stairs",
@@ -455,6 +455,7 @@
   "block.extravaganza.hevea_brasiliensis_log": "Hevea Brasiliensis Log",
   "block.extravaganza.hevea_brasiliensis_planks": "Hevea Brasiliensis Planks",
   "block.extravaganza.hevea_brasiliensis_pressure_plate": "Hevea Brasiliensis Pressure Plate",
+  "block.extravaganza.hevea_brasiliensis_sapling": "Hevea Brasiliensis Sapling",
   "block.extravaganza.hevea_brasiliensis_slab": "Hevea Brasiliensis Slab",
   "block.extravaganza.hevea_brasiliensis_stairs": "Hevea Brasiliensis Stairs",
   "block.extravaganza.hevea_brasiliensis_trapdoor": "Hevea Brasiliensis Trapdoor",
@@ -1511,6 +1512,7 @@
   "item.extravaganza.common_festive_coin": "Common Festive Coin",
   "item.extravaganza.creeper_balloon": "Creeper Balloon",
   "item.extravaganza.cyan_festive_ball": "Cyan Festive Ball",
+  "item.extravaganza.empty_popcorn": "Empty Popcorn",
   "item.extravaganza.golden_candy_cane": "Golden Candy Cane",
   "item.extravaganza.golden_festive_coin": "Golden Festive Coin",
   "item.extravaganza.gray_festive_ball": "Gray Festive Ball",
@@ -1527,6 +1529,7 @@
   "item.extravaganza.orange_festive_ball": "Orange Festive Ball",
   "item.extravaganza.pink_festive_ball": "Pink Festive Ball",
   "item.extravaganza.plant_festive_ball": "Plant Festive Ball",
+  "item.extravaganza.popcorn": "Popcorn",
   "item.extravaganza.purple_festive_ball": "Purple Festive Ball",
   "item.extravaganza.red_candy_cane": "Red Candy Cane",
   "item.extravaganza.red_festive_ball": "Red Festive Ball",
@@ -1542,5 +1545,7 @@
   "message.extravaganza.trash_can.opening_trash": "The player can throw entities to trash by putting them on top of the opened trash.",
   "message.extravaganza.trash_can.quick_throw": "The player can throw items to trash (one by one) by sneaking + right-clicking whenever the trash is open or not.",
   "message.extravaganza.trash_can.right_click": "The player can open the trash by right-clicking.",
-  "message.extravaganza.trash_can.throw_whole_stack": "If the player wants to throw an entire stack, he needs to open the trash and then throw the whole stack."
+  "message.extravaganza.trash_can.throw_whole_stack": "If the player wants to throw an entire stack, he needs to open the trash and then throw the whole stack.",
+  "painting.extravaganza.reflect.author": "Aeramisu",
+  "painting.extravaganza.reflect.title": "Reflect"
 }

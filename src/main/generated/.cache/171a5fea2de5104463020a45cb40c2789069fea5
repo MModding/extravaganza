@@ -1,6 +1,6 @@
-// 1.21	2024-06-20T14:37:00.0121724	Extravaganza!/Tags for minecraft:block
-925bb2daf303a0a590847e6b352806565e8f87af data\minecraft\tags\block\mineable\pickaxe.json
+// 1.21	2024-06-21T00:55:03.9298631	Extravaganza!/Tags for minecraft:block
+de7ad400e07f2e733f61c3cf89cae477444836e1 data\minecraft\tags\block\mineable\pickaxe.json
 a8b6770510cf194d8c33705d68e554cc38552304 data\minecraft\tags\block\leaves.json
-925bb2daf303a0a590847e6b352806565e8f87af data\minecraft\tags\block\needs_stone_tool.json
+de7ad400e07f2e733f61c3cf89cae477444836e1 data\minecraft\tags\block\needs_stone_tool.json
 c58fa380156a46ee40acafab7082a5d157ddaa7f data\minecraft\tags\block\planks.json
 869b050fc75552bca4dae428fbfd91837c77b108 data\minecraft\tags\block\logs_that_burn.json

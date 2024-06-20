@@ -3,12 +3,15 @@ package com.mmodding.extravaganza;
 import com.mmodding.extravaganza.init.*;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,10 +33,27 @@ public class Extravaganza implements ModInitializer {
 		ExtravaganzaGameRules.register();
 		ExtravaganzaParticleTypes.register();
 		ExtravaganzaWorldGeneration.register();
+		ExtravaganzaDataAttachments.register();
 		DynamicRegistrySetupCallback.EVENT.register(view -> {
 			if (view.getOptional(RegistryKeys.CONFIGURED_FEATURE).isPresent() && view.getOptional(RegistryKeys.PLACED_FEATURE).isPresent()) {
 				ExtravaganzaWorldGeneration.callback(view.getOptional(RegistryKeys.CONFIGURED_FEATURE).get(), view.getOptional(RegistryKeys.PLACED_FEATURE).get());
 			}
+		});
+		CommandRegistrationCallback.EVENT.register((dispatcher, registries, environment) -> {
+			dispatcher.register(CommandManager.literal("before-entering-poll")
+				.executes(context -> {
+					if (context.getSource().getPlayer() != null && context.getSource().getPlayer().hasAttached(ExtravaganzaDataAttachments.BEFORE_ENTERING_POOL)) {
+						Vec3d position = context.getSource().getPlayer().getAttached(ExtravaganzaDataAttachments.BEFORE_ENTERING_POOL);
+						assert position != null;
+						context.getSource().getPlayer().teleport(position.getX(), position.getY(), position.getZ(), false);
+						context.getSource().getPlayer().removeAttached(ExtravaganzaDataAttachments.BEFORE_ENTERING_POOL);
+						return 1;
+					}
+					else {
+						return 0;
+					}
+				})
+			);
 		});
 	}
 

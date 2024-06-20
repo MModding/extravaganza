@@ -1,14 +1,26 @@
 {
   "variants": {
-    "axis=x": {
+    "axis=x,rubber=false": {
       "model": "extravaganza:block/hevea_brasiliensis_log_horizontal",
       "x": 90,
       "y": 90
     },
-    "axis=y": {
+    "axis=x,rubber=true": {
+      "model": "extravaganza:block/hevea_brasiliensis_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,rubber=false": {
       "model": "extravaganza:block/hevea_brasiliensis_log"
     },
-    "axis=z": {
+    "axis=y,rubber=true": {
+      "model": "extravaganza:block/hevea_brasiliensis_log_rubber"
+    },
+    "axis=z,rubber=false": {
+      "model": "extravaganza:block/hevea_brasiliensis_log_horizontal",
+      "x": 90
+    },
+    "axis=z,rubber=true": {
       "model": "extravaganza:block/hevea_brasiliensis_log_horizontal",
       "x": 90
     }

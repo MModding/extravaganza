@@ -2,6 +2,7 @@ package com.mmodding.extravaganza.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mmodding.extravaganza.block.BallPoolContentBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -40,9 +41,9 @@ public abstract class EntityMixin {
 		if (!underState.isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT) && currentState.isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT)) {
 			if (!this.bypassesLandingEffects()) {
 				this.addVelocity(
-					this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1),
-					this.getRandom().nextDouble(),
-					this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1)
+					this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1) / 10 * currentState.get(BallPoolContentBlock.POWER),
+					this.getRandom().nextDouble() / 10 * currentState.get(BallPoolContentBlock.POWER),
+					this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1) / 10 * currentState.get(BallPoolContentBlock.POWER)
 				);
 			}
 		}
