@@ -129,10 +129,15 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			block.equals(ExtravaganzaBlocks.GARLAND) ||
 			block.equals(ExtravaganzaBlocks.PINATA);
 
-		private static final Predicate<Item> UNCOMMON_ITEMS = item ->
-			item.equals(ExtravaganzaItems.CHERRY_BALLOON) ||
-			item.equals(ExtravaganzaItems.CREEPER_BALLOON) ||
-			item.equals(ExtravaganzaItems.BAT);
+		private final static Set<Block> WITH_GENERATED_ITEM = Set.of(
+			ExtravaganzaBlocks.BALL_POOL_CONTENT,
+			ExtravaganzaBlocks.BALL_DISTRIBUTOR,
+			ExtravaganzaBlocks.GARLAND,
+			ExtravaganzaBlocks.PINATA,
+			ExtravaganzaBlocks.POPCORN_MACHINE
+		);
+
+		private static final Predicate<Item> UNCOMMON_ITEMS = item -> item.equals(ExtravaganzaItems.BAT);
 
 		private ExtravaganzaModelProvider(FabricDataOutput output) {
 			super(output);
@@ -272,7 +277,9 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				}
 				else if (block.equals(ExtravaganzaBlocks.BALL_POOL_INSCRIPTION_TABLE) || block.equals(ExtravaganzaBlocks.POPCORN_MACHINE)) {
 					blockStateModelGenerator.registerNorthDefaultHorizontalRotation(block);
-					blockStateModelGenerator.registerParentedItemModel(block, ModelIds.getBlockModelId(block));
+					if (block.equals(ExtravaganzaBlocks.BALL_POOL_INSCRIPTION_TABLE)) {
+						blockStateModelGenerator.registerParentedItemModel(block, ModelIds.getBlockModelId(block));
+					}
 				}
 				else if (block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR)) {
 					Identifier up = Extravaganza.createId("block/ball_distributor_up");
@@ -346,7 +353,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			Extravaganza.executeForRegistry(Registries.ITEM, item -> {
 				if (item instanceof BlockItem blockItem) {
 					Block block = blockItem.getBlock();
-					if (block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) || block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR) || block.equals(ExtravaganzaBlocks.GARLAND) || block.equals(ExtravaganzaBlocks.PINATA) || block instanceof TrashCanBlock) {
+					if (ExtravaganzaModelProvider.WITH_GENERATED_ITEM.contains(block) || block instanceof TrashCanBlock) {
 						itemModelGenerator.register(item, Models.GENERATED);
 					}
 				}

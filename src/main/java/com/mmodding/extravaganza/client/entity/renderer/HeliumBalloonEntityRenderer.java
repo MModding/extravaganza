@@ -23,7 +23,7 @@ public class HeliumBalloonEntityRenderer extends EntityRenderer<HeliumBalloonEnt
 
 	@Override
 	public Identifier getTexture(HeliumBalloonEntity entity) {
-		return Extravaganza.createId("textures/item/" + entity.getVariant() + "_balloon.png");
+		return Extravaganza.createId("textures/entity/helium_balloon/" + entity.getVariant() + ".png");
 	}
 
 	@Override

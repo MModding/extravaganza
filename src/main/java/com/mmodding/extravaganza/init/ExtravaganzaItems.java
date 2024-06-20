@@ -2,10 +2,7 @@ package com.mmodding.extravaganza.init;
 
 import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.ExtravaganzaColor;
-import com.mmodding.extravaganza.item.FestiveBallItem;
-import com.mmodding.extravaganza.item.HeliumBalloonItem;
-import com.mmodding.extravaganza.item.MerryGoRoundItem;
-import com.mmodding.extravaganza.item.WrenchAganzaItem;
+import com.mmodding.extravaganza.item.*;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
@@ -18,6 +15,8 @@ import java.util.stream.Stream;
 public class ExtravaganzaItems {
 
 	public static final Item WRENCH_AGANZA = new WrenchAganzaItem(new Item.Settings().maxCount(1));
+
+	public static final Item RUBBER_EXTRACTOR = new RubberExtractorItem(new Item.Settings().maxCount(1).maxDamage(128));
 
 	public static final Item RUBBER = new Item(new Item.Settings());
 
@@ -41,6 +40,7 @@ public class ExtravaganzaItems {
 
 	public static void register() {
 		Registry.register(Registries.ITEM, Extravaganza.createId("wrench_aganza"), ExtravaganzaItems.WRENCH_AGANZA);
+		Registry.register(Registries.ITEM, Extravaganza.createId("rubber_extractor"), ExtravaganzaItems.RUBBER_EXTRACTOR);
 		Registry.register(Registries.ITEM, Extravaganza.createId("rubber"), ExtravaganzaItems.RUBBER);
 		Registry.register(Registries.ITEM, Extravaganza.createId("common_festive_coin"), ExtravaganzaItems.COMMON_FESTIVE_COIN);
 		Registry.register(Registries.ITEM, Extravaganza.createId("uncommon_festive_coin"), ExtravaganzaItems.UNCOMMON_FESTIVE_COIN);

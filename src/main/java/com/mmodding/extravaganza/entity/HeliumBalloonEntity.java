@@ -8,7 +8,6 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
@@ -34,10 +33,12 @@ public class HeliumBalloonEntity extends Entity {
 
 	@Override
 	protected void readCustomDataFromNbt(NbtCompound nbt) {
+		this.dataTracker.set(HeliumBalloonEntity.VARIANT, nbt.getString("variant"));
 	}
 
 	@Override
 	protected void writeCustomDataToNbt(NbtCompound nbt) {
+		nbt.putString("variant", this.dataTracker.get(HeliumBalloonEntity.VARIANT));
 	}
 
 	@Override

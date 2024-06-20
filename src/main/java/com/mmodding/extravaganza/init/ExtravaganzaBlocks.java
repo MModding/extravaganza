@@ -34,7 +34,7 @@ public class ExtravaganzaBlocks {
 
 	public static final Block HEVEA_BRASILIENSIS_LEAVES = Blocks.createLeavesBlock(BlockSoundGroup.AZALEA_LEAVES);
 
-	public static final Block BALL_POOL_INSCRIPTION_TABLE = new BallPoolInscriptionTable(AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.WOOD));
+	public static final Block BALL_POOL_INSCRIPTION_TABLE = new BallPoolInscriptionTableBlock(AbstractBlock.Settings.create().nonOpaque().strength(2.0f).sounds(BlockSoundGroup.WOOD));
 	public static final Block BALL_POOL_CONTENT = new BallPoolContentBlock(AbstractBlock.Settings.create().noCollision().sounds(BlockSoundGroup.SLIME));
 
 	public static final Block BALL_DISTRIBUTOR = new BallDistributorBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN));

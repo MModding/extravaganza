@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -26,9 +27,11 @@ public class TrashCanBlock extends HorizontalFacingBlock {
 
 	public static final BooleanProperty OPEN = Properties.OPEN;
 
+	public static final BooleanProperty LOCKED = Properties.LOCKED;
+
 	public TrashCanBlock(Settings settings) {
 		super(settings);
-		this.setDefaultState(this.getDefaultState().with(TrashCanBlock.FACING, Direction.NORTH).with(TrashCanBlock.OPEN, false));
+		this.setDefaultState(this.getDefaultState().with(TrashCanBlock.FACING, Direction.NORTH).with(TrashCanBlock.OPEN, false).with(TrashCanBlock.LOCKED, false));
 	}
 
 	@Override
@@ -38,13 +41,18 @@ public class TrashCanBlock extends HorizontalFacingBlock {
 
 	@Override
 	protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-		world.setBlockState(pos, state.with(TrashCanBlock.OPEN, !state.get(TrashCanBlock.OPEN)));
+		if (!state.get(TrashCanBlock.LOCKED)) {
+			world.setBlockState(pos, state.with(TrashCanBlock.OPEN, !state.get(TrashCanBlock.OPEN)));
+		}
 		return ActionResult.SUCCESS;
 	}
 
 	@Override
 	protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (!player.getStackInHand(hand).isEmpty() && player.isSneaking()) {
+		if (player.getStackInHand(hand).isOf(Items.DEBUG_STICK)) {
+			return ItemActionResult.FAIL;
+		}
+		else if (!player.getStackInHand(hand).isEmpty() && player.isSneaking()) {
 			stack.decrement(1);
 			player.setStackInHand(hand, stack);
 			return ItemActionResult.SUCCESS;
@@ -70,5 +78,6 @@ public class TrashCanBlock extends HorizontalFacingBlock {
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		builder.add(TrashCanBlock.FACING);
 		builder.add(TrashCanBlock.OPEN);
+		builder.add(TrashCanBlock.LOCKED);
 	}
 }
