@@ -3,6 +3,7 @@ package com.mmodding.extravaganza.init;
 import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.ExtravaganzaColor;
 import com.mmodding.extravaganza.item.FestiveBallItem;
+import com.mmodding.extravaganza.item.HeliumBalloonItem;
 import com.mmodding.extravaganza.item.MerryGoRoundItem;
 import com.mmodding.extravaganza.item.WrenchAganzaItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -31,6 +32,9 @@ public class ExtravaganzaItems {
 	public static final Item HOT_DOG = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(1.0f).snack().build()));
 	public static final Item HOT_DOG_WITH_MAYONNAISE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(1.5f).snack().build()));
 
+	public static final Item CHERRY_BALLOON = new HeliumBalloonItem("cherry", new Item.Settings().maxCount(1));
+	public static final Item CREEPER_BALLOON = new HeliumBalloonItem("creeper", new Item.Settings().maxCount(1));
+
 	public static final Item BAT = new Item(new Item.Settings().maxCount(1));
 
 	public static final Item MERRY_GO_ROUND = new MerryGoRoundItem(new Item.Settings().maxCount(1));
@@ -51,6 +55,8 @@ public class ExtravaganzaItems {
 		Registry.register(Registries.ITEM, Extravaganza.createId("red_candy_cane"), ExtravaganzaItems.RED_CANDY_CANE);
 		Registry.register(Registries.ITEM, Extravaganza.createId("hot_dog"), ExtravaganzaItems.HOT_DOG);
 		Registry.register(Registries.ITEM, Extravaganza.createId("hot_dog_with_mayonnaise"), ExtravaganzaItems.HOT_DOG_WITH_MAYONNAISE);
+		Registry.register(Registries.ITEM, Extravaganza.createId("cherry_balloon"), ExtravaganzaItems.CHERRY_BALLOON);
+		Registry.register(Registries.ITEM, Extravaganza.createId("creeper_balloon"), ExtravaganzaItems.CREEPER_BALLOON);
 		Registry.register(Registries.ITEM, Extravaganza.createId("bat"), ExtravaganzaItems.BAT);
 		Registry.register(Registries.ITEM, Extravaganza.createId("merry_go_round"), ExtravaganzaItems.MERRY_GO_ROUND);
 

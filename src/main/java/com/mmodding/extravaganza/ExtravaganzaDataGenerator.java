@@ -115,6 +115,8 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			block.equals(ExtravaganzaBlocks.PINATA);
 
 		private static final Predicate<Item> UNCOMMON_ITEMS = item ->
+			item.equals(ExtravaganzaItems.CHERRY_BALLOON) ||
+			item.equals(ExtravaganzaItems.CREEPER_BALLOON) ||
 			item.equals(ExtravaganzaItems.BAT);
 
 		private ExtravaganzaModelProvider(FabricDataOutput output) {
