@@ -39,7 +39,7 @@ mmodding {
 		addAuthor("MModding Team")
 		addContributor("FirstMegaGame4 (Developer)")
 		addContributor("Chatoine (Model Artist & Animator)")
-		addContributor("Aeramisu (Pixel Artist & Music Composer)")
+		addContributor("Aeramisu (Pixel Artist)")
 		addContributor("Aethyus (Pixel Artist)")
 		addContributor("Neokys (Icon Artist)")
 		withContact {
