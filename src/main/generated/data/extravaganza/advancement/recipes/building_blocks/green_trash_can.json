@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_green_trash_can": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:green_trash_can"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:green_trash_can"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_green_trash_can"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:green_trash_can"
+    ]
+  }
+}

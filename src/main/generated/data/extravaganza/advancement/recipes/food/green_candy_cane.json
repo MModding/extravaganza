@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_green_candy_cane": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:green_candy_cane"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:green_candy_cane"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_green_candy_cane"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:green_candy_cane"
+    ]
+  }
+}

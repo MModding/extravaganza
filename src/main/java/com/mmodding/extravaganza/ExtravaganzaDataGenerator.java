@@ -22,8 +22,10 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.state.property.Properties;
@@ -38,7 +40,7 @@ import java.util.function.Predicate;
 
 public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
-	public static final BlockFamily HEVEA_BRASILIENSIS = BlockFamilies.register(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG)
+	public static final BlockFamily HEVEA_BRASILIENSIS = BlockFamilies.register(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS)
 		.button(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_BUTTON)
 		.fence(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE)
 		.fenceGate(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE_GATE)
@@ -84,6 +86,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ExtravaganzaRecipeProvider::new);
 		pack.addProvider(ExtravaganzaBlockLootTableGenerator::new);
 		pack.addProvider(ExtravaganzaBlockTagProvider::new);
+		pack.addProvider(ExtravaganzaItemTagProvider::new);
 	}
 
 	public static class ExtravaganzaLanguageProvider extends FabricLanguageProvider {
@@ -101,6 +104,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			translationBuilder.add("message.extravaganza.trash_can.throw_whole_stack", "If the player wants to throw an entire stack, he needs to open the trash and then throw the whole stack.");
 			translationBuilder.add("painting.extravaganza.reflect.author", "Aeramisu");
 			translationBuilder.add("painting.extravaganza.reflect.title", "Reflect");
+			translationBuilder.add("tag.item.extravaganza.festive_balls", "Festive Balls");
 			Extravaganza.executeKeyForRegistry(Registries.ITEM, key -> translationBuilder.add(Registries.ITEM.get(key), this.makeItReadable(key)));
 		}
 
@@ -451,10 +455,15 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			ExtravaganzaRecipeProvider.offerBarkBlockRecipe(exporter, ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD, ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG);
 			ExtravaganzaRecipeProvider.generateFamily(exporter, ExtravaganzaDataGenerator.HEVEA_BRASILIENSIS, FeatureSet.of(FeatureFlags.VANILLA));
 			ExtravaganzaColor.VALUES.forEach(color -> {
-				Item item = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber"));
+				Item festiveRubber = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber"));
+				Item festiveRubberStairs = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_stairs"));
+				Item festiveRubberSlab = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_slab"));
+				Item festiveRubberWall = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_wall"));
+				Item trashCan = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_ladder"));
+				Item ladder = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_trash_can"));
 				if (!color.equals(ExtravaganzaColor.PLANT) && !color.equals(ExtravaganzaColor.TOMATO) && !color.equals(ExtravaganzaColor.TEAR) && !color.equals(ExtravaganzaColor.NYMPH)) {
-					ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, item, 16)
-						.criterion(ExtravaganzaRecipeProvider.hasItem(item), ExtravaganzaRecipeProvider.conditionsFromItem(item))
+					ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubber, 16)
+						.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubber), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubber))
 						.input('C', Registries.ITEM.get(Identifier.of(color.asString() + "_dye")))
 						.input('R', ExtravaganzaItems.RUBBER)
 						.pattern("CRC")
@@ -462,6 +471,40 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 						.pattern("CRC")
 						.offerTo(exporter);
 				}
+				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubberStairs, 4)
+					.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubberStairs), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubberStairs))
+					.input('R', festiveRubber)
+					.pattern("R  ")
+					.pattern("RR ")
+					.pattern("RRR")
+					.offerTo(exporter);
+				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubberSlab, 6)
+					.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubberSlab), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubberSlab))
+					.input('R', festiveRubber)
+					.pattern("RRR")
+					.offerTo(exporter);
+				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubberWall, 6)
+					.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubberWall), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubberWall))
+					.input('R', festiveRubber)
+					.pattern("RRR")
+					.pattern("RRR")
+					.offerTo(exporter);
+				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, trashCan, 4)
+					.criterion(ExtravaganzaRecipeProvider.hasItem(trashCan), ExtravaganzaRecipeProvider.conditionsFromItem(trashCan))
+					.input('R', festiveRubber)
+					.input('S', Items.STICK)
+					.pattern("R R")
+					.pattern("SRS")
+					.pattern("R R")
+					.offerTo(exporter);
+				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ladder, 16)
+					.criterion(ExtravaganzaRecipeProvider.hasItem(ladder), ExtravaganzaRecipeProvider.conditionsFromItem(ladder))
+					.input('R', festiveRubber)
+					.input('H', Items.HOPPER)
+					.pattern("R R")
+					.pattern("RHR")
+					.pattern(" R ")
+					.offerTo(exporter);
 				Set.of(
 					"striped", "poured", "sharped", "scratched",
 					"dotted", "screwed", "split", "wooded",
@@ -469,23 +512,166 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					"curved", "bent", "windowed", "tiled"
 				).forEach(
 					prefix -> StonecuttingRecipeJsonBuilder.createStonecutting(
-						Ingredient.ofItems(item),
+						Ingredient.ofItems(festiveRubber),
 						RecipeCategory.BUILDING_BLOCKS,
 						Registries.ITEM.get(Extravaganza.createId(color.asString() + "_" + prefix + "_festive_rubber"))
-					).criterion(ExtravaganzaRecipeProvider.hasItem(item), ExtravaganzaRecipeProvider.conditionsFromItem(item)).offerTo(exporter)
+					).criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubber), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubber)).offerTo(exporter)
 				);
 				StonecuttingRecipeJsonBuilder.createStonecutting(
-					Ingredient.ofItems(item),
+					Ingredient.ofItems(festiveRubber),
 					RecipeCategory.BUILDING_BLOCKS,
 					Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_grate"))
-				).criterion(ExtravaganzaRecipeProvider.hasItem(item), ExtravaganzaRecipeProvider.conditionsFromItem(item)).offerTo(exporter);
+				).criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubber), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubber)).offerTo(exporter);
 			});
-			ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ExtravaganzaItems.RUBBER)
-				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.RUBBER), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.RUBBER))
+			ShapelessRecipeJsonBuilder.create(RecipeCategory.TOOLS, ExtravaganzaItems.WRENCH_AGANZA)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.WRENCH_AGANZA), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.WRENCH_AGANZA))
+				.input(ExtravaganzaItems.GOLDEN_CANDY_CANE)
+				.input(ExtravaganzaItems.GREEN_CANDY_CANE)
+				.input(ExtravaganzaItems.RED_CANDY_CANE)
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ExtravaganzaItems.RUBBER_EXTRACTOR)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.RUBBER_EXTRACTOR), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.RUBBER_EXTRACTOR))
 				.input('I', Items.IRON_INGOT)
 				.pattern("III")
 				.pattern("I  ")
 				.pattern("I  ")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, ExtravaganzaItems.GOLDEN_CANDY_CANE)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.GOLDEN_CANDY_CANE), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.GOLDEN_CANDY_CANE))
+				.input('R', Items.YELLOW_DYE)
+				.input('S', Items.SUGAR)
+				.pattern("RS ")
+				.pattern("S R")
+				.pattern("R  ")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, ExtravaganzaItems.GREEN_CANDY_CANE)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.GREEN_CANDY_CANE), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.GREEN_CANDY_CANE))
+				.input('R', Items.GREEN_DYE)
+				.input('S', Items.SUGAR)
+				.pattern("RS ")
+				.pattern("S R")
+				.pattern("R  ")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, ExtravaganzaItems.RED_CANDY_CANE)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.RED_CANDY_CANE), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.RED_CANDY_CANE))
+				.input('R', Items.RED_DYE)
+				.input('S', Items.SUGAR)
+				.pattern("RS ")
+				.pattern("S R")
+				.pattern("R  ")
+				.offerTo(exporter);
+			ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ExtravaganzaItems.HOT_DOG)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.HOT_DOG), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.HOT_DOG))
+				.input(Items.COOKED_BEEF)
+				.input(Items.BREAD)
+				.offerTo(exporter);
+			ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ExtravaganzaItems.HOT_DOG_WITH_MAYONNAISE)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.HOT_DOG_WITH_MAYONNAISE), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.HOT_DOG_WITH_MAYONNAISE))
+				.input(ExtravaganzaItems.HOT_DOG)
+				.input(Items.EGG)
+				.offerTo(exporter);
+			ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ExtravaganzaItems.EMPTY_POPCORN, 4)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.EMPTY_POPCORN), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.EMPTY_POPCORN))
+				.input(Items.RED_DYE)
+				.input(Items.PAPER)
+				.input(Items.YELLOW_DYE)
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaItems.CHERRY_BALLOON, 16)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.CHERRY_BALLOON), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.CHERRY_BALLOON))
+				.input('D', Items.RED_DYE)
+				.input('P', Items.PAPER)
+				.input('S', Items.STRING)
+				.pattern("DP ")
+				.pattern("PD ")
+				.pattern("  S")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaItems.CREEPER_BALLOON, 16)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.CREEPER_BALLOON), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.CREEPER_BALLOON))
+				.input('D', Items.GREEN_DYE)
+				.input('P', Items.PAPER)
+				.input('S', Items.STRING)
+				.pattern("DP ")
+				.pattern("PD ")
+				.pattern("  S")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, ExtravaganzaItems.BAT)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.BAT), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.BAT))
+				.input('B', Items.LIGHT_BLUE_DYE)
+				.input('Y', Items.YELLOW_DYE)
+				.input('R', Items.RED_DYE)
+				.input('S', Items.STICK)
+				.pattern("BSB")
+				.pattern("YSY")
+				.pattern("RSR")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaItems.MERRY_GO_ROUND)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.MERRY_GO_ROUND), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.MERRY_GO_ROUND))
+				.input('I', Items.IRON_INGOT)
+				.input('R', Registries.ITEM.get(Extravaganza.createId("red_festive_rubber")))
+				.input('S', Registries.ITEM.get(Extravaganza.createId("red_festive_rubber_slab")))
+				.pattern("III")
+				.pattern("RRR")
+				.pattern("SRS")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE.asItem())
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE.asItem()), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE.asItem()))
+				.input('P', Items.PAPER)
+				.input('I', Items.INK_SAC)
+				.input('F', Items.FLOWER_POT)
+				.input('H', ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS.asItem())
+				.pattern("PIF")
+				.pattern("HHH")
+				.pattern("H H")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaBlocks.BALL_POOL_CONTENT.asItem(), 16)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaBlocks.BALL_POOL_CONTENT.asItem()), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaBlocks.BALL_POOL_CONTENT.asItem()))
+				.input('B', TagKey.of(RegistryKeys.ITEM, Extravaganza.createId("festive_balls")))
+				.pattern("BBB")
+				.pattern("BBB")
+				.pattern("BBB")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaBlocks.BALL_DISTRIBUTOR.asItem())
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaBlocks.BALL_DISTRIBUTOR.asItem()), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaBlocks.BALL_DISTRIBUTOR.asItem()))
+				.input('R', Registries.ITEM.get(Extravaganza.createId("red_festive_rubber")))
+				.input('S', Registries.ITEM.get(Extravaganza.createId("red_festive_rubber_slab")))
+				.input('G', Items.GLASS)
+				.input('B', Registries.ITEM.get(Extravaganza.createId("black_festive_rubber")))
+				.pattern("SRS")
+				.pattern("GGG")
+				.pattern("BBB")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, ExtravaganzaBlocks.POPCORN_MACHINE.asItem())
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaBlocks.POPCORN_MACHINE.asItem()), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaBlocks.POPCORN_MACHINE.asItem()))
+				.input('B', Registries.ITEM.get(Extravaganza.createId("blue_festive_rubber")))
+				.input('D', Registries.ITEM.get(Extravaganza.createId("blue_festive_rubber_slab")))
+				.input('R', Registries.ITEM.get(Extravaganza.createId("red_festive_rubber")))
+				.input('S', Registries.ITEM.get(Extravaganza.createId("red_festive_rubber_slab")))
+				.pattern("BBB")
+				.pattern("DRD")
+				.pattern("SRS")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ExtravaganzaBlocks.GARLAND.asItem(), 32)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaBlocks.GARLAND.asItem()), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaBlocks.GARLAND.asItem()))
+				.input('R', Items.RED_DYE)
+				.input('O', Items.ORANGE_DYE)
+				.input('L', Items.LIME_DYE)
+				.input('Y', Items.YELLOW_DYE)
+				.input('B', Items.BLUE_DYE)
+				.input('S', Items.STRING)
+				.pattern("RSO")
+				.pattern("SLS")
+				.pattern("YSB")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ExtravaganzaBlocks.PINATA.asItem(), 8)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaBlocks.PINATA.asItem()), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaBlocks.PINATA.asItem()))
+				.input('B', Registries.ITEM.get(Extravaganza.createId("blue_festive_rubber")))
+				.input('G', Registries.ITEM.get(Extravaganza.createId("green_festive_rubber")))
+				.input('Y', Registries.ITEM.get(Extravaganza.createId("yellow_festive_rubber")))
+				.input('O', Registries.ITEM.get(Extravaganza.createId("orange_festive_rubber")))
+				.input('R', Registries.ITEM.get(Extravaganza.createId("red_festive_rubber")))
+				.pattern("  B")
+				.pattern("  G")
+				.pattern("ROY")
 				.offerTo(exporter);
 		}
 	}
@@ -498,7 +684,14 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generate() {
-			Extravaganza.executeForRegistry(Registries.BLOCK, block -> this.addDrop(block, this.drops(block)));
+			Extravaganza.executeForRegistry(Registries.BLOCK, block -> {
+				if (block instanceof LeavesBlock) {
+					this.addDrop(block, this.leavesDrops(block, ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SAPLING, 0.05f, 0.0625f, 0.083333336f, 0.1f));
+				}
+				else {
+					this.addDrop(block, this.drops(block));
+				}
+			});
 		}
 	}
 
@@ -511,7 +704,11 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 			Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
-				if (!key.getValue().getPath().contains("content") && !key.getValue().getPath().contains("rubber") && !key.getValue().getPath().contains("glass") && !key.getValue().getPath().contains("garland") && !key.getValue().getPath().contains("pinata")) {
+				if (key.getValue().getPath().contains("hevea_brasiliensis") || key.getValue().getPath().contains("registration")) {
+					this.getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(Registries.BLOCK.get(key));
+					this.getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL).add(Registries.BLOCK.get(key));
+				}
+				else if (!key.getValue().getPath().contains("content") && !key.getValue().getPath().contains("rubber") && !key.getValue().getPath().contains("glass") && !key.getValue().getPath().contains("garland") && !key.getValue().getPath().contains("pinata")) {
 					this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(Registries.BLOCK.get(key));
 					this.getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL).add(Registries.BLOCK.get(key));
 				}
@@ -525,6 +722,37 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS);
 			this.getOrCreateTagBuilder(BlockTags.LEAVES)
 				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES);
+			FabricTagProvider<Block>.FabricTagBuilder climbable = this.getOrCreateTagBuilder(BlockTags.CLIMBABLE);
+			FabricTagProvider<Block>.FabricTagBuilder fences = this.getOrCreateTagBuilder(BlockTags.FENCES);
+			FabricTagProvider<Block>.FabricTagBuilder walls = this.getOrCreateTagBuilder(BlockTags.WALLS);
+			Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
+				if (key.getValue().getPath().contains("ladder")) {
+					climbable.add(Registries.BLOCK.get(key));
+				}
+				if (key.getValue().getPath().contains("fence")) {
+					fences.add(Registries.BLOCK.get(key));
+				}
+				if (key.getValue().getPath().contains("wall")) {
+					walls.add(Registries.BLOCK.get(key));
+				}
+			});
+		}
+	}
+
+	public static class ExtravaganzaItemTagProvider extends FabricTagProvider.ItemTagProvider {
+
+		public ExtravaganzaItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+			super(output, completableFuture);
+		}
+
+		@Override
+		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+			FabricTagProvider<Item>.FabricTagBuilder builder = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Extravaganza.createId("festive_balls")));
+			Extravaganza.executeKeyForRegistry(Registries.ITEM, key -> {
+				if (key.getValue().getPath().contains("festive_ball")) {
+					builder.add(Registries.ITEM.get(key));
+				}
+			});
 		}
 	}
 }

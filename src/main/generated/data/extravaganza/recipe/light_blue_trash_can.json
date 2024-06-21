@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "H": {
+      "item": "minecraft:hopper"
+    },
+    "R": {
+      "item": "extravaganza:light_blue_festive_rubber"
+    }
+  },
+  "pattern": [
+    "R R",
+    "RHR",
+    " R "
+  ],
+  "result": {
+    "count": 16,
+    "id": "extravaganza:light_blue_trash_can"
+  }
+}

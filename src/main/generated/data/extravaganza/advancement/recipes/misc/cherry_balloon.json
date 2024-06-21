@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cherry_balloon": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:cherry_balloon"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:cherry_balloon"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cherry_balloon"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:cherry_balloon"
+    ]
+  }
+}

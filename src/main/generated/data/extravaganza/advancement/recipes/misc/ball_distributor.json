@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ball_distributor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:ball_distributor"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:ball_distributor"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_ball_distributor"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:ball_distributor"
+    ]
+  }
+}

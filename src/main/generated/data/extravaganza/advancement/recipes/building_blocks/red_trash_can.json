@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_red_trash_can": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:red_trash_can"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:red_trash_can"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_red_trash_can"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:red_trash_can"
+    ]
+  }
+}

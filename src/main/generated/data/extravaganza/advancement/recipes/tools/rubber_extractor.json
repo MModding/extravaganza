@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_rubber": {
+    "has_rubber_extractor": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:rubber"
+            "items": "extravaganza:rubber_extractor"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "extravaganza:rubber"
+        "recipe": "extravaganza:rubber_extractor"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_rubber"
+      "has_rubber_extractor"
     ]
   ],
   "rewards": {
     "recipes": [
-      "extravaganza:rubber"
+      "extravaganza:rubber_extractor"
     ]
   }
 }

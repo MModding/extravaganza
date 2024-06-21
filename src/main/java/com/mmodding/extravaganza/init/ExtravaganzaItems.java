@@ -31,13 +31,13 @@ public class ExtravaganzaItems {
 	public static final Item HOT_DOG = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(1.0f).snack().build()));
 	public static final Item HOT_DOG_WITH_MAYONNAISE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(1.5f).snack().build()));
 
-	public static final Item EMPTY_POPCORN = new EmptyPopcornItem(new Item.Settings().maxCount(1));
+	public static final Item EMPTY_POPCORN = new EmptyPopcornItem(new Item.Settings().maxCount(16));
 	public static final Item POPCORN = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(0.5f).alwaysEdible().usingConvertsTo(ExtravaganzaItems.EMPTY_POPCORN).build()).maxCount(1));
 
-	public static final Item CHERRY_BALLOON = new HeliumBalloonItem("cherry", new Item.Settings().maxCount(1));
-	public static final Item CREEPER_BALLOON = new HeliumBalloonItem("creeper", new Item.Settings().maxCount(1));
+	public static final Item CHERRY_BALLOON = new HeliumBalloonItem("cherry", new Item.Settings().maxCount(16));
+	public static final Item CREEPER_BALLOON = new HeliumBalloonItem("creeper", new Item.Settings().maxCount(16));
 
-	public static final Item BAT = new Item(new Item.Settings().maxCount(1));
+	public static final Item BAT = new BatItem(new Item.Settings().maxCount(1));
 
 	public static final Item MERRY_GO_ROUND = new MerryGoRoundItem(new Item.Settings().maxCount(1));
 

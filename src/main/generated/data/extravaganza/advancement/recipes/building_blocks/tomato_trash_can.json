@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:tomato_trash_can"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tomato_trash_can": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:tomato_trash_can"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_tomato_trash_can"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:tomato_trash_can"
+    ]
+  }
+}

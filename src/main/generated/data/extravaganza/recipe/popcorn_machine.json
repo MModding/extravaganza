@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "extravaganza:blue_festive_rubber"
+    },
+    "D": {
+      "item": "extravaganza:blue_festive_rubber_slab"
+    },
+    "R": {
+      "item": "extravaganza:red_festive_rubber"
+    },
+    "S": {
+      "item": "extravaganza:red_festive_rubber_slab"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "DRD",
+    "SRS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "extravaganza:popcorn_machine"
+  }
+}

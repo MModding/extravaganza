@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "item": "extravaganza:red_festive_rubber"
+    },
+    "S": {
+      "item": "extravaganza:red_festive_rubber_slab"
+    }
+  },
+  "pattern": [
+    "III",
+    "RRR",
+    "SRS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "extravaganza:merry_go_round"
+  }
+}

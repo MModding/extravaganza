@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "extravaganza:golden_candy_cane"
+    },
+    {
+      "item": "extravaganza:green_candy_cane"
+    },
+    {
+      "item": "extravaganza:red_candy_cane"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "extravaganza:wrench_aganza"
+  }
+}

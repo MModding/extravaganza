@@ -1547,5 +1547,6 @@
   "message.extravaganza.trash_can.right_click": "The player can open the trash by right-clicking.",
   "message.extravaganza.trash_can.throw_whole_stack": "If the player wants to throw an entire stack, he needs to open the trash and then throw the whole stack.",
   "painting.extravaganza.reflect.author": "Aeramisu",
-  "painting.extravaganza.reflect.title": "Reflect"
+  "painting.extravaganza.reflect.title": "Reflect",
+  "tag.item.extravaganza.festive_balls": "Festive Balls"
 }

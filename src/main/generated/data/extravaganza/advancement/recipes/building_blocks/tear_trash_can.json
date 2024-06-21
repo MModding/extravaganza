@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_tear_trash_can": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:tear_trash_can"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:tear_trash_can"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_tear_trash_can"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:tear_trash_can"
+    ]
+  }
+}

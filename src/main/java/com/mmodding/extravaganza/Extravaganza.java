@@ -5,6 +5,10 @@ import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTables;
+import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -37,6 +41,15 @@ public class Extravaganza implements ModInitializer {
 		DynamicRegistrySetupCallback.EVENT.register(view -> {
 			if (view.getOptional(RegistryKeys.CONFIGURED_FEATURE).isPresent() && view.getOptional(RegistryKeys.PLACED_FEATURE).isPresent()) {
 				ExtravaganzaWorldGeneration.callback(view.getOptional(RegistryKeys.CONFIGURED_FEATURE).get(), view.getOptional(RegistryKeys.PLACED_FEATURE).get());
+			}
+		});
+		LootTableEvents.MODIFY.register((key, builder, source) -> {
+			if (LootTables.ABANDONED_MINESHAFT_CHEST.equals(key) && source.isBuiltin()) {
+				LootPool.Builder pool = LootPool.builder()
+					.with(ItemEntry.builder(ExtravaganzaItems.COMMON_FESTIVE_COIN).weight(20))
+					.with(ItemEntry.builder(ExtravaganzaItems.UNCOMMON_FESTIVE_COIN).weight(10))
+					.with(ItemEntry.builder(ExtravaganzaItems.GOLDEN_FESTIVE_COIN).weight(5));
+				builder.pool(pool);
 			}
 		});
 		CommandRegistrationCallback.EVENT.register((dispatcher, registries, environment) -> {

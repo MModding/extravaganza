@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "extravaganza:black_festive_rubber"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "R": {
+      "item": "extravaganza:red_festive_rubber"
+    },
+    "S": {
+      "item": "extravaganza:red_festive_rubber_slab"
+    }
+  },
+  "pattern": [
+    "SRS",
+    "GGG",
+    "BBB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "extravaganza:ball_distributor"
+  }
+}

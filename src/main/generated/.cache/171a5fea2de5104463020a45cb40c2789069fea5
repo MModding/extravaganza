@@ -1,6 +1,10 @@
-// 1.21	2024-06-21T00:55:03.9298631	Extravaganza!/Tags for minecraft:block
-de7ad400e07f2e733f61c3cf89cae477444836e1 data\minecraft\tags\block\mineable\pickaxe.json
+// 1.21	2024-06-21T03:20:54.2991074	Extravaganza!/Tags for minecraft:block
+dbff392afc55efca744c56e3454d0e5de2012e20 data\minecraft\tags\block\fences.json
+95046486087e22ae6d1b1f59624db082c3d0408e data\minecraft\tags\block\walls.json
+55786c9bbcdceb69fa2bf2b3be010a0cac171f71 data\minecraft\tags\block\mineable\pickaxe.json
 a8b6770510cf194d8c33705d68e554cc38552304 data\minecraft\tags\block\leaves.json
-de7ad400e07f2e733f61c3cf89cae477444836e1 data\minecraft\tags\block\needs_stone_tool.json
+3c8bbaaabaf9b2266c841e34a9d46efe3a45e4e7 data\minecraft\tags\block\mineable\axe.json
 c58fa380156a46ee40acafab7082a5d157ddaa7f data\minecraft\tags\block\planks.json
+de7ad400e07f2e733f61c3cf89cae477444836e1 data\minecraft\tags\block\needs_stone_tool.json
 869b050fc75552bca4dae428fbfd91837c77b108 data\minecraft\tags\block\logs_that_burn.json
+98082c57579d5e185c79df23954ae0b3b22b8266 data\minecraft\tags\block\climbable.json

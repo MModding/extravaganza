@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "minecraft:flower_pot"
+    },
+    "H": {
+      "item": "extravaganza:hevea_brasiliensis_planks"
+    },
+    "I": {
+      "item": "minecraft:ink_sac"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "PIF",
+    "HHH",
+    "H H"
+  ],
+  "result": {
+    "count": 1,
+    "id": "extravaganza:ball_pool_registration_table"
+  }
+}

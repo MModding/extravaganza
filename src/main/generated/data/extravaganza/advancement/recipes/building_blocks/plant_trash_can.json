@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_plant_trash_can": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:plant_trash_can"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:plant_trash_can"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_plant_trash_can"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:plant_trash_can"
+    ]
+  }
+}

@@ -11,6 +11,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -27,6 +29,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class BallDistributorBlock extends Block {
 
@@ -52,7 +56,7 @@ public class BallDistributorBlock extends Block {
 			remove = true;
 		}
 		else if (stack.isOf(ExtravaganzaItems.GOLDEN_FESTIVE_COIN)) {
-			number = 3;
+			number = 4;
 			remove = true;
 		}
 		for (int i = 0; i < number; i++) {
@@ -99,6 +103,11 @@ public class BallDistributorBlock extends Block {
 			TallPlantBlockAccessor.extravaganza$onBreakInCreative(world, pos, state, player);
 		}
 		return super.onBreak(world, pos, state, player);
+	}
+
+	@Override
+	protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+		return state.get(BallDistributorBlock.HALF).equals(DoubleBlockHalf.LOWER) ? super.getDroppedStacks(state, builder) : List.of();
 	}
 
 	@Nullable
