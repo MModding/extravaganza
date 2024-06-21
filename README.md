@@ -2,7 +2,7 @@
 
 # Extravaganza!
 
-[<img src="https://github.com/MModding/art/blob/main/mods/extravaganza/extravaganza.png?raw=true" width="512" alt="env.json logo">](https://modrinth.com/mod/env.json)
+[<img src="https://github.com/MModding/art/blob/main/mods/extravaganza/extravaganza.png?raw=true" width="512" alt="Extravaganza! Logo">](https://modrinth.com/mod/extravaganza)
 
 ## Supports
 
