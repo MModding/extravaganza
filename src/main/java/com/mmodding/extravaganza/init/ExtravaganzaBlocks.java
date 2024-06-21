@@ -4,12 +4,16 @@ import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.ExtravaganzaColor;
 import com.mmodding.extravaganza.block.*;
 import net.minecraft.block.*;
+import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ExtravaganzaBlocks {
@@ -29,7 +33,12 @@ public class ExtravaganzaBlocks {
 	public static final Block HEVEA_BRASILIENSIS_SLAB = new SlabBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
 	public static final Block HEVEA_BRASILIENSIS_FENCE = new FenceBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
 	public static final Block HEVEA_BRASILIENSIS_FENCE_GATE = new FenceGateBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
-	public static final Block HEVEA_BRASILIENSIS_DOOR = new DoorBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block HEVEA_BRASILIENSIS_DOOR = new DoorBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable()) {
+		@Override
+		protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+			return state.get(BallDistributorBlock.HALF).equals(DoubleBlockHalf.LOWER) ? super.getDroppedStacks(state, builder) : List.of();
+		}
+	};
 	public static final Block HEVEA_BRASILIENSIS_TRAPDOOR = new TrapdoorBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
 	public static final Block HEVEA_BRASILIENSIS_PRESSURE_PLATE = new PressurePlateBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
 	public static final Block HEVEA_BRASILIENSIS_BUTTON = Blocks.createWoodenButtonBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE);

@@ -224,7 +224,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			planks.fence(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE);
 			planks.fenceGate(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE_GATE);
 			blockStateModelGenerator.registerDoor(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_DOOR);
-			blockStateModelGenerator.registerTrapdoor(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TRAPDOOR);
+			blockStateModelGenerator.registerOrientableTrapdoor(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TRAPDOOR);
 			planks.pressurePlate(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PRESSURE_PLATE);
 			planks.button(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_BUTTON);
 			blockStateModelGenerator.registerSingleton(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES, TexturedModel.LEAVES);
