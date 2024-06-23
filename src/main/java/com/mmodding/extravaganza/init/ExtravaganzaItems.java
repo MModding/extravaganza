@@ -10,8 +10,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 
-import java.util.stream.Stream;
-
 public class ExtravaganzaItems {
 
 	public static final Item WRENCH_AGANZA = new WrenchAganzaItem(new Item.Settings().maxCount(1));
@@ -65,15 +63,13 @@ public class ExtravaganzaItems {
 		Registry.register(Registries.ITEM, Extravaganza.createId("bat"), ExtravaganzaItems.BAT);
 		Registry.register(Registries.ITEM, Extravaganza.createId("merry_go_round"), ExtravaganzaItems.MERRY_GO_ROUND);
 
-		Stream<Item> stream = Extravaganza.extractFromRegistry(Registries.ITEM);
-
 		Registry.register(
 			Registries.ITEM_GROUP,
 			Extravaganza.createId("main"),
 			FabricItemGroup.builder()
 				.displayName(Text.translatable("itemGroup.extravaganza.main"))
 				.icon(ExtravaganzaItems.WRENCH_AGANZA::getDefaultStack)
-				.entries((displayContext, entries) -> stream.forEach(entries::add))
+				.entries((displayContext, entries) -> Extravaganza.extractFromRegistry(Registries.ITEM).forEach(entries::add))
 				.build()
 		);
 	}

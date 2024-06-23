@@ -45,7 +45,7 @@ public class ExtravaganzaBlocks {
 
 	public static final Block HEVEA_BRASILIENSIS_LEAVES = Blocks.createLeavesBlock(BlockSoundGroup.AZALEA_LEAVES);
 
-	public static final Block HEVEA_BRASILIENSIS_SAPLING = new SaplingBlock(new SaplingGenerator("hevea_brasiliensis", Optional.empty(), Optional.of(ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS), Optional.empty()), AbstractBlock.Settings.create().sounds(BlockSoundGroup.AZALEA_LEAVES));
+	public static final Block HEVEA_BRASILIENSIS_SAPLING = new SaplingBlock(new SaplingGenerator("hevea_brasiliensis", Optional.empty(), Optional.of(ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS), Optional.empty()), AbstractBlock.Settings.create().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES));
 
 	public static final Block BALL_POOL_REGISTRATION_TABLE = new BallPoolRegistrationTableBlock(AbstractBlock.Settings.create().nonOpaque().strength(2.0f).sounds(BlockSoundGroup.WOOD));
 	public static final Block BALL_POOL_CONTENT = new BallPoolContentBlock(AbstractBlock.Settings.create().noCollision().sounds(BlockSoundGroup.SLIME));
