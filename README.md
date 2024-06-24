@@ -127,4 +127,4 @@ those in trashes and not in natural places. So, anyway, Extravaganza! also provi
 ![Trash Cans](https://github.com/MModding/extravaganza/blob/main/external/trash_cans.png?raw=true)
 
 ## Promotion
-[Made for ModFest: Carnival](https://modfest.net/carnival)
+[![Made for ModFest Carnival](https://raw.githubusercontent.com/ModFest/art/v2/badge/svg/carnival/cozy.svg)](https://modfest.net/carnival)
