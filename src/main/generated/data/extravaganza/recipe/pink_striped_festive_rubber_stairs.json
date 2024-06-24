@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": {
+      "item": "extravaganza:pink_striped_festive_rubber"
+    }
+  },
+  "pattern": [
+    "R  ",
+    "RR ",
+    "RRR"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:pink_striped_festive_rubber_stairs"
+  }
+}

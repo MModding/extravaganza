@@ -5,6 +5,7 @@ import com.mmodding.extravaganza.block.HeveaBrasiliensisLog;
 import com.mmodding.extravaganza.block.TrashCanBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
+import com.mmodding.extravaganza.init.ExtravaganzaWorldGeneration;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -20,10 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.*;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
@@ -87,6 +85,12 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ExtravaganzaBlockLootTableGenerator::new);
 		pack.addProvider(ExtravaganzaBlockTagProvider::new);
 		pack.addProvider(ExtravaganzaItemTagProvider::new);
+		pack.addProvider(ExtravaganzaWorldgenProvider::new);
+	}
+
+	@Override
+	public void buildRegistry(RegistryBuilder registryBuilder) {
+		ExtravaganzaWorldGeneration.data(registryBuilder);
 	}
 
 	public static class ExtravaganzaLanguageProvider extends FabricLanguageProvider {
@@ -456,9 +460,6 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			ExtravaganzaRecipeProvider.generateFamily(exporter, ExtravaganzaDataGenerator.HEVEA_BRASILIENSIS, FeatureSet.of(FeatureFlags.VANILLA));
 			ExtravaganzaColor.VALUES.forEach(color -> {
 				Item festiveRubber = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber"));
-				Item festiveRubberStairs = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_stairs"));
-				Item festiveRubberSlab = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_slab"));
-				Item festiveRubberWall = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_wall"));
 				Item trashCan = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_ladder"));
 				Item ladder = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_trash_can"));
 				if (!color.equals(ExtravaganzaColor.PLANT) && !color.equals(ExtravaganzaColor.TOMATO) && !color.equals(ExtravaganzaColor.TEAR) && !color.equals(ExtravaganzaColor.NYMPH)) {
@@ -471,24 +472,6 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 						.pattern("CRC")
 						.offerTo(exporter);
 				}
-				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubberStairs, 4)
-					.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubberStairs), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubberStairs))
-					.input('R', festiveRubber)
-					.pattern("R  ")
-					.pattern("RR ")
-					.pattern("RRR")
-					.offerTo(exporter);
-				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubberSlab, 6)
-					.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubberSlab), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubberSlab))
-					.input('R', festiveRubber)
-					.pattern("RRR")
-					.offerTo(exporter);
-				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubberWall, 6)
-					.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubberWall), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubberWall))
-					.input('R', festiveRubber)
-					.pattern("RRR")
-					.pattern("RRR")
-					.offerTo(exporter);
 				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, trashCan, 4)
 					.criterion(ExtravaganzaRecipeProvider.hasItem(trashCan), ExtravaganzaRecipeProvider.conditionsFromItem(trashCan))
 					.input('R', festiveRubber)
@@ -509,19 +492,42 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					"striped", "poured", "sharped", "scratched",
 					"dotted", "screwed", "split", "wooded",
 					"barred", "perforated", "slipped", "padded",
-					"curved", "bent", "windowed", "tiled"
+					"curved", "bent", "windowed", "tiled",
+					"grate", // this one is a bit special
+					"" // normal thing
 				).forEach(
-					prefix -> StonecuttingRecipeJsonBuilder.createStonecutting(
-						Ingredient.ofItems(festiveRubber),
-						RecipeCategory.BUILDING_BLOCKS,
-						Registries.ITEM.get(Extravaganza.createId(color.asString() + "_" + prefix + "_festive_rubber"))
-					).criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubber), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubber)).offerTo(exporter)
+					prefix -> {
+						String path = !prefix.equals("grate") ? prefix + "_festive_rubber" : "festive_rubber_" + prefix;
+						Identifier identifier = Extravaganza.createId(color.asString() + (!prefix.isEmpty() ? "_" + path : "_festive_rubber"));
+						Item currentFestiveRubber = Registries.ITEM.get(identifier);
+						if (!prefix.isEmpty()) {
+							StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(festiveRubber), RecipeCategory.BUILDING_BLOCKS, currentFestiveRubber)
+								.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubber), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubber))
+								.offerTo(exporter);
+						}
+						Item festiveRubberStairs = Registries.ITEM.get(identifier.withPath(s -> s + "_stairs"));
+						Item festiveRubberSlab = Registries.ITEM.get(identifier.withPath(s -> s + "_slab"));
+						Item festiveRubberWall = Registries.ITEM.get(identifier.withPath(s -> s + "_wall"));
+						ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubberStairs, 4)
+							.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubberStairs), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubberStairs))
+							.input('R', currentFestiveRubber)
+							.pattern("R  ")
+							.pattern("RR ")
+							.pattern("RRR")
+							.offerTo(exporter);
+						ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubberSlab, 6)
+							.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubberSlab), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubberSlab))
+							.input('R', currentFestiveRubber)
+							.pattern("RRR")
+							.offerTo(exporter);
+						ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubberWall, 6)
+							.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubberWall), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubberWall))
+							.input('R', currentFestiveRubber)
+							.pattern("RRR")
+							.pattern("RRR")
+							.offerTo(exporter);
+					}
 				);
-				StonecuttingRecipeJsonBuilder.createStonecutting(
-					Ingredient.ofItems(festiveRubber),
-					RecipeCategory.BUILDING_BLOCKS,
-					Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_grate"))
-				).criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubber), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubber)).offerTo(exporter);
 			});
 			ShapelessRecipeJsonBuilder.create(RecipeCategory.TOOLS, ExtravaganzaItems.WRENCH_AGANZA)
 				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.WRENCH_AGANZA), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.WRENCH_AGANZA))
@@ -753,6 +759,24 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					builder.add(Registries.ITEM.get(key));
 				}
 			});
+		}
+	}
+
+	public static class ExtravaganzaWorldgenProvider extends FabricDynamicRegistryProvider {
+
+		public ExtravaganzaWorldgenProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+			super(output, registriesFuture);
+		}
+
+		@Override
+		protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
+			entries.addAll(registries.getWrapperOrThrow(RegistryKeys.CONFIGURED_FEATURE));
+			entries.addAll(registries.getWrapperOrThrow(RegistryKeys.PLACED_FEATURE));
+		}
+
+		@Override
+		public String getName() {
+			return "Extravaganza World Generation";
 		}
 	}
 }

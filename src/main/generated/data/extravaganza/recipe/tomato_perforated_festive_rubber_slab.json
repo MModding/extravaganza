@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": {
+      "item": "extravaganza:tomato_perforated_festive_rubber"
+    }
+  },
+  "pattern": [
+    "RRR"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extravaganza:tomato_perforated_festive_rubber_slab"
+  }
+}

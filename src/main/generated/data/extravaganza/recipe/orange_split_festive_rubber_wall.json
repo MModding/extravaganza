@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": {
+      "item": "extravaganza:orange_split_festive_rubber"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RRR"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extravaganza:orange_split_festive_rubber_wall"
+  }
+}

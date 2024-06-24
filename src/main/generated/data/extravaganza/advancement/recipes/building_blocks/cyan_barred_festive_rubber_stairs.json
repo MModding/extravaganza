@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cyan_barred_festive_rubber_stairs": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:cyan_barred_festive_rubber_stairs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:cyan_barred_festive_rubber_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cyan_barred_festive_rubber_stairs"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:cyan_barred_festive_rubber_stairs"
+    ]
+  }
+}

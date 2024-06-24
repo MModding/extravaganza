@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": {
+      "item": "extravaganza:yellow_curved_festive_rubber"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RRR"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extravaganza:yellow_curved_festive_rubber_wall"
+  }
+}

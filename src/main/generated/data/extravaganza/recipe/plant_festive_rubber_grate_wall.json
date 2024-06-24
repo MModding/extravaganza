@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": {
+      "item": "extravaganza:plant_festive_rubber_grate"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RRR"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extravaganza:plant_festive_rubber_grate_wall"
+  }
+}

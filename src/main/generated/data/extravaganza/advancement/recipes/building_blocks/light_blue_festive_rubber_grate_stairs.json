@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_light_blue_festive_rubber_grate_stairs": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:light_blue_festive_rubber_grate_stairs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:light_blue_festive_rubber_grate_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_light_blue_festive_rubber_grate_stairs"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:light_blue_festive_rubber_grate_stairs"
+    ]
+  }
+}

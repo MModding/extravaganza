@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gray_tiled_festive_rubber_stairs": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:gray_tiled_festive_rubber_stairs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:gray_tiled_festive_rubber_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gray_tiled_festive_rubber_stairs"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:gray_tiled_festive_rubber_stairs"
+    ]
+  }
+}

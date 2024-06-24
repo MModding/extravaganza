@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": {
+      "item": "extravaganza:magenta_padded_festive_rubber"
+    }
+  },
+  "pattern": [
+    "RRR"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extravaganza:magenta_padded_festive_rubber_slab"
+  }
+}

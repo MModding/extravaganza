@@ -3,7 +3,7 @@ package com.mmodding.extravaganza.init;
 import com.mmodding.extravaganza.Extravaganza;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
@@ -11,10 +11,11 @@ import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.AcaciaFoliagePlacer;
+import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier;
+import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
+import net.minecraft.world.gen.placementmodifier.SurfaceWaterDepthFilterPlacementModifier;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.trunk.ForkingTrunkPlacer;
-
-import java.util.List;
 
 public class ExtravaganzaWorldGeneration {
 
@@ -30,28 +31,29 @@ public class ExtravaganzaWorldGeneration {
 		);
 	}
 
-	public static void callback(Registry<ConfiguredFeature<?, ?>> configuredFeatures, Registry<PlacedFeature> placedFeatures) {
-		Registry.register(
+	public static void data(RegistryBuilder registries) {
+		registries.addRegistry(RegistryKeys.CONFIGURED_FEATURE, configuredFeatures -> ConfiguredFeatures.register(
 			configuredFeatures,
 			ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS,
-			new ConfiguredFeature<>(
-				Feature.TREE,
-				new TreeFeatureConfig.Builder(
-					BlockStateProvider.of(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG),
-					new ForkingTrunkPlacer(5, 2, 2),
-					BlockStateProvider.of(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES),
-					new AcaciaFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(0)),
-					new TwoLayersFeatureSize(1, 0, 2)
-				).ignoreVines().build()
-			)
-		);
-		Registry.register(
+			Feature.TREE,
+			new TreeFeatureConfig.Builder(
+				BlockStateProvider.of(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG),
+				new ForkingTrunkPlacer(5, 2, 2),
+				BlockStateProvider.of(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES),
+				new AcaciaFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(0)),
+				new TwoLayersFeatureSize(1, 0, 2)
+			).ignoreVines().build()
+		));
+		registries.addRegistry(RegistryKeys.PLACED_FEATURE, placedFeatures -> PlacedFeatures.register(
 			placedFeatures,
 			ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS_CHECKED,
-			new PlacedFeature(
-				configuredFeatures.getEntry(ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS).orElseThrow(),
-				List.of(PlacedFeatures.wouldSurvive(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SAPLING))
-			)
-		);
+			placedFeatures.getRegistryLookup(RegistryKeys.CONFIGURED_FEATURE).getOrThrow(ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS),
+			PlacedFeatures.createCountExtraModifier(0, 0.025f, 1),
+			SquarePlacementModifier.of(),
+			SurfaceWaterDepthFilterPlacementModifier.of(0),
+			PlacedFeatures.OCEAN_FLOOR_HEIGHTMAP,
+			BiomePlacementModifier.of(),
+			PlacedFeatures.wouldSurvive(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SAPLING)
+		));
 	}
 }
