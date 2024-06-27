@@ -4,6 +4,7 @@ import com.mmodding.extravaganza.block.BallDistributorBlock;
 import com.mmodding.extravaganza.block.HeveaBrasiliensisLog;
 import com.mmodding.extravaganza.block.TrashCanBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
+import com.mmodding.extravaganza.init.ExtravaganzaDamageTypes;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
 import com.mmodding.extravaganza.init.ExtravaganzaWorldGeneration;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -16,6 +17,7 @@ import net.minecraft.data.client.*;
 import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
 import net.minecraft.data.server.recipe.*;
+import net.minecraft.entity.damage.DamageType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -23,6 +25,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.*;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -85,11 +88,13 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ExtravaganzaBlockLootTableGenerator::new);
 		pack.addProvider(ExtravaganzaBlockTagProvider::new);
 		pack.addProvider(ExtravaganzaItemTagProvider::new);
-		pack.addProvider(ExtravaganzaWorldgenProvider::new);
+		pack.addProvider(ExtravaganzaDamageTypeTagProvider::new);
+		pack.addProvider(ExtravaganzaDynamicRegistryProvider::new);
 	}
 
 	@Override
 	public void buildRegistry(RegistryBuilder registryBuilder) {
+		ExtravaganzaDamageTypes.data(registryBuilder);
 		ExtravaganzaWorldGeneration.data(registryBuilder);
 	}
 
@@ -100,16 +105,33 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		}
 
 		@Override
-		public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
-			translationBuilder.add("itemGroup.extravaganza.main", "Extravaganza!");
-			translationBuilder.add("message.extravaganza.trash_can.right_click", "The player can open the trash by right-clicking.");
-			translationBuilder.add("message.extravaganza.trash_can.quick_throw", "The player can throw items to trash (one by one) by sneaking + right-clicking whenever the trash is open or not.");
-			translationBuilder.add("message.extravaganza.trash_can.opening_trash", "The player can throw entities to trash by putting them on top of the opened trash.");
-			translationBuilder.add("message.extravaganza.trash_can.throw_whole_stack", "If the player wants to throw an entire stack, he needs to open the trash and then throw the whole stack.");
-			translationBuilder.add("painting.extravaganza.reflect.author", "Aeramisu");
-			translationBuilder.add("painting.extravaganza.reflect.title", "Reflect");
-			translationBuilder.add("tag.item.extravaganza.festive_balls", "Festive Balls");
-			Extravaganza.executeKeyForRegistry(Registries.ITEM, key -> translationBuilder.add(Registries.ITEM.get(key), this.makeItReadable(key)));
+		public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translations) {
+			translations.add("death.trash.0", "%1$s slipped and fell into the garbage. No funeral.");
+			translations.add("death.trash.1", "%1$s was stuffed into a trash can");
+			translations.add("death.trash.2", "%1$s became rubbish");
+			translations.add("death.trash.3", "%1$s fell into waste bin");
+			translations.add("death.trash.4", "%1$s went to waste");
+			translations.add("death.trash.5", "%1$s was canned");
+			translations.add("death.trash.6", "%1$s was disposed of");
+			translations.add("death.trash.7", "%1$s was discarded");
+			translations.add("death.trash.8", "%1$s went dumpster diving");
+			translations.add("death.trash.9", "%1$s invoked the cans' wrath");
+			translations.add("death.trash.10", "%1$s was not recycled");
+			translations.add("death.trash.11", "%1$s suffocated in the garbage");
+			translations.add("death.trash.12", "%1$s will feed the raccoons well tonight");
+			translations.add("death.trash.13", "%1$s became a vessel for maggots");
+			translations.add("death.trash.14", "Garbage God obliterated %1$s");
+			translations.add("death.trash.player.0", "%1$s was shoved into a trash can by %2$s");
+			translations.add("death.trash.player.1", "%2$s took out the trash (%1$s)");
+			translations.add("itemGroup.extravaganza.main", "Extravaganza!");
+			translations.add("message.extravaganza.trash_can.right_click", "The player can open the trash by right-clicking.");
+			translations.add("message.extravaganza.trash_can.quick_throw", "The player can throw items to trash (one by one) by sneaking + right-clicking whenever the trash is open or not.");
+			translations.add("message.extravaganza.trash_can.opening_trash", "The player can throw entities to trash by putting them on top of the opened trash.");
+			translations.add("message.extravaganza.trash_can.throw_whole_stack", "If the player wants to throw an entire stack, he needs to open the trash and then throw the whole stack.");
+			translations.add("painting.extravaganza.reflect.author", "Aeramisu");
+			translations.add("painting.extravaganza.reflect.title", "Reflect");
+			translations.add("tag.item.extravaganza.festive_balls", "Festive Balls");
+			Extravaganza.executeKeyForRegistry(Registries.ITEM, key -> translations.add(Registries.ITEM.get(key), this.makeItReadable(key)));
 		}
 
 		private <T> String makeItReadable(RegistryKey<T> key) {
@@ -762,21 +784,43 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		}
 	}
 
-	public static class ExtravaganzaWorldgenProvider extends FabricDynamicRegistryProvider {
+	public static class ExtravaganzaDamageTypeTagProvider extends FabricTagProvider<DamageType> {
 
-		public ExtravaganzaWorldgenProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+		public ExtravaganzaDamageTypeTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+			super(output, RegistryKeys.DAMAGE_TYPE, registriesFuture);
+		}
+
+		@Override
+		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+			this.getOrCreateTagBuilder(DamageTypeTags.BYPASSES_ARMOR)
+				.add(ExtravaganzaDamageTypes.TRASH);
+			this.getOrCreateTagBuilder(DamageTypeTags.BYPASSES_INVULNERABILITY)
+				.add(ExtravaganzaDamageTypes.TRASH);
+			this.getOrCreateTagBuilder(DamageTypeTags.BYPASSES_RESISTANCE)
+				.add(ExtravaganzaDamageTypes.TRASH);
+			this.getOrCreateTagBuilder(DamageTypeTags.ALWAYS_MOST_SIGNIFICANT_FALL)
+				.add(ExtravaganzaDamageTypes.TRASH);
+			this.getOrCreateTagBuilder(DamageTypeTags.NO_KNOCKBACK)
+				.add(ExtravaganzaDamageTypes.TRASH);
+		}
+	}
+
+	public static class ExtravaganzaDynamicRegistryProvider extends FabricDynamicRegistryProvider {
+
+		public ExtravaganzaDynamicRegistryProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
 			super(output, registriesFuture);
 		}
 
 		@Override
 		protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
 			entries.addAll(registries.getWrapperOrThrow(RegistryKeys.CONFIGURED_FEATURE));
+			entries.addAll(registries.getWrapperOrThrow(RegistryKeys.DAMAGE_TYPE));
 			entries.addAll(registries.getWrapperOrThrow(RegistryKeys.PLACED_FEATURE));
 		}
 
 		@Override
 		public String getName() {
-			return "Extravaganza World Generation";
+			return "Extravaganza DynamicRegistries Generation";
 		}
 	}
 }

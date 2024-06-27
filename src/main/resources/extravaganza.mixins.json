@@ -3,6 +3,7 @@
   "package": "com.mmodding.extravaganza.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "DamageSourceMixin",
     "EntityMixin",
     "ServerPlayerInteractionManagerMixin",
     "TallPlantBlockAccessor"

@@ -5,6 +5,7 @@ import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.ItemEntry;
@@ -59,6 +60,7 @@ public class Extravaganza implements ModInitializer {
 				}
 			}))
 		);
+		if (FabricLoader.getInstance().isModLoaded("ouch")) ExtravaganzaDamageTypes.ouch();
 	}
 
 	public static Logger getLogger() {

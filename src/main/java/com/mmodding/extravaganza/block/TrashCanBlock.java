@@ -1,11 +1,14 @@
 package com.mmodding.extravaganza.block;
 
+import com.mmodding.extravaganza.init.ExtravaganzaDamageTypes;
 import com.mmodding.extravaganza.init.ExtravaganzaGameRules;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -65,7 +68,14 @@ public class TrashCanBlock extends HorizontalFacingBlock {
 	@Override
 	public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
 		if (world.getBlockState(pos).get(TrashCanBlock.OPEN) && (!(entity instanceof PlayerEntity) || world.getGameRules().getBoolean(ExtravaganzaGameRules.PLAYERS_INTO_TRASH))) {
-			entity.damage(world.getDamageSources().outOfWorld(), 1000000.0f);
+			DamageSource source;
+			if (entity instanceof LivingEntity livingEntity && livingEntity.getPrimeAdversary() != null) {
+				source = world.getDamageSources().create(ExtravaganzaDamageTypes.TRASH, livingEntity.getPrimeAdversary());
+			}
+			else {
+				source = world.getDamageSources().create(ExtravaganzaDamageTypes.TRASH);
+			}
+			entity.damage(source, 1000000.0f);
 		}
 	}
 
