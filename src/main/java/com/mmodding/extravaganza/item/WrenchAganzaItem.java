@@ -2,6 +2,7 @@ package com.mmodding.extravaganza.item;
 
 import com.mmodding.extravaganza.block.BallPoolRegistrationTableBlock;
 import com.mmodding.extravaganza.block.entity.BallPoolRegistrationTableBlockEntity;
+import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -12,6 +13,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.function.Consumer;
+
 public class WrenchAganzaItem extends Item {
 
 	public WrenchAganzaItem(Settings settings) {
@@ -21,15 +24,28 @@ public class WrenchAganzaItem extends Item {
 	@Override
 	public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
 		if (world.getBlockEntity(pos) instanceof BallPoolRegistrationTableBlockEntity bpitbe && !world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SCAN)) {
-			bpitbe.switchSelectionMode();
-			if (!world.isClient()) {
-				Object object;
-				if (bpitbe.getSelectionMode().equals(BallPoolRegistrationTableBlockEntity.SelectionMode.SOURCE)) {
-					object = bpitbe.isSource();
-				} else {
-					object = bpitbe.getScannedCurrent();
+			if (!miner.isSneaking() || world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SETTINGS)) {
+				bpitbe.switchSelectionMode();
+				if (!world.isClient()) {
+					Object object;
+					if (bpitbe.getSelectionMode().equals(BallPoolRegistrationTableBlockEntity.SelectionMode.SOURCE)) {
+						object = bpitbe.isSource();
+					} else {
+						object = bpitbe.getScannedCurrent();
+					}
+					miner.sendMessage(Text.literal(bpitbe.getSelectionMode().asString() + ": " + object), true);
 				}
-				miner.sendMessage(Text.literal(bpitbe.getSelectionMode().asString() + ": " + object), true);
+			}
+			else {
+				if (bpitbe.getPoolSettings().power < 15) {
+					bpitbe.getPoolSettings().power = MathHelper.clamp(bpitbe.getPoolSettings().power + 1, 1, 15);
+				}
+				else {
+					bpitbe.getPoolSettings().power = 1;
+				}
+				if (!world.isClient()) {
+					miner.sendMessage(Text.translatable("enchantment.minecraft.power").append(": " + bpitbe.getPoolSettings().power), true);
+				}
 			}
 		}
 		return false;
@@ -39,14 +55,19 @@ public class WrenchAganzaItem extends Item {
 	public ActionResult useOnBlock(ItemUsageContext context) {
 		if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof BallPoolRegistrationTableBlockEntity bpitbe) {
 			assert context.getPlayer() != null;
-			if (!context.getPlayer().isSneaking() && !context.getWorld().getBlockState(context.getBlockPos()).get(BallPoolRegistrationTableBlock.LOCK_SCAN)) {
+			if (!context.getWorld().getBlockState(context.getBlockPos()).get(BallPoolRegistrationTableBlock.LOCK_SCAN)) {
+				Consumer<BlockPos> deleter = blockPos -> {
+					if (context.getWorld().getBlockState(blockPos).isOf(ExtravaganzaBlocks.BALL_POOL_PROTECTION)) {
+						context.getWorld().removeBlock(blockPos, false);
+					}
+				};
 				switch (bpitbe.getSelectionMode()) {
-					case POSITIVE_X -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(1, 0, 0));
-					case NEGATIVE_X -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(-1, 0, 0));
-					case POSITIVE_Y -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(0, 1, 0));
-					case NEGATIVE_Y -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(0, -1, 0));
-					case POSITIVE_Z -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(0, 0, 1));
-					case NEGATIVE_Z -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(0, 0, -1));
+					case POSITIVE_X -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(1, 0, 0), deleter);
+					case NEGATIVE_X -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(-1, 0, 0), deleter);
+					case POSITIVE_Y -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(0, 1, 0), deleter);
+					case NEGATIVE_Y -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(0, -1, 0), deleter);
+					case POSITIVE_Z -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(0, 0, 1), deleter);
+					case NEGATIVE_Z -> bpitbe.setScannedCurrent(bpitbe.getScannedCurrent().add(0, 0, -1), deleter);
 					case SOURCE -> bpitbe.switchSource();
 				}
 				if (!context.getWorld().isClient()) {
@@ -61,22 +82,7 @@ public class WrenchAganzaItem extends Item {
 				}
 				return ActionResult.SUCCESS;
 			}
-			if (!context.getPlayer().isSneaking() && !context.getWorld().getBlockState(context.getBlockPos()).get(BallPoolRegistrationTableBlock.LOCK_SETTINGS)) {
-				if (bpitbe.getPoolSettings().power < 15) {
-					bpitbe.getPoolSettings().power = MathHelper.clamp(bpitbe.getPoolSettings().power + 1, 1, 15);
-				}
-				else {
-					bpitbe.getPoolSettings().power = 1;
-				}
-				if (!context.getWorld().isClient()) {
-					context.getPlayer().sendMessage(Text.translatable("enchantment.minecraft.power").append(": " + bpitbe.getPoolSettings().power), true);
-				}
-				return ActionResult.SUCCESS;
-			}
-			return ActionResult.FAIL;
 		}
-		else {
-			return super.useOnBlock(context);
-		}
+		return super.useOnBlock(context);
 	}
 }

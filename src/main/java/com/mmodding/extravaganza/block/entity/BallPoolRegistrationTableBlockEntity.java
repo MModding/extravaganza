@@ -17,6 +17,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Consumer;
+
 public class BallPoolRegistrationTableBlockEntity extends BlockEntity  {
 
 	private final PoolSettings poolSettings = new PoolSettings();
@@ -37,6 +39,7 @@ public class BallPoolRegistrationTableBlockEntity extends BlockEntity  {
 		NbtCompound scannedPoolContent = nbt.getCompound("scanned_pool_content");
 		NbtCompound startPos = scannedPoolContent.getCompound("start_pos");
 		NbtCompound endPos = scannedPoolContent.getCompound("end_pos");
+
 		this.scannedStart = new BlockPos(startPos.getInt("x"), startPos.getInt("y"), startPos.getInt("z"));
 		this.scannedEnd = new BlockPos(endPos.getInt("x"), endPos.getInt("y"), endPos.getInt("z"));
 		this.poolSettings.fromNbt(nbt.getCompound("pool_settings"));
@@ -127,20 +130,36 @@ public class BallPoolRegistrationTableBlockEntity extends BlockEntity  {
 		return this.isSource() ? this.getScannedStart() : this.getScannedEnd();
 	}
 
-	public void setScannedStart(BlockPos pos) {
+	public void setScannedStart(BlockPos pos, Consumer<BlockPos> deleter) {
+		BlockPos previousStart = this.scannedStart;
 		this.scannedStart = pos;
+		BlockPos.iterate(this.getPos().add(previousStart), this.getPos().add(this.scannedEnd)).forEach(
+			current -> {
+				if (!this.getFullScanned().contains(Vec3d.of(current))) {
+					deleter.accept(current);
+				}
+			}
+		);
 	}
 
-	public void setScannedEnd(BlockPos pos) {
+	public void setScannedEnd(BlockPos pos, Consumer<BlockPos> deleter) {
+		BlockPos previousEnd = this.scannedEnd;
 		this.scannedEnd = pos;
+		BlockPos.iterate(this.getPos().add(this.scannedStart), this.getPos().add(previousEnd)).forEach(
+			current -> {
+				if (!this.getFullScanned().contains(Vec3d.of(current))) {
+					deleter.accept(current);
+				}
+			}
+		);
 	}
 
-	public void setScannedCurrent(BlockPos pos) {
+	public void setScannedCurrent(BlockPos pos, Consumer<BlockPos> deleter) {
 		if (this.isSource()) {
-			this.setScannedStart(pos);
+			this.setScannedStart(pos, deleter);
 		}
 		else {
-			this.setScannedEnd(pos);
+			this.setScannedEnd(pos, deleter);
 		}
 	}
 
@@ -149,7 +168,7 @@ public class BallPoolRegistrationTableBlockEntity extends BlockEntity  {
 	}
 
 	public void switchSource() {
-		this.source = !source;
+		this.source = !this.source;
 	}
 
 	public static class PoolSettings {

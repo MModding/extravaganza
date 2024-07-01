@@ -146,6 +146,7 @@
         "model": "extravaganza:block/garland_up"
       },
       "when": {
+        "attached_up": "false",
         "up": "true"
       }
     },
@@ -154,6 +155,7 @@
         "model": "extravaganza:block/garland_down"
       },
       "when": {
+        "attached_down": "false",
         "down": "true"
       }
     },
@@ -162,6 +164,7 @@
         "model": "extravaganza:block/garland_north"
       },
       "when": {
+        "attached_north": "false",
         "north": "true"
       }
     },
@@ -170,6 +173,7 @@
         "model": "extravaganza:block/garland_south"
       },
       "when": {
+        "attached_south": "false",
         "south": "true"
       }
     },
@@ -178,6 +182,7 @@
         "model": "extravaganza:block/garland_west"
       },
       "when": {
+        "attached_west": "false",
         "west": "true"
       }
     },
@@ -186,6 +191,61 @@
         "model": "extravaganza:block/garland_east"
       },
       "when": {
+        "attached_east": "false",
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/attached_garland_up"
+      },
+      "when": {
+        "attached_up": "true",
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/attached_garland_down"
+      },
+      "when": {
+        "attached_down": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/attached_garland_north"
+      },
+      "when": {
+        "attached_north": "true",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/attached_garland_south"
+      },
+      "when": {
+        "attached_south": "true",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/attached_garland_west"
+      },
+      "when": {
+        "attached_west": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/attached_garland_east"
+      },
+      "when": {
+        "attached_east": "true",
         "east": "true"
       }
     }

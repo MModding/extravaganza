@@ -1,6 +1,7 @@
 package com.mmodding.extravaganza;
 
 import com.mmodding.extravaganza.block.BallDistributorBlock;
+import com.mmodding.extravaganza.block.GarlandBlock;
 import com.mmodding.extravaganza.block.HeveaBrasiliensisLog;
 import com.mmodding.extravaganza.block.TrashCanBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
@@ -307,68 +308,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					blockStateModelGenerator.registerItemModel(block);
 				}
 				else if (block.equals(ExtravaganzaBlocks.GARLAND)) {
-					Identifier garland = Extravaganza.createId("block/garland");
-					Identifier horizontal = Extravaganza.createId("block/garland_horizontal");
-					Identifier vertical = Extravaganza.createId("block/garland_vertical");
-					Identifier up = Extravaganza.createId("block/garland_up");
-					Identifier down = Extravaganza.createId("block/garland_down");
-					Identifier north = Extravaganza.createId("block/garland_north");
-					Identifier south = Extravaganza.createId("block/garland_south");
-					Identifier west = Extravaganza.createId("block/garland_west");
-					Identifier east = Extravaganza.createId("block/garland_east");
-					When none = When.allOf(
-						When.create().set(Properties.UP, false),
-						When.create().set(Properties.DOWN, false),
-						When.create().set(Properties.NORTH, false),
-						When.create().set(Properties.SOUTH, false),
-						When.create().set(Properties.WEST, false),
-						When.create().set(Properties.EAST, false)
-					);
-					blockStateModelGenerator.blockStateCollector.accept(
-						MultipartBlockStateSupplier.create(ExtravaganzaBlocks.GARLAND)
-							.with(
-								When.anyOf(
-									none,
-									When.anyOf(
-										When.create().set(Properties.UP, true),
-										When.create().set(Properties.DOWN, true),
-										When.create().set(Properties.NORTH, true),
-										When.create().set(Properties.SOUTH, true)
-									)
-								),
-								BlockStateVariant.create().put(VariantSettings.MODEL, garland)
-							)
-							.with(
-								When.anyOf(
-									none,
-									When.anyOf(
-										When.create().set(Properties.NORTH, true),
-										When.create().set(Properties.SOUTH, true),
-										When.create().set(Properties.WEST, true),
-										When.create().set(Properties.EAST, true)
-									)
-								),
-								BlockStateVariant.create().put(VariantSettings.MODEL, horizontal)
-							)
-							.with(
-								When.anyOf(
-									none,
-									When.anyOf(
-										When.create().set(Properties.UP, true),
-										When.create().set(Properties.DOWN, true),
-										When.create().set(Properties.WEST, true),
-										When.create().set(Properties.EAST, true)
-									)
-								),
-								BlockStateVariant.create().put(VariantSettings.MODEL, vertical)
-							)
-							.with(When.create().set(Properties.UP, true), BlockStateVariant.create().put(VariantSettings.MODEL, up))
-							.with(When.create().set(Properties.DOWN, true), BlockStateVariant.create().put(VariantSettings.MODEL, down))
-							.with(When.create().set(Properties.NORTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, north))
-							.with(When.create().set(Properties.SOUTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, south))
-							.with(When.create().set(Properties.WEST, true), BlockStateVariant.create().put(VariantSettings.MODEL, west))
-							.with(When.create().set(Properties.EAST, true), BlockStateVariant.create().put(VariantSettings.MODEL, east))
-					);
+					this.generateGarlandModel(blockStateModelGenerator);
 				}
 				else if (block.equals(ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE) || block.equals(ExtravaganzaBlocks.POPCORN_MACHINE)) {
 					blockStateModelGenerator.registerNorthDefaultHorizontalRotation(block);
@@ -441,6 +381,143 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					);
 				}
 			});
+		}
+
+		private void generateGarlandModel(BlockStateModelGenerator blockStateModelGenerator) {
+			Identifier garland = Extravaganza.createId("block/garland");
+			Identifier horizontal = Extravaganza.createId("block/garland_horizontal");
+			Identifier vertical = Extravaganza.createId("block/garland_vertical");
+			Identifier up = Extravaganza.createId("block/garland_up");
+			Identifier down = Extravaganza.createId("block/garland_down");
+			Identifier north = Extravaganza.createId("block/garland_north");
+			Identifier south = Extravaganza.createId("block/garland_south");
+			Identifier west = Extravaganza.createId("block/garland_west");
+			Identifier east = Extravaganza.createId("block/garland_east");
+			Identifier attachedUp = Extravaganza.createId("block/attached_garland_up");
+			Identifier attachedDown = Extravaganza.createId("block/attached_garland_down");
+			Identifier attachedNorth = Extravaganza.createId("block/attached_garland_north");
+			Identifier attachedSouth = Extravaganza.createId("block/attached_garland_south");
+			Identifier attachedWest = Extravaganza.createId("block/attached_garland_west");
+			Identifier attachedEast = Extravaganza.createId("block/attached_garland_east");
+			When none = When.allOf(
+				When.create().set(Properties.UP, false),
+				When.create().set(Properties.DOWN, false),
+				When.create().set(Properties.NORTH, false),
+				When.create().set(Properties.SOUTH, false),
+				When.create().set(Properties.WEST, false),
+				When.create().set(Properties.EAST, false)
+			);
+			blockStateModelGenerator.blockStateCollector.accept(
+				MultipartBlockStateSupplier.create(ExtravaganzaBlocks.GARLAND)
+					.with(
+						When.anyOf(
+							none,
+							When.anyOf(
+								When.create().set(Properties.UP, true),
+								When.create().set(Properties.DOWN, true),
+								When.create().set(Properties.NORTH, true),
+								When.create().set(Properties.SOUTH, true)
+							)
+						),
+						BlockStateVariant.create().put(VariantSettings.MODEL, garland)
+					)
+					.with(
+						When.anyOf(
+							none,
+							When.anyOf(
+								When.create().set(Properties.NORTH, true),
+								When.create().set(Properties.SOUTH, true),
+								When.create().set(Properties.WEST, true),
+								When.create().set(Properties.EAST, true)
+							)
+						),
+						BlockStateVariant.create().put(VariantSettings.MODEL, horizontal)
+					)
+					.with(
+						When.anyOf(
+							none,
+							When.anyOf(
+								When.create().set(Properties.UP, true),
+								When.create().set(Properties.DOWN, true),
+								When.create().set(Properties.WEST, true),
+								When.create().set(Properties.EAST, true)
+							)
+						),
+						BlockStateVariant.create().put(VariantSettings.MODEL, vertical)
+					)
+					.with(
+						When.create()
+							.set(Properties.UP, true)
+							.set(GarlandBlock.ATTACHED_UP, false),
+						BlockStateVariant.create().put(VariantSettings.MODEL, up)
+					)
+					.with(
+						When.create()
+							.set(Properties.DOWN, true)
+							.set(GarlandBlock.ATTACHED_DOWN, false),
+						BlockStateVariant.create().put(VariantSettings.MODEL, down)
+					)
+					.with(
+						When.create()
+							.set(Properties.NORTH, true)
+							.set(GarlandBlock.ATTACHED_NORTH, false),
+						BlockStateVariant.create().put(VariantSettings.MODEL, north)
+					)
+					.with(
+						When.create()
+							.set(Properties.SOUTH, true)
+							.set(GarlandBlock.ATTACHED_SOUTH, false),
+						BlockStateVariant.create().put(VariantSettings.MODEL, south)
+					)
+					.with(
+						When.create()
+							.set(Properties.WEST, true)
+							.set(GarlandBlock.ATTACHED_WEST, false),
+						BlockStateVariant.create().put(VariantSettings.MODEL, west)
+					)
+					.with(
+						When.create()
+							.set(Properties.EAST, true)
+							.set(GarlandBlock.ATTACHED_EAST, false),
+						BlockStateVariant.create().put(VariantSettings.MODEL, east)
+					)
+					.with(
+						When.create()
+							.set(Properties.UP, true)
+							.set(GarlandBlock.ATTACHED_UP, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, attachedUp)
+					)
+					.with(
+						When.create()
+							.set(Properties.DOWN, true)
+							.set(GarlandBlock.ATTACHED_DOWN, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, attachedDown)
+					)
+					.with(
+						When.create()
+							.set(Properties.NORTH, true)
+							.set(GarlandBlock.ATTACHED_NORTH, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, attachedNorth)
+					)
+					.with(
+						When.create()
+							.set(Properties.SOUTH, true)
+							.set(GarlandBlock.ATTACHED_SOUTH, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, attachedSouth)
+					)
+					.with(
+						When.create()
+							.set(Properties.WEST, true)
+							.set(GarlandBlock.ATTACHED_WEST, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, attachedWest)
+					)
+					.with(
+						When.create()
+							.set(Properties.EAST, true)
+							.set(GarlandBlock.ATTACHED_EAST, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, attachedEast)
+					)
+			);
 		}
 
 		@Override

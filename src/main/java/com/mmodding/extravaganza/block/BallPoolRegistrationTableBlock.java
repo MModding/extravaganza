@@ -2,6 +2,7 @@ package com.mmodding.extravaganza.block;
 
 import com.mmodding.extravaganza.block.entity.BallPoolRegistrationTableBlockEntity;
 import com.mmodding.extravaganza.init.ExtravaganzaBlockEntities;
+import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.extravaganza.init.ExtravaganzaDataAttachments;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
 import com.mojang.serialization.MapCodec;
@@ -26,6 +27,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -86,17 +88,42 @@ public class BallPoolRegistrationTableBlock extends BlockWithEntity {
 	@Override
 	protected void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
 		if (world.getBlockEntity(pos) instanceof BallPoolRegistrationTableBlockEntity bpitbe && !world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SCAN)) {
-			bpitbe.switchSelectionMode();
-			if (!world.isClient()) {
-				Object object;
-				if (bpitbe.getSelectionMode().equals(BallPoolRegistrationTableBlockEntity.SelectionMode.SOURCE)) {
-					object = bpitbe.isSource();
-				} else {
-					object = bpitbe.getScannedCurrent();
+			if (!player.isSneaking() || world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SETTINGS)) {
+				bpitbe.switchSelectionMode();
+				if (!world.isClient()) {
+					Object object;
+					if (bpitbe.getSelectionMode().equals(BallPoolRegistrationTableBlockEntity.SelectionMode.SOURCE)) {
+						object = bpitbe.isSource();
+					} else {
+						object = bpitbe.getScannedCurrent();
+					}
+					player.sendMessage(Text.literal(bpitbe.getSelectionMode().asString() + ": " + object), true);
 				}
-				player.sendMessage(Text.literal(bpitbe.getSelectionMode().asString() + ": " + object), true);
+			}
+			else {
+				if (bpitbe.getPoolSettings().power < 15) {
+					bpitbe.getPoolSettings().power = MathHelper.clamp(bpitbe.getPoolSettings().power + 1, 1, 15);
+				}
+				else {
+					bpitbe.getPoolSettings().power = 1;
+				}
+				if (!world.isClient()) {
+					player.sendMessage(Text.translatable("enchantment.minecraft.power").append(": " + bpitbe.getPoolSettings().power), true);
+				}
 			}
 		}
+	}
+
+	@Override
+	public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+		if (world.getBlockEntity(pos) instanceof BallPoolRegistrationTableBlockEntity bpitbe) {
+			BlockPos.iterate(bpitbe.getRelativeScannedStart(pos), bpitbe.getRelativeScannedEnd(pos)).forEach(blockPos -> {
+				if (world.getBlockState(blockPos).isOf(ExtravaganzaBlocks.BALL_POOL_PROTECTION)) {
+					world.removeBlock(blockPos, false);
+				}
+			});
+		}
+		return super.onBreak(world, pos, state, player);
 	}
 
 	@Override
