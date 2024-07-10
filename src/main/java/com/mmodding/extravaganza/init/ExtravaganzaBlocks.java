@@ -92,7 +92,7 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerBlockWithItem("tomato_stained_glass", ExtravaganzaBlocks.TOMATO_STAINED_GLASS);
 		ExtravaganzaBlocks.registerBlockWithItem("nymph_stained_glass", ExtravaganzaBlocks.NYMPH_STAINED_GLASS);
 		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_trash_can", new TrashCanBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN))));
-		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_festive_rubber_ladder", new LadderBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.PACKED_MUD))));
+		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_festive_rubber_ladder", new RubberLadderBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.PACKED_MUD))));
 		ExtravaganzaBlocks.registerColoredBlockSet("festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
 		ExtravaganzaBlocks.registerColoredBlockSet("striped_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
 		ExtravaganzaBlocks.registerColoredBlockSet("poured_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
@@ -121,7 +121,7 @@ public class ExtravaganzaBlocks {
 	private static void registerColoredBlockSet(String path, AbstractBlock.Settings settings) {
 		ExtravaganzaColor.VALUES.forEach(
 			color -> {
-				Block block = new Block(settings.strength(1.5f, 3.0f));
+				Block block = new Block(settings.strength(1.5f, 3.0f).mapColor(color.getMapColor()));
 				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path, block);
 				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path + "_stairs", new StairsBlock(block.getDefaultState(), settings));
 				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path + "_slab", new SlabBlock(settings));
