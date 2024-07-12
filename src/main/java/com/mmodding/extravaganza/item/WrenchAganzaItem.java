@@ -23,8 +23,8 @@ public class WrenchAganzaItem extends Item {
 
 	@Override
 	public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
-		if (world.getBlockEntity(pos) instanceof BallPoolRegistrationTableBlockEntity bpitbe && !world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SCAN)) {
-			if (!miner.isSneaking() || world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SETTINGS)) {
+		if (world.getBlockEntity(pos) instanceof BallPoolRegistrationTableBlockEntity bpitbe) {
+			if (!miner.isSneaking() && !world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SCAN)) {
 				bpitbe.switchSelectionMode();
 				if (!world.isClient()) {
 					Object object;
@@ -36,7 +36,7 @@ public class WrenchAganzaItem extends Item {
 					miner.sendMessage(Text.literal(bpitbe.getSelectionMode().asString() + ": " + object), true);
 				}
 			}
-			else {
+			else if (!world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SETTINGS)) {
 				if (bpitbe.getPoolSettings().power < 15) {
 					bpitbe.getPoolSettings().power = MathHelper.clamp(bpitbe.getPoolSettings().power + 1, 1, 15);
 				}

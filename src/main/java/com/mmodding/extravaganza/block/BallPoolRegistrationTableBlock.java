@@ -87,8 +87,8 @@ public class BallPoolRegistrationTableBlock extends BlockWithEntity {
 
 	@Override
 	protected void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
-		if (world.getBlockEntity(pos) instanceof BallPoolRegistrationTableBlockEntity bpitbe && !world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SCAN)) {
-			if (!player.isSneaking() || world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SETTINGS)) {
+		if (world.getBlockEntity(pos) instanceof BallPoolRegistrationTableBlockEntity bpitbe) {
+			if (!player.isSneaking() && !world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SCAN)) {
 				bpitbe.switchSelectionMode();
 				if (!world.isClient()) {
 					Object object;
@@ -100,7 +100,7 @@ public class BallPoolRegistrationTableBlock extends BlockWithEntity {
 					player.sendMessage(Text.literal(bpitbe.getSelectionMode().asString() + ": " + object), true);
 				}
 			}
-			else {
+			else if (!world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SETTINGS)) {
 				if (bpitbe.getPoolSettings().power < 15) {
 					bpitbe.getPoolSettings().power = MathHelper.clamp(bpitbe.getPoolSettings().power + 1, 1, 15);
 				}
