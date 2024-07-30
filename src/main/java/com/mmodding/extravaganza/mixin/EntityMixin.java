@@ -2,7 +2,7 @@ package com.mmodding.extravaganza.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.mmodding.extravaganza.block.BallPoolContentBlock;
+import com.mmodding.extravaganza.block.BallPitContentBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -38,12 +38,12 @@ public abstract class EntityMixin {
 	private void applyBallPoolContentLogic(CallbackInfo ci) {
 		BlockState underState = this.getWorld().getBlockState(this.getBlockPos().down());
 		BlockState currentState = this.getWorld().getBlockState(this.getBlockPos());
-		if (!underState.isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT) && currentState.isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT)) {
+		if (!underState.isOf(ExtravaganzaBlocks.BALL_PIT_CONTENT) && currentState.isOf(ExtravaganzaBlocks.BALL_PIT_CONTENT)) {
 			if (!this.bypassesLandingEffects()) {
 				this.addVelocity(
-					this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1) / 10 * currentState.get(BallPoolContentBlock.POWER),
-					this.getRandom().nextDouble() / 10 * currentState.get(BallPoolContentBlock.POWER),
-					this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1) / 10 * currentState.get(BallPoolContentBlock.POWER)
+					this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1) / 10 * currentState.get(BallPitContentBlock.POWER),
+					this.getRandom().nextDouble() / 10 * currentState.get(BallPitContentBlock.POWER),
+					this.getRandom().nextDouble() * (this.getRandom().nextBoolean() ? -1 : 1) / 10 * currentState.get(BallPitContentBlock.POWER)
 				);
 			}
 		}
@@ -51,7 +51,7 @@ public abstract class EntityMixin {
 
 	@WrapOperation(method = "fall", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"))
 	private void removeHandleFallDamageIfBallPollContent(Block instance, World world, BlockState state, BlockPos landedPosition, Entity entity, float fallDistance, Operation<Void> original) {
-		if (!this.getWorld().getBlockState(this.getBlockPos()).isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT)) {
+		if (!this.getWorld().getBlockState(this.getBlockPos()).isOf(ExtravaganzaBlocks.BALL_PIT_CONTENT)) {
 			original.call(instance, world, state, landedPosition, entity, fallDistance);
 		}
 	}

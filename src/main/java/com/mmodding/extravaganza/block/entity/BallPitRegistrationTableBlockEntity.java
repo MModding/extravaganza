@@ -1,6 +1,6 @@
 package com.mmodding.extravaganza.block.entity;
 
-import com.mmodding.extravaganza.block.BallPoolContentBlock;
+import com.mmodding.extravaganza.block.BallPitContentBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlockEntities;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import net.minecraft.block.BlockState;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class BallPoolRegistrationTableBlockEntity extends BlockEntity  {
+public class BallPitRegistrationTableBlockEntity extends BlockEntity  {
 
 	private final PoolSettings poolSettings = new PoolSettings();
 
@@ -30,8 +30,8 @@ public class BallPoolRegistrationTableBlockEntity extends BlockEntity  {
 
 	private boolean source = true;
 
-	public BallPoolRegistrationTableBlockEntity(BlockPos pos, BlockState state) {
-		super(ExtravaganzaBlockEntities.BALL_POOl_REGISTRATION_TABLE, pos, state);
+	public BallPitRegistrationTableBlockEntity(BlockPos pos, BlockState state) {
+		super(ExtravaganzaBlockEntities.BALL_PIT_REGISTRATION_TABLE, pos, state);
 	}
 
 	@Override
@@ -77,14 +77,14 @@ public class BallPoolRegistrationTableBlockEntity extends BlockEntity  {
 		return this.createComponentlessNbt(registryLookup);
 	}
 
-	public static void tick(World world, BlockPos pos, BlockState state, BallPoolRegistrationTableBlockEntity bpitbe) {
+	public static void tick(World world, BlockPos pos, BlockState state, BallPitRegistrationTableBlockEntity bpitbe) {
 		for (BlockPos current : BlockPos.iterate(bpitbe.getRelativeScannedStart(pos), bpitbe.getRelativeScannedEnd(pos))) {
 			if (world.getBlockState(current).isAir()) {
-				world.setBlockState(current, ExtravaganzaBlocks.BALL_POOL_PROTECTION.getDefaultState());
+				world.setBlockState(current, ExtravaganzaBlocks.BALL_PIT_PROTECTION.getDefaultState());
 			}
-			else if (world.getBlockState(current).isOf(ExtravaganzaBlocks.BALL_POOL_CONTENT)) {
-				if (world.getBlockState(current).get(BallPoolContentBlock.POWER) != bpitbe.getPoolSettings().power) {
-					world.setBlockState(current, world.getBlockState(current).with(BallPoolContentBlock.POWER, bpitbe.getPoolSettings().power));
+			else if (world.getBlockState(current).isOf(ExtravaganzaBlocks.BALL_PIT_CONTENT)) {
+				if (world.getBlockState(current).get(BallPitContentBlock.POWER) != bpitbe.getPoolSettings().power) {
+					world.setBlockState(current, world.getBlockState(current).with(BallPitContentBlock.POWER, bpitbe.getPoolSettings().power));
 				}
 			}
 		}

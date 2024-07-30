@@ -7,7 +7,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class ExtravaganzaDataAttachments {
 
-	public static final AttachmentType<Vec3d> BEFORE_ENTERING_POOL = AttachmentRegistry.createPersistent(Extravaganza.createId("before_entering_pool"), Vec3d.CODEC);
+	public static final AttachmentType<Vec3d> BEFORE_BALL_PIT = AttachmentRegistry.createPersistent(Extravaganza.createId("before_ball_pit"), Vec3d.CODEC);
 
 	public static void register() {}
 }

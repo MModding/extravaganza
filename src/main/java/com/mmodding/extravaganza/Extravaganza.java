@@ -47,12 +47,12 @@ public class Extravaganza implements ModInitializer {
 			}
 		});
 		CommandRegistrationCallback.EVENT.register(
-			(dispatcher, registries, environment) -> dispatcher.register(CommandManager.literal("before-entering-poll").executes(context -> {
-				if (context.getSource().getPlayer() != null && context.getSource().getPlayer().hasAttached(ExtravaganzaDataAttachments.BEFORE_ENTERING_POOL)) {
-					Vec3d position = context.getSource().getPlayer().getAttached(ExtravaganzaDataAttachments.BEFORE_ENTERING_POOL);
+			(dispatcher, registries, environment) -> dispatcher.register(CommandManager.literal("leave-ball-pit").executes(context -> {
+				if (context.getSource().getPlayer() != null && context.getSource().getPlayer().hasAttached(ExtravaganzaDataAttachments.BEFORE_BALL_PIT)) {
+					Vec3d position = context.getSource().getPlayer().getAttached(ExtravaganzaDataAttachments.BEFORE_BALL_PIT);
 					assert position != null;
 					context.getSource().getPlayer().teleport(position.getX(), position.getY(), position.getZ(), false);
-					context.getSource().getPlayer().removeAttached(ExtravaganzaDataAttachments.BEFORE_ENTERING_POOL);
+					context.getSource().getPlayer().removeAttached(ExtravaganzaDataAttachments.BEFORE_BALL_PIT);
 					return 1;
 				}
 				else {

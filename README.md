@@ -98,8 +98,8 @@ in order to make you feel like if you were not controlling your movements anymor
 can access the Ball Pool by right-clicking to the Registration Table, to get teleported at the center of the Ball Pool.
 If players wants to get out of the Ball Pool, they can simply execute the `/before-entering-poll` command.
 
-![Ball Pool Registration Table Craft](https://github.com/MModding/extravaganza/blob/main/external/ball_pool_registration_table_craft.png?raw=true)
-![Ball Pool Content Craft](https://github.com/MModding/extravaganza/blob/main/external/ball_pool_content_craft.gif?raw=true)
+![Ball Pool Registration Table Craft](https://github.com/MModding/extravaganza/blob/main/external/ball_pit_registration_table_craft.png?raw=true)
+![Ball Pool Content Craft](https://github.com/MModding/extravaganza/blob/main/external/ball_pit_content_craft.gif?raw=true)
 
 ### Building Blocks
 

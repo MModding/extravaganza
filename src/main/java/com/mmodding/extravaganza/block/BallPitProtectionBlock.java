@@ -10,9 +10,9 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 
-public class BallPoolProtectionBlock extends Block {
+public class BallPitProtectionBlock extends Block {
 
-	public BallPoolProtectionBlock(Settings settings) {
+	public BallPitProtectionBlock(Settings settings) {
 		super(settings);
 	}
 

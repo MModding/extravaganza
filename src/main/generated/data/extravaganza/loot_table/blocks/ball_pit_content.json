@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "extravaganza:ball_pool_content"
+          "name": "extravaganza:ball_pit_content"
         }
       ],
       "rolls": 1.0

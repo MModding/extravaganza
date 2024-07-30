@@ -1,6 +1,6 @@
 package com.mmodding.extravaganza.block;
 
-import com.mmodding.extravaganza.block.entity.BallPoolRegistrationTableBlockEntity;
+import com.mmodding.extravaganza.block.entity.BallPitRegistrationTableBlockEntity;
 import com.mmodding.extravaganza.init.ExtravaganzaBlockEntities;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.extravaganza.init.ExtravaganzaDataAttachments;
@@ -33,29 +33,29 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 // This block will manage the full Ball Pool, including changing the power of the velocity in example.
-public class BallPoolRegistrationTableBlock extends BlockWithEntity {
+public class BallPitRegistrationTableBlock extends BlockWithEntity {
 
-	public static final MapCodec<BallPoolRegistrationTableBlock> CODEC = BallPoolRegistrationTableBlock.createCodec(BallPoolRegistrationTableBlock::new);
+	public static final MapCodec<BallPitRegistrationTableBlock> CODEC = BallPitRegistrationTableBlock.createCodec(BallPitRegistrationTableBlock::new);
 
 	public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 
 	public static final BooleanProperty LOCK_SCAN = BooleanProperty.of("lock_scan");
 	public static final BooleanProperty LOCK_SETTINGS = BooleanProperty.of("lock_settings");
 
-	public BallPoolRegistrationTableBlock(Settings settings) {
+	public BallPitRegistrationTableBlock(Settings settings) {
 		super(settings);
-		this.setDefaultState(this.getDefaultState().with(BallPoolRegistrationTableBlock.FACING, Direction.NORTH).with(BallPoolRegistrationTableBlock.LOCK_SCAN, false).with(BallPoolRegistrationTableBlock.LOCK_SETTINGS, false));
+		this.setDefaultState(this.getDefaultState().with(BallPitRegistrationTableBlock.FACING, Direction.NORTH).with(BallPitRegistrationTableBlock.LOCK_SCAN, false).with(BallPitRegistrationTableBlock.LOCK_SETTINGS, false));
 	}
 
 	@Override
 	protected MapCodec<? extends BlockWithEntity> getCodec() {
-		return BallPoolRegistrationTableBlock.CODEC;
+		return BallPitRegistrationTableBlock.CODEC;
 	}
 
 	@Nullable
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new BallPoolRegistrationTableBlockEntity(pos, state);
+		return new BallPitRegistrationTableBlockEntity(pos, state);
 	}
 
 	@Override
@@ -65,9 +65,9 @@ public class BallPoolRegistrationTableBlock extends BlockWithEntity {
 
 	@Override
 	protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-		if (world.getBlockEntity(pos) instanceof BallPoolRegistrationTableBlockEntity bpitbe) {
+		if (world.getBlockEntity(pos) instanceof BallPitRegistrationTableBlockEntity bpitbe) {
 			if (player instanceof ServerPlayerEntity serverPlayer) {
-				serverPlayer.setAttached(ExtravaganzaDataAttachments.BEFORE_ENTERING_POOL, serverPlayer.getPos());
+				serverPlayer.setAttached(ExtravaganzaDataAttachments.BEFORE_BALL_PIT, serverPlayer.getPos());
 			}
 			Vec3d center = bpitbe.getRelativeFullScanned(pos).getCenter();
 			player.teleport(center.getX(), center.getY(), center.getZ(), false);
@@ -87,12 +87,12 @@ public class BallPoolRegistrationTableBlock extends BlockWithEntity {
 
 	@Override
 	protected void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
-		if (world.getBlockEntity(pos) instanceof BallPoolRegistrationTableBlockEntity bpitbe) {
-			if (!player.isSneaking() && !world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SCAN)) {
+		if (world.getBlockEntity(pos) instanceof BallPitRegistrationTableBlockEntity bpitbe) {
+			if (!player.isSneaking() && !world.getBlockState(pos).get(BallPitRegistrationTableBlock.LOCK_SCAN)) {
 				bpitbe.switchSelectionMode();
 				if (!world.isClient()) {
 					Object object;
-					if (bpitbe.getSelectionMode().equals(BallPoolRegistrationTableBlockEntity.SelectionMode.SOURCE)) {
+					if (bpitbe.getSelectionMode().equals(BallPitRegistrationTableBlockEntity.SelectionMode.SOURCE)) {
 						object = bpitbe.isSource();
 					} else {
 						object = bpitbe.getScannedCurrent();
@@ -100,7 +100,7 @@ public class BallPoolRegistrationTableBlock extends BlockWithEntity {
 					player.sendMessage(Text.literal(bpitbe.getSelectionMode().asString() + ": " + object), true);
 				}
 			}
-			else if (!world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SETTINGS)) {
+			else if (!world.getBlockState(pos).get(BallPitRegistrationTableBlock.LOCK_SETTINGS)) {
 				if (bpitbe.getPoolSettings().power < 15) {
 					bpitbe.getPoolSettings().power = MathHelper.clamp(bpitbe.getPoolSettings().power + 1, 1, 15);
 				}
@@ -116,9 +116,9 @@ public class BallPoolRegistrationTableBlock extends BlockWithEntity {
 
 	@Override
 	public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-		if (world.getBlockEntity(pos) instanceof BallPoolRegistrationTableBlockEntity bpitbe) {
+		if (world.getBlockEntity(pos) instanceof BallPitRegistrationTableBlockEntity bpitbe) {
 			BlockPos.iterate(bpitbe.getRelativeScannedStart(pos), bpitbe.getRelativeScannedEnd(pos)).forEach(blockPos -> {
-				if (world.getBlockState(blockPos).isOf(ExtravaganzaBlocks.BALL_POOL_PROTECTION)) {
+				if (world.getBlockState(blockPos).isOf(ExtravaganzaBlocks.BALL_PIT_PROTECTION)) {
 					world.removeBlock(blockPos, false);
 				}
 			});
@@ -128,28 +128,28 @@ public class BallPoolRegistrationTableBlock extends BlockWithEntity {
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return BallPoolRegistrationTableBlock.validateTicker(type, ExtravaganzaBlockEntities.BALL_POOl_REGISTRATION_TABLE, BallPoolRegistrationTableBlockEntity::tick);
+		return BallPitRegistrationTableBlock.validateTicker(type, ExtravaganzaBlockEntities.BALL_PIT_REGISTRATION_TABLE, BallPitRegistrationTableBlockEntity::tick);
 	}
 
 	@Override
 	protected BlockState rotate(BlockState state, BlockRotation rotation) {
-		return state.with(BallPoolRegistrationTableBlock.FACING, rotation.rotate(state.get(BallPoolRegistrationTableBlock.FACING)));
+		return state.with(BallPitRegistrationTableBlock.FACING, rotation.rotate(state.get(BallPitRegistrationTableBlock.FACING)));
 	}
 
 	@Override
 	protected BlockState mirror(BlockState state, BlockMirror mirror) {
-		return state.rotate(mirror.getRotation(state.get(BallPoolRegistrationTableBlock.FACING)));
+		return state.rotate(mirror.getRotation(state.get(BallPitRegistrationTableBlock.FACING)));
 	}
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(BallPoolRegistrationTableBlock.FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+		return this.getDefaultState().with(BallPitRegistrationTableBlock.FACING, ctx.getHorizontalPlayerFacing().getOpposite());
 	}
 
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(BallPoolRegistrationTableBlock.FACING);
-		builder.add(BallPoolRegistrationTableBlock.LOCK_SCAN);
-		builder.add(BallPoolRegistrationTableBlock.LOCK_SETTINGS);
+		builder.add(BallPitRegistrationTableBlock.FACING);
+		builder.add(BallPitRegistrationTableBlock.LOCK_SCAN);
+		builder.add(BallPitRegistrationTableBlock.LOCK_SETTINGS);
 	}
 }

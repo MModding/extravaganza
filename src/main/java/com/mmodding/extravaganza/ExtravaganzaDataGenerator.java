@@ -157,16 +157,16 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			block instanceof TransparentBlock ||
 			block instanceof TrashCanBlock ||
 			block instanceof LadderBlock ||
-			block.equals(ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE) ||
-			block.equals(ExtravaganzaBlocks.BALL_POOL_CONTENT) ||
-			block.equals(ExtravaganzaBlocks.BALL_POOL_PROTECTION) ||
+			block.equals(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE) ||
+			block.equals(ExtravaganzaBlocks.BALL_PIT_CONTENT) ||
+			block.equals(ExtravaganzaBlocks.BALL_PIT_PROTECTION) ||
 			block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR) ||
 			block.equals(ExtravaganzaBlocks.POPCORN_MACHINE) ||
 			block.equals(ExtravaganzaBlocks.GARLAND) ||
 			block.equals(ExtravaganzaBlocks.PINATA);
 
 		private final static Set<Block> WITH_GENERATED_ITEM = Set.of(
-			ExtravaganzaBlocks.BALL_POOL_CONTENT,
+			ExtravaganzaBlocks.BALL_PIT_CONTENT,
 			ExtravaganzaBlocks.BALL_DISTRIBUTOR,
 			ExtravaganzaBlocks.GARLAND,
 			ExtravaganzaBlocks.PINATA,
@@ -310,9 +310,9 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				else if (block.equals(ExtravaganzaBlocks.GARLAND)) {
 					this.generateGarlandModel(blockStateModelGenerator);
 				}
-				else if (block.equals(ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE) || block.equals(ExtravaganzaBlocks.POPCORN_MACHINE)) {
+				else if (block.equals(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE) || block.equals(ExtravaganzaBlocks.POPCORN_MACHINE)) {
 					blockStateModelGenerator.registerNorthDefaultHorizontalRotation(block);
-					if (block.equals(ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE)) {
+					if (block.equals(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE)) {
 						blockStateModelGenerator.registerParentedItemModel(block, ModelIds.getBlockModelId(block));
 					}
 				}
@@ -718,8 +718,8 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				.pattern("RRR")
 				.pattern("SRS")
 				.offerTo(exporter);
-			ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE.asItem())
-				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE.asItem()), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE.asItem()))
+			ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE.asItem())
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE.asItem()), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE.asItem()))
 				.input('P', Items.PAPER)
 				.input('I', Items.INK_SAC)
 				.input('F', Items.FLOWER_POT)
@@ -728,8 +728,8 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				.pattern("HHH")
 				.pattern("H H")
 				.offerTo(exporter);
-			ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaBlocks.BALL_POOL_CONTENT.asItem(), 16)
-				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaBlocks.BALL_POOL_CONTENT.asItem()), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaBlocks.BALL_POOL_CONTENT.asItem()))
+			ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaBlocks.BALL_PIT_CONTENT.asItem(), 16)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaBlocks.BALL_PIT_CONTENT.asItem()), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaBlocks.BALL_PIT_CONTENT.asItem()))
 				.input('B', TagKey.of(RegistryKeys.ITEM, Extravaganza.createId("festive_balls")))
 				.pattern("BBB")
 				.pattern("BBB")

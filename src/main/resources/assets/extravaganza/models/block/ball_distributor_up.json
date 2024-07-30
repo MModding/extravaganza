@@ -3,7 +3,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"main": "extravaganza:block/ball_distributor_up",
-		"balls": "extravaganza:block/ball_pool_content",
+		"balls": "extravaganza:block/ball_pit_content",
 		"particle": "extravaganza:block/ball_distributor_up"
 	},
 	"elements": [

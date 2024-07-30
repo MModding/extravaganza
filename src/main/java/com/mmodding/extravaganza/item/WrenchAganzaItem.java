@@ -1,7 +1,7 @@
 package com.mmodding.extravaganza.item;
 
-import com.mmodding.extravaganza.block.BallPoolRegistrationTableBlock;
-import com.mmodding.extravaganza.block.entity.BallPoolRegistrationTableBlockEntity;
+import com.mmodding.extravaganza.block.BallPitRegistrationTableBlock;
+import com.mmodding.extravaganza.block.entity.BallPitRegistrationTableBlockEntity;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,12 +23,12 @@ public class WrenchAganzaItem extends Item {
 
 	@Override
 	public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
-		if (world.getBlockEntity(pos) instanceof BallPoolRegistrationTableBlockEntity bpitbe) {
-			if (!miner.isSneaking() && !world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SCAN)) {
+		if (world.getBlockEntity(pos) instanceof BallPitRegistrationTableBlockEntity bpitbe) {
+			if (!miner.isSneaking() && !world.getBlockState(pos).get(BallPitRegistrationTableBlock.LOCK_SCAN)) {
 				bpitbe.switchSelectionMode();
 				if (!world.isClient()) {
 					Object object;
-					if (bpitbe.getSelectionMode().equals(BallPoolRegistrationTableBlockEntity.SelectionMode.SOURCE)) {
+					if (bpitbe.getSelectionMode().equals(BallPitRegistrationTableBlockEntity.SelectionMode.SOURCE)) {
 						object = bpitbe.isSource();
 					} else {
 						object = bpitbe.getScannedCurrent();
@@ -36,7 +36,7 @@ public class WrenchAganzaItem extends Item {
 					miner.sendMessage(Text.literal(bpitbe.getSelectionMode().asString() + ": " + object), true);
 				}
 			}
-			else if (!world.getBlockState(pos).get(BallPoolRegistrationTableBlock.LOCK_SETTINGS)) {
+			else if (!world.getBlockState(pos).get(BallPitRegistrationTableBlock.LOCK_SETTINGS)) {
 				if (bpitbe.getPoolSettings().power < 15) {
 					bpitbe.getPoolSettings().power = MathHelper.clamp(bpitbe.getPoolSettings().power + 1, 1, 15);
 				}
@@ -53,11 +53,11 @@ public class WrenchAganzaItem extends Item {
 
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
-		if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof BallPoolRegistrationTableBlockEntity bpitbe) {
+		if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof BallPitRegistrationTableBlockEntity bpitbe) {
 			assert context.getPlayer() != null;
-			if (!context.getWorld().getBlockState(context.getBlockPos()).get(BallPoolRegistrationTableBlock.LOCK_SCAN)) {
+			if (!context.getWorld().getBlockState(context.getBlockPos()).get(BallPitRegistrationTableBlock.LOCK_SCAN)) {
 				Consumer<BlockPos> deleter = blockPos -> {
-					if (context.getWorld().getBlockState(blockPos).isOf(ExtravaganzaBlocks.BALL_POOL_PROTECTION)) {
+					if (context.getWorld().getBlockState(blockPos).isOf(ExtravaganzaBlocks.BALL_PIT_PROTECTION)) {
 						context.getWorld().removeBlock(blockPos, false);
 					}
 				};
@@ -72,7 +72,7 @@ public class WrenchAganzaItem extends Item {
 				}
 				if (!context.getWorld().isClient()) {
 					Object object;
-					if (bpitbe.getSelectionMode().equals(BallPoolRegistrationTableBlockEntity.SelectionMode.SOURCE)) {
+					if (bpitbe.getSelectionMode().equals(BallPitRegistrationTableBlockEntity.SelectionMode.SOURCE)) {
 						object = bpitbe.isSource();
 					}
 					else {
