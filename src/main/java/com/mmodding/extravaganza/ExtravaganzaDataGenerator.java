@@ -811,7 +811,6 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
 				if (key.getValue().getPath().contains("hevea_brasiliensis") || key.getValue().getPath().contains("registration")) {
 					this.getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(Registries.BLOCK.get(key));
-					this.getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL).add(Registries.BLOCK.get(key));
 				}
 				else if (!key.getValue().getPath().contains("content") && !key.getValue().getPath().contains("rubber") && !key.getValue().getPath().contains("glass") && !key.getValue().getPath().contains("garland") && !key.getValue().getPath().contains("pinata")) {
 					this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(Registries.BLOCK.get(key));
