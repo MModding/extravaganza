@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class BallPitRegistrationTableBlockEntity extends BlockEntity  {
+public class BallPitRegistrationTableBlockEntity extends BlockEntity {
 
 	private final PoolSettings poolSettings = new PoolSettings();
 

@@ -20,7 +20,7 @@ import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
@@ -37,7 +37,7 @@ public class BallPitRegistrationTableBlock extends BlockWithEntity {
 
 	public static final MapCodec<BallPitRegistrationTableBlock> CODEC = BallPitRegistrationTableBlock.createCodec(BallPitRegistrationTableBlock::new);
 
-	public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+	public static final EnumProperty<Direction> FACING = Properties.HORIZONTAL_FACING;
 
 	public static final BooleanProperty LOCK_SCAN = BooleanProperty.of("lock_scan");
 	public static final BooleanProperty LOCK_SETTINGS = BooleanProperty.of("lock_settings");

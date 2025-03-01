@@ -4,6 +4,7 @@ import com.mmodding.extravaganza.init.ExtravaganzaEntities;
 import com.mmodding.extravaganza.init.ExtravaganzaParticleTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -62,6 +63,11 @@ public class HeliumBalloonEntity extends Entity {
 				);
 			}
 		}
+	}
+
+	@Override
+	public boolean damage(DamageSource source, float amount) {
+		return false;
 	}
 
 	public String getVariant() {
