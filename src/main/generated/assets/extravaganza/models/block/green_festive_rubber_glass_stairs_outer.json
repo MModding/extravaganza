@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "extravaganza:block/green_festive_rubber_glass",
+    "side": "extravaganza:block/green_festive_rubber_glass",
+    "top": "extravaganza:block/green_festive_rubber_glass"
+  }
+}

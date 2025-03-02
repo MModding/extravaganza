@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "extravaganza:block/orange_inverted_scratched_festive_rubber_slab"
+    },
+    "type=double": {
+      "model": "extravaganza:block/orange_inverted_scratched_festive_rubber"
+    },
+    "type=top": {
+      "model": "extravaganza:block/orange_inverted_scratched_festive_rubber_slab_top"
+    }
+  }
+}

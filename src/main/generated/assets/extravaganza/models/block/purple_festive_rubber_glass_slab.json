@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "extravaganza:block/purple_festive_rubber_glass",
+    "side": "extravaganza:block/purple_festive_rubber_glass",
+    "top": "extravaganza:block/purple_festive_rubber_glass"
+  }
+}

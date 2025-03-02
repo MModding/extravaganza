@@ -154,7 +154,6 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 	public static class ExtravaganzaModelProvider extends FabricModelProvider {
 
 		private static final Predicate<Block> UNCOMMON_BLOCKS = block ->
-			block instanceof TransparentBlock ||
 			block instanceof TrashCanBlock ||
 			block instanceof LadderBlock ||
 			block.equals(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE) ||
@@ -163,7 +162,11 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR) ||
 			block.equals(ExtravaganzaBlocks.POPCORN_MACHINE) ||
 			block.equals(ExtravaganzaBlocks.GARLAND) ||
-			block.equals(ExtravaganzaBlocks.PINATA);
+			block.equals(ExtravaganzaBlocks.PINATA) ||
+			block.equals(ExtravaganzaBlocks.TEAR_STAINED_GLASS) ||
+			block.equals(ExtravaganzaBlocks.PLANT_STAINED_GLASS) ||
+			block.equals(ExtravaganzaBlocks.TOMATO_STAINED_GLASS) ||
+			block.equals(ExtravaganzaBlocks.NYMPH_STAINED_GLASS);
 
 		private final static Set<Block> WITH_GENERATED_ITEM = Set.of(
 			ExtravaganzaBlocks.BALL_PIT_CONTENT,
@@ -267,7 +270,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 						pool.wall(Registries.BLOCK.get(identifier.withPath(string -> string + "_wall")));
 					}
 				}
-				else if (block instanceof TransparentBlock) {
+				else if (Registries.BLOCK.getId(block).getPath().contains("stained")) {
 					blockStateModelGenerator.registerSimpleCubeAll(block);
 				}
 				else if (block instanceof TrashCanBlock) {
@@ -588,15 +591,15 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					.pattern(" R ")
 					.offerTo(exporter);
 				Set.of(
-					"striped", "poured", "sharped", "scratched",
-					"dotted", "screwed", "split", "wooded",
-					"barred", "perforated", "slipped", "padded",
-					"curved", "bent", "windowed", "tiled",
-					"grate", // this one is a bit special
-					"" // normal thing
+					"aligned", "barred", "bent", "curved",
+					"dotted", "padded", "perforated", "planked",
+					"poured", "scratched", "inverted_scratched", "screwed",
+					"sharped", "inverted_sharped", "slipped", "split",
+					"striped", "tiled", "traversable", "windowed",
+					"wooded", /* those are a bit special */ "glass", "grate", /* normal one */ ""
 				).forEach(
 					prefix -> {
-						String path = !prefix.equals("grate") ? prefix + "_festive_rubber" : "festive_rubber_" + prefix;
+						String path = !prefix.equals("glass") && !prefix.equals("grate") ? prefix + "_festive_rubber" : "festive_rubber_" + prefix;
 						Identifier identifier = Extravaganza.createId(color.asString() + (!prefix.isEmpty() ? "_" + path : "_festive_rubber"));
 						Item currentFestiveRubber = Registries.ITEM.get(identifier);
 						if (!prefix.isEmpty()) {
