@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ExtravaganzaBlocks {
 
@@ -65,6 +66,8 @@ public class ExtravaganzaBlocks {
 	public static final Block PLANT_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
 	public static final Block TOMATO_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
 	public static final Block NYMPH_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
+
+	public static final Supplier<AbstractBlock.Settings> COLORFUL_SETTINGS = () -> AbstractBlock.Settings.create().strength(1.5f, 3.0f).mapColor(MapColor.PALE_PURPLE).sounds(BlockSoundGroup.PACKED_MUD);
 
 	public static void register() {
 		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_log", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG);
@@ -116,14 +119,28 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerColoredBlockSet("split_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
 		ExtravaganzaBlocks.registerColoredBlockSet("striped_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
 		ExtravaganzaBlocks.registerColoredBlockSet("tiled_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("traversable_festive_rubber", AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.PACKED_MUD), TraversableRubberBlock::new, TraversableRubberStairsBlock::new, TraversableRubberSlabBlock::new, TraversableRubberWallBlock::new);
+		ExtravaganzaBlocks.registerColoredBlockSet("traversable_festive_rubber", AbstractBlock.Settings.create().suffocates(Blocks::never).nonOpaque().sounds(BlockSoundGroup.PACKED_MUD), TraversableRubberBlock::new, TraversableRubberStairsBlock::new, TraversableRubberSlabBlock::new, TraversableRubberWallBlock::new);
 		ExtravaganzaBlocks.registerColoredBlockSet("windowed_festive_rubber", AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.PACKED_MUD), TransparentBlock::new);
 		ExtravaganzaBlocks.registerColoredBlockSet("wooded_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOD));
-	}
-
-	private static void registerBlockWithItem(String path, Block block) {
-		Registry.register(Registries.BLOCK, Extravaganza.createId(path), block);
-		Registry.register(Registries.ITEM, Extravaganza.createId(path), new BlockItem(block, new Item.Settings()));
+		ExtravaganzaBlocks.registerBlockWithItem("colorful_festive_rubber_ladder", new LadderBlock(COLORFUL_SETTINGS.get().nonOpaque()));
+		ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber_bricks", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber_tiles", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber_pavers", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_bent_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_curved_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber_glass", COLORFUL_SETTINGS.get().nonOpaque(), TransparentBlock::new);
+		ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber_grate", COLORFUL_SETTINGS.get().nonOpaque(), TransparentBlock::new);
+		ExtravaganzaBlocks.registerBlockSet("colorful_padded_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_perforated_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_scratched_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_inverted_scratched_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_screwed_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_slipped_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_striped_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_tiled_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_windowed_festive_rubber", COLORFUL_SETTINGS.get().nonOpaque(), TransparentBlock::new);
+		ExtravaganzaBlocks.registerBlockSet("colorful_chiseled_festive_rubber", COLORFUL_SETTINGS.get());
 	}
 
 	private static void registerColoredBlockSet(String path, AbstractBlock.Settings settings) {
@@ -135,14 +152,34 @@ public class ExtravaganzaBlocks {
 	}
 
 	private static <T extends Block, S extends StairsBlock, L extends SlabBlock, W extends WallBlock> void registerColoredBlockSet(String path, AbstractBlock.Settings settings, Function<AbstractBlock.Settings, T> blockFactory, BiFunction<BlockState, AbstractBlock.Settings, S> stairsBlockFactory, Function<AbstractBlock.Settings, L> slabBlockFactory, Function<AbstractBlock.Settings, W> wallBlockFactory) {
-		ExtravaganzaColor.VALUES.forEach(
-			color -> {
-				T block = blockFactory.apply(settings.strength(1.5f, 3.0f).mapColor(color.getMapColor()));
-				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path, block);
-				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path + "_stairs", stairsBlockFactory.apply(block.getDefaultState(), settings));
-				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path + "_slab", slabBlockFactory.apply(settings));
-				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path + "_wall", wallBlockFactory.apply(settings));
-			}
-		);
+		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockSet(
+			color.asString() + "_" + path,
+			settings.strength(1.5f, 3.0f).mapColor(color.getMapColor()),
+			blockFactory,
+			stairsBlockFactory,
+			slabBlockFactory,
+			wallBlockFactory
+		));
+	}
+
+	private static void registerBlockSet(String path, AbstractBlock.Settings settings) {
+		ExtravaganzaBlocks.registerBlockSet(path, settings, Block::new);
+	}
+
+	private static <T extends Block> void registerBlockSet(String path, AbstractBlock.Settings settings, Function<AbstractBlock.Settings, T> blockFactory) {
+		ExtravaganzaBlocks.registerBlockSet(path, settings, blockFactory, StairsBlock::new, SlabBlock::new, WallBlock::new);
+	}
+
+	private static <T extends Block, S extends StairsBlock, L extends SlabBlock, W extends WallBlock> void registerBlockSet(String path, AbstractBlock.Settings settings, Function<AbstractBlock.Settings, T> blockFactory, BiFunction<BlockState, AbstractBlock.Settings, S> stairsBlockFactory, Function<AbstractBlock.Settings, L> slabBlockFactory, Function<AbstractBlock.Settings, W> wallBlockFactory) {
+		T block = blockFactory.apply(settings);
+		ExtravaganzaBlocks.registerBlockWithItem(path, block);
+		ExtravaganzaBlocks.registerBlockWithItem(Extravaganza.nameTweak(path) + "_stairs", stairsBlockFactory.apply(block.getDefaultState(), settings));
+		ExtravaganzaBlocks.registerBlockWithItem(Extravaganza.nameTweak(path) + "_slab", slabBlockFactory.apply(settings));
+		ExtravaganzaBlocks.registerBlockWithItem(Extravaganza.nameTweak(path) + "_wall", wallBlockFactory.apply(settings));
+	}
+
+	private static void registerBlockWithItem(String path, Block block) {
+		Registry.register(Registries.BLOCK, Extravaganza.createId(path), block);
+		Registry.register(Registries.ITEM, Extravaganza.createId(path), new BlockItem(block, new Item.Settings()));
 	}
 }

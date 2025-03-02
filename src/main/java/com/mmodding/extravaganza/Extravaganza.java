@@ -75,6 +75,15 @@ public class Extravaganza implements ModInitializer {
 		return Identifier.of(Extravaganza.id(), path);
 	}
 
+	public static String nameTweak(String name) {
+		if (name.endsWith("s") && !name.endsWith("ss")) {
+			return name.substring(0, name.length() - 1);
+		}
+		else {
+			return name;
+		}
+	}
+
 	public static <T> Stream<RegistryKey<T>> extractKeyFromRegistry(Registry<T> registry) {
 		return registry.streamEntries()
 			.filter(ref -> ref.registryKey().getValue().getNamespace().equals(Extravaganza.id()))

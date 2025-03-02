@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": {
+      "item": "minecraft:blue_dye"
+    },
+    "E": {
+      "item": "minecraft:red_dye"
+    },
+    "L": {
+      "item": "minecraft:lime_dye"
+    },
+    "P": {
+      "item": "minecraft:purple_dye"
+    },
+    "R": {
+      "item": "extravaganza:rubber"
+    },
+    "Y": {
+      "item": "minecraft:yellow_dye"
+    }
+  },
+  "pattern": [
+    "YRB",
+    "RPR",
+    "LRE"
+  ],
+  "result": {
+    "count": 16,
+    "id": "extravaganza:colorful_festive_rubber"
+  }
+}

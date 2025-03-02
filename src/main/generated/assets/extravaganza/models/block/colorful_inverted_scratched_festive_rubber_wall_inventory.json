@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "extravaganza:block/colorful_inverted_scratched_festive_rubber"
+  }
+}

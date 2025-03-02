@@ -265,9 +265,9 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					if (!(block instanceof StairsBlock) && !(block instanceof SlabBlock) && !(block instanceof WallBlock)) {
 						BlockStateModelGenerator.BlockTexturePool pool = blockStateModelGenerator.registerCubeAllModelTexturePool(block);
 						Identifier identifier = Registries.BLOCK.getId(block);
-						pool.stairs(Registries.BLOCK.get(identifier.withPath(string -> string + "_stairs")));
-						pool.slab(Registries.BLOCK.get(identifier.withPath(string -> string + "_slab")));
-						pool.wall(Registries.BLOCK.get(identifier.withPath(string -> string + "_wall")));
+						pool.stairs(Registries.BLOCK.get(identifier.withPath(string -> Extravaganza.nameTweak(string) + "_stairs")));
+						pool.slab(Registries.BLOCK.get(identifier.withPath(string -> Extravaganza.nameTweak(string) + "_slab")));
+						pool.wall(Registries.BLOCK.get(identifier.withPath(string -> Extravaganza.nameTweak(string) + "_wall")));
 					}
 				}
 				else if (Registries.BLOCK.getId(block).getPath().contains("stained")) {
@@ -590,8 +590,8 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				.offerTo(exporter, "tomato_dye_from_red_and_brown");
 			ExtravaganzaColor.VALUES.forEach(color -> {
 				Item festiveRubber = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber"));
-				Item trashCan = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_ladder"));
-				Item ladder = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_trash_can"));
+				Item trashCan = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_trash_can"));
+				Item ladder = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_ladder"));
 				Identifier dyeIdentifier;
 				if (color.equals(ExtravaganzaColor.TEAR) || color.equals(ExtravaganzaColor.PLANT) || color.equals(ExtravaganzaColor.NYMPH) || color.equals(ExtravaganzaColor.TOMATO)) {
 					dyeIdentifier = Extravaganza.createId(color.asString() + "_dye");
@@ -607,21 +607,21 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					.pattern("RCR")
 					.pattern("CRC")
 					.offerTo(exporter);
-				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, trashCan, 4)
+				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, trashCan, 16)
 					.criterion(ExtravaganzaRecipeProvider.hasItem(trashCan), ExtravaganzaRecipeProvider.conditionsFromItem(trashCan))
-					.input('R', festiveRubber)
-					.input('S', Items.STICK)
-					.pattern("R R")
-					.pattern("SRS")
-					.pattern("R R")
-					.offerTo(exporter);
-				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ladder, 16)
-					.criterion(ExtravaganzaRecipeProvider.hasItem(ladder), ExtravaganzaRecipeProvider.conditionsFromItem(ladder))
 					.input('R', festiveRubber)
 					.input('H', Items.HOPPER)
 					.pattern("R R")
 					.pattern("RHR")
 					.pattern(" R ")
+					.offerTo(exporter);
+				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ladder, 4)
+					.criterion(ExtravaganzaRecipeProvider.hasItem(ladder), ExtravaganzaRecipeProvider.conditionsFromItem(ladder))
+					.input('R', festiveRubber)
+					.input('S', Items.STICK)
+					.pattern("R R")
+					.pattern("SRS")
+					.pattern("R R")
 					.offerTo(exporter);
 				Set.of(
 					"aligned", "barred", "bent", "curved",
@@ -663,6 +663,65 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 							.offerTo(exporter);
 					}
 				);
+			});
+			Item colorfulFestiveRubber = Registries.ITEM.get(Extravaganza.createId("colorful_festive_rubber"));
+			Item colorfulFestiveRubberLadder = Registries.ITEM.get(Extravaganza.createId("colorful_festive_rubber_ladder"));
+			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, colorfulFestiveRubberLadder, 4)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(colorfulFestiveRubberLadder), ExtravaganzaRecipeProvider.conditionsFromItem(colorfulFestiveRubberLadder))
+				.input('R', colorfulFestiveRubber)
+				.input('S', Items.STICK)
+				.pattern("R R")
+				.pattern("SRS")
+				.pattern("R R")
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, colorfulFestiveRubber, 16)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(colorfulFestiveRubber), ExtravaganzaRecipeProvider.conditionsFromItem(colorfulFestiveRubber))
+				.input('Y', Items.YELLOW_DYE)
+				.input('B', Items.BLUE_DYE)
+				.input('P', Items.PURPLE_DYE)
+				.input('L', Items.LIME_DYE)
+				.input('E', Items.RED_DYE)
+				.input('R', ExtravaganzaItems.RUBBER)
+				.pattern("YRB")
+				.pattern("RPR")
+				.pattern("LRE")
+				.offerTo(exporter);
+			Set.of(
+				"bent", "curved", "padded", "perforated",
+				"scratched", "inverted_scratched", "screwed", "slipped",
+				"striped", "tiled", "windowed", "chiseled",
+				/* special ones (again) */ "bricks", "tiles", "pavers", "glass",
+				"grate", /* default one */ ""
+			).forEach(prefix -> {
+				String path = !Set.of("bricks", "tiles", "pavers", "glass", "grate").contains(prefix) ? prefix + "_festive_rubber" : "festive_rubber_" + prefix;
+				Identifier identifier = Extravaganza.createId("colorful" + (!prefix.isEmpty() ? "_" + path : "_festive_rubber"));
+				Item currentColorfulFestiveRubber = Registries.ITEM.get(identifier);
+				if (!prefix.isEmpty()) {
+					StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(colorfulFestiveRubber), RecipeCategory.BUILDING_BLOCKS, currentColorfulFestiveRubber)
+						.criterion(ExtravaganzaRecipeProvider.hasItem(colorfulFestiveRubber), ExtravaganzaRecipeProvider.conditionsFromItem(colorfulFestiveRubber))
+						.offerTo(exporter);
+				}
+				Item colorFulFestiveRubberStairs = Registries.ITEM.get(identifier.withPath(s -> Extravaganza.nameTweak(s) + "_stairs"));
+				Item colorfulFestiveRubberSlab = Registries.ITEM.get(identifier.withPath(s -> Extravaganza.nameTweak(s) + "_slab"));
+				Item colorfulFestiveRubberWall = Registries.ITEM.get(identifier.withPath(s -> Extravaganza.nameTweak(s) + "_wall"));
+				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, colorFulFestiveRubberStairs, 4)
+					.criterion(ExtravaganzaRecipeProvider.hasItem(colorFulFestiveRubberStairs), ExtravaganzaRecipeProvider.conditionsFromItem(colorFulFestiveRubberStairs))
+					.input('R', currentColorfulFestiveRubber)
+					.pattern("R  ")
+					.pattern("RR ")
+					.pattern("RRR")
+					.offerTo(exporter);
+				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, colorfulFestiveRubberSlab, 6)
+					.criterion(ExtravaganzaRecipeProvider.hasItem(colorfulFestiveRubberSlab), ExtravaganzaRecipeProvider.conditionsFromItem(colorfulFestiveRubberSlab))
+					.input('R', currentColorfulFestiveRubber)
+					.pattern("RRR")
+					.offerTo(exporter);
+				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, colorfulFestiveRubberWall, 6)
+					.criterion(ExtravaganzaRecipeProvider.hasItem(colorfulFestiveRubberWall), ExtravaganzaRecipeProvider.conditionsFromItem(colorfulFestiveRubberWall))
+					.input('R', currentColorfulFestiveRubber)
+					.pattern("RRR")
+					.pattern("RRR")
+					.offerTo(exporter);
 			});
 			ShapelessRecipeJsonBuilder.create(RecipeCategory.TOOLS, ExtravaganzaItems.WRENCH_AGANZA)
 				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.WRENCH_AGANZA), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.WRENCH_AGANZA))

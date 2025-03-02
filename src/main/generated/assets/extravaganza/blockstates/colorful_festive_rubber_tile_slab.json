@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "extravaganza:block/colorful_festive_rubber_tile_slab"
+    },
+    "type=double": {
+      "model": "extravaganza:block/colorful_festive_rubber_tiles"
+    },
+    "type=top": {
+      "model": "extravaganza:block/colorful_festive_rubber_tile_slab_top"
+    }
+  }
+}
