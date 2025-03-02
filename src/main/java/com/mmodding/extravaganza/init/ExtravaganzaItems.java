@@ -18,6 +18,11 @@ public class ExtravaganzaItems {
 
 	public static final Item RUBBER = new Item(new Item.Settings());
 
+	public static final Item TEAR_DYE = new Item(new Item.Settings());
+	public static final Item PLANT_DYE = new Item(new Item.Settings());
+	public static final Item NYMPH_DYE = new Item(new Item.Settings());
+	public static final Item TOMATO_DYE = new Item(new Item.Settings());
+
 	public static final Item COMMON_FESTIVE_COIN = new Item(new Item.Settings().maxCount(96));
 	public static final Item UNCOMMON_FESTIVE_COIN = new Item(new Item.Settings().maxCount(96));
 	public static final Item GOLDEN_FESTIVE_COIN = new Item(new Item.Settings().maxCount(96));
@@ -43,6 +48,10 @@ public class ExtravaganzaItems {
 		Registry.register(Registries.ITEM, Extravaganza.createId("wrench_aganza"), ExtravaganzaItems.WRENCH_AGANZA);
 		Registry.register(Registries.ITEM, Extravaganza.createId("rubber_extractor"), ExtravaganzaItems.RUBBER_EXTRACTOR);
 		Registry.register(Registries.ITEM, Extravaganza.createId("rubber"), ExtravaganzaItems.RUBBER);
+		Registry.register(Registries.ITEM, Extravaganza.createId("tear_dye"), ExtravaganzaItems.TEAR_DYE);
+		Registry.register(Registries.ITEM, Extravaganza.createId("plant_dye"), ExtravaganzaItems.PLANT_DYE);
+		Registry.register(Registries.ITEM, Extravaganza.createId("nymph_dye"), ExtravaganzaItems.NYMPH_DYE);
+		Registry.register(Registries.ITEM, Extravaganza.createId("tomato_dye"), ExtravaganzaItems.TOMATO_DYE);
 		Registry.register(Registries.ITEM, Extravaganza.createId("common_festive_coin"), ExtravaganzaItems.COMMON_FESTIVE_COIN);
 		Registry.register(Registries.ITEM, Extravaganza.createId("uncommon_festive_coin"), ExtravaganzaItems.UNCOMMON_FESTIVE_COIN);
 		Registry.register(Registries.ITEM, Extravaganza.createId("golden_festive_coin"), ExtravaganzaItems.GOLDEN_FESTIVE_COIN);

@@ -560,20 +560,53 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			ExtravaganzaRecipeProvider.offerBarkBlockRecipe(exporter, ExtravaganzaBlocks.HEVEA_BRASILIENSIS_WOOD, ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG);
 			ExtravaganzaRecipeProvider.offerBarkBlockRecipe(exporter, ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD, ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG);
 			ExtravaganzaRecipeProvider.generateFamily(exporter, ExtravaganzaDataGenerator.HEVEA_BRASILIENSIS, FeatureSet.of(FeatureFlags.VANILLA));
+			ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaItems.TEAR_DYE, 2)
+				.input(Items.LIGHT_BLUE_DYE)
+				.input(Items.WHITE_DYE)
+				.group("tear_dye")
+				.criterion("has_light_blue_dye", ExtravaganzaRecipeProvider.conditionsFromItem(Items.LIGHT_BLUE_DYE))
+				.criterion("has_white_dye", ExtravaganzaRecipeProvider.conditionsFromItem(Items.WHITE_DYE))
+				.offerTo(exporter, "tear_dye_from_light_blue_and_white");
+			ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaItems.PLANT_DYE, 2)
+				.input(Items.LIME_DYE)
+				.input(Items.WHITE_DYE)
+				.group("plant_dye")
+				.criterion("has_lime_dye", ExtravaganzaRecipeProvider.conditionsFromItem(Items.LIME_DYE))
+				.criterion("has_white_dye", ExtravaganzaRecipeProvider.conditionsFromItem(Items.WHITE_DYE))
+				.offerTo(exporter, "plant_dye_from_lime_and_white");
+			ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaItems.NYMPH_DYE, 2)
+				.input(Items.MAGENTA_DYE)
+				.input(Items.WHITE_DYE)
+				.group("nymph_dye")
+				.criterion("has_magenta_dye", ExtravaganzaRecipeProvider.conditionsFromItem(Items.MAGENTA_DYE))
+				.criterion("has_white_dye", ExtravaganzaRecipeProvider.conditionsFromItem(Items.WHITE_DYE))
+				.offerTo(exporter, "nymph_dye_from_magenta_and_white");
+			ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ExtravaganzaItems.TOMATO_DYE, 2)
+				.input(Items.RED_DYE)
+				.input(Items.BROWN_DYE)
+				.group("tomato_dye")
+				.criterion("has_red_dye", ExtravaganzaRecipeProvider.conditionsFromItem(Items.RED_DYE))
+				.criterion("has_brown_dye", ExtravaganzaRecipeProvider.conditionsFromItem(Items.BROWN_DYE))
+				.offerTo(exporter, "tomato_dye_from_red_and_brown");
 			ExtravaganzaColor.VALUES.forEach(color -> {
 				Item festiveRubber = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber"));
 				Item trashCan = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber_ladder"));
 				Item ladder = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_trash_can"));
-				if (!color.equals(ExtravaganzaColor.PLANT) && !color.equals(ExtravaganzaColor.TOMATO) && !color.equals(ExtravaganzaColor.TEAR) && !color.equals(ExtravaganzaColor.NYMPH)) {
-					ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubber, 16)
-						.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubber), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubber))
-						.input('C', Registries.ITEM.get(Identifier.of(color.asString() + "_dye")))
-						.input('R', ExtravaganzaItems.RUBBER)
-						.pattern("CRC")
-						.pattern("RCR")
-						.pattern("CRC")
-						.offerTo(exporter);
+				Identifier dyeIdentifier;
+				if (color.equals(ExtravaganzaColor.TEAR) || color.equals(ExtravaganzaColor.PLANT) || color.equals(ExtravaganzaColor.NYMPH) || color.equals(ExtravaganzaColor.TOMATO)) {
+					dyeIdentifier = Extravaganza.createId(color.asString() + "_dye");
 				}
+				else {
+					dyeIdentifier = Identifier.of(color.asString() + "_dye");
+				}
+				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, festiveRubber, 16)
+					.criterion(ExtravaganzaRecipeProvider.hasItem(festiveRubber), ExtravaganzaRecipeProvider.conditionsFromItem(festiveRubber))
+					.input('C', Registries.ITEM.get(dyeIdentifier))
+					.input('R', ExtravaganzaItems.RUBBER)
+					.pattern("CRC")
+					.pattern("RCR")
+					.pattern("CRC")
+					.offerTo(exporter);
 				ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, trashCan, 4)
 					.criterion(ExtravaganzaRecipeProvider.hasItem(trashCan), ExtravaganzaRecipeProvider.conditionsFromItem(trashCan))
 					.input('R', festiveRubber)

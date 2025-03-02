@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "extravaganza:tomato_dye"
+    },
+    "R": {
+      "item": "extravaganza:rubber"
+    }
+  },
+  "pattern": [
+    "CRC",
+    "RCR",
+    "CRC"
+  ],
+  "result": {
+    "count": 16,
+    "id": "extravaganza:tomato_festive_rubber"
+  }
+}
