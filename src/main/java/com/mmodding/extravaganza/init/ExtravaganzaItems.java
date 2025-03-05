@@ -5,6 +5,8 @@ import com.mmodding.extravaganza.ExtravaganzaColor;
 import com.mmodding.extravaganza.item.*;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.component.type.FoodComponent;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -33,6 +35,13 @@ public class ExtravaganzaItems {
 
 	public static final Item HOT_DOG = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(1.0f).snack().build()));
 	public static final Item HOT_DOG_WITH_MAYONNAISE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(1.5f).snack().build()));
+
+	public static final Item CHEESEBURGER = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(6).saturationModifier(2.5f).build()));
+	public static final Item BEESECHURGER = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(6).saturationModifier(2.5f).build()));
+
+	public static final Item WAY_TO_SUGARY_WHITECAKE = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(20).saturationModifier(10.0f).statusEffect(new StatusEffectInstance(StatusEffects.POISON, 20 * 15, 0, true, false, true), 1.0f).build()));
+
+	public static final Item COTTON_CANDY = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(3).saturationModifier(0.75f).build()));
 
 	public static final Item EMPTY_POPCORN = new EmptyPopcornItem(new Item.Settings().maxCount(16));
 	public static final Item POPCORN = new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(2).saturationModifier(0.5f).alwaysEdible().usingConvertsTo(ExtravaganzaItems.EMPTY_POPCORN).build()).maxCount(1));
@@ -65,6 +74,10 @@ public class ExtravaganzaItems {
 		Registry.register(Registries.ITEM, Extravaganza.createId("red_candy_cane"), ExtravaganzaItems.RED_CANDY_CANE);
 		Registry.register(Registries.ITEM, Extravaganza.createId("hot_dog"), ExtravaganzaItems.HOT_DOG);
 		Registry.register(Registries.ITEM, Extravaganza.createId("hot_dog_with_mayonnaise"), ExtravaganzaItems.HOT_DOG_WITH_MAYONNAISE);
+		Registry.register(Registries.ITEM, Extravaganza.createId("cheeseburger"), ExtravaganzaItems.CHEESEBURGER);
+		Registry.register(Registries.ITEM, Extravaganza.createId("beesechurger"), ExtravaganzaItems.BEESECHURGER);
+		Registry.register(Registries.ITEM, Extravaganza.createId("way_too_sugary_whitecake"), ExtravaganzaItems.WAY_TO_SUGARY_WHITECAKE);
+		Registry.register(Registries.ITEM, Extravaganza.createId("cotton_candy"), ExtravaganzaItems.COTTON_CANDY);
 		Registry.register(Registries.ITEM, Extravaganza.createId("empty_popcorn"), ExtravaganzaItems.EMPTY_POPCORN);
 		Registry.register(Registries.ITEM, Extravaganza.createId("popcorn"), ExtravaganzaItems.POPCORN);
 		Registry.register(Registries.ITEM, Extravaganza.createId("cherry_balloon"), ExtravaganzaItems.CHERRY_BALLOON);

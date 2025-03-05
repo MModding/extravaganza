@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "extravaganza:item/way_too_sugary_whitecake"
+  }
+}
