@@ -944,30 +944,56 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			this.getOrCreateTagBuilder(BlockTags.LEAVES)
 				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES);
 			FabricTagProvider<Block>.FabricTagBuilder festiveRubbers = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("festive_rubbers")));
+			FabricTagProvider<Block>.FabricTagBuilder festiveRubberLadders = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("festive_rubber_ladders")));
+			FabricTagProvider<Block>.FabricTagBuilder trashCans = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("trash_cans")));
 			FabricTagProvider<Block>.FabricTagBuilder climbable = this.getOrCreateTagBuilder(BlockTags.CLIMBABLE);
 			FabricTagProvider<Block>.FabricTagBuilder fences = this.getOrCreateTagBuilder(BlockTags.FENCES);
 			FabricTagProvider<Block>.FabricTagBuilder stairs = this.getOrCreateTagBuilder(BlockTags.STAIRS);
 			FabricTagProvider<Block>.FabricTagBuilder slabs = this.getOrCreateTagBuilder(BlockTags.SLABS);
 			FabricTagProvider<Block>.FabricTagBuilder walls = this.getOrCreateTagBuilder(BlockTags.WALLS);
+			FabricTagProvider<Block>.FabricTagBuilder saplings = this.getOrCreateTagBuilder(BlockTags.SAPLINGS);
+			FabricTagProvider<Block>.FabricTagBuilder pressure_plates = this.getOrCreateTagBuilder(BlockTags.WOODEN_PRESSURE_PLATES);
+			FabricTagProvider<Block>.FabricTagBuilder buttons = this.getOrCreateTagBuilder(BlockTags.WOODEN_BUTTONS);
+			FabricTagProvider<Block>.FabricTagBuilder doors = this.getOrCreateTagBuilder(BlockTags.WOODEN_DOORS);
+			FabricTagProvider<Block>.FabricTagBuilder trapdoors = this.getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS);
 			Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
 				String path = key.getValue().getPath();
-				if (path.contains("festive_rubber") && !path.contains("ladder") && !path.contains("stairs") && !path.contains("slab") && !path.contains("wall")) {
-					festiveRubbers.add(Registries.BLOCK.get(key));
-				}
 				if (path.contains("ladder")) {
 					climbable.add(Registries.BLOCK.get(key));
+					festiveRubberLadders.add(Registries.BLOCK.get(key));
 				}
-				if (path.contains("fence")) {
+				else if (path.contains("fence")) {
 					fences.add(Registries.BLOCK.get(key));
 				}
-				if (path.contains("stairs")) {
+				else if (path.contains("sapling")) {
+					saplings.add(Registries.BLOCK.get(key));
+				}
+				else if (path.contains("button")) {
+					buttons.add(Registries.BLOCK.get(key));
+				}
+				else if (path.contains("trapdoor")) {
+					trapdoors.add(Registries.BLOCK.get(key));
+				}
+				else if (path.contains("door")) {
+					doors.add(Registries.BLOCK.get(key));
+				}
+				else if (path.contains("pressure_plate")) {
+					pressure_plates.add(Registries.BLOCK.get(key));
+				}
+				else if (path.contains("stairs")) {
 					stairs.add(Registries.BLOCK.get(key));
 				}
-				if (path.contains("slab")) {
+				else if (path.contains("slab")) {
 					slabs.add(Registries.BLOCK.get(key));
 				}
-				if (path.contains("wall")) {
+				else if (path.contains("wall")) {
 					walls.add(Registries.BLOCK.get(key));
+				}
+				else if (path.contains("trash_can")) {
+					trashCans.add(Registries.BLOCK.get(key));
+				}
+				else if (path.contains("festive_rubber")) {
+					festiveRubbers.add(Registries.BLOCK.get(key));
 				}
 			});
 		}
