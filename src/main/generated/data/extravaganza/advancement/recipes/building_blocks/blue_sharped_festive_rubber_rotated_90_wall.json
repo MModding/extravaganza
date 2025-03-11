@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_blue_sharped_festive_rubber_rotated_90_wall": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:blue_sharped_festive_rubber_rotated_90_wall"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:blue_sharped_festive_rubber_rotated_90_wall"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_blue_sharped_festive_rubber_rotated_90_wall"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:blue_sharped_festive_rubber_rotated_90_wall"
+    ]
+  }
+}

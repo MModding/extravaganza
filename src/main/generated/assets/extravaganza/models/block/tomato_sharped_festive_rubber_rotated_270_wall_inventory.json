@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "extravaganza:block/tomato_sharped_festive_rubber_rotated_270"
+  }
+}

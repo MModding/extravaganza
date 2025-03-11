@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/template_wall_side_tall",
-  "textures": {
-    "wall": "extravaganza:block/colorful_inverted_scratched_festive_rubber"
-  }
-}

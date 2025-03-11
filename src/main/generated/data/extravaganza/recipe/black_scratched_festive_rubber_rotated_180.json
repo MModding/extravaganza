@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "extravaganza:black_festive_rubber"
+  },
+  "result": {
+    "count": 1,
+    "id": "extravaganza:black_scratched_festive_rubber_rotated_180"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:yellow_sharped_festive_rubber_rotated_90"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_yellow_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:yellow_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_yellow_festive_rubber"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:yellow_sharped_festive_rubber_rotated_90"
+    ]
+  }
+}

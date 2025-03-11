@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_lime_sharped_festive_rubber_rotated_180_wall": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:lime_sharped_festive_rubber_rotated_180_wall"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:lime_sharped_festive_rubber_rotated_180_wall"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_lime_sharped_festive_rubber_rotated_180_wall"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:lime_sharped_festive_rubber_rotated_180_wall"
+    ]
+  }
+}

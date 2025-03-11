@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": {
+      "item": "extravaganza:nymph_sharped_festive_rubber_rotated_180"
+    }
+  },
+  "pattern": [
+    "RRR"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extravaganza:nymph_sharped_festive_rubber_rotated_180_slab"
+  }
+}

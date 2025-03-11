@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "extravaganza:block/pink_inverted_scratched_festive_rubber",
-    "side": "extravaganza:block/pink_inverted_scratched_festive_rubber",
-    "top": "extravaganza:block/pink_inverted_scratched_festive_rubber"
-  }
-}

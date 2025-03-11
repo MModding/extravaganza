@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_tear_scratched_festive_rubber_rotated_180_wall": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:tear_scratched_festive_rubber_rotated_180_wall"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:tear_scratched_festive_rubber_rotated_180_wall"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_tear_scratched_festive_rubber_rotated_180_wall"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:tear_scratched_festive_rubber_rotated_180_wall"
+    ]
+  }
+}

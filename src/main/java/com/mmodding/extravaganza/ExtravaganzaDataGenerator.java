@@ -628,13 +628,23 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				Set.of(
 					"aligned", "barred", "bent", "curved",
 					"dotted", "padded", "perforated", "planked",
-					"poured", "scratched", "inverted_scratched", "screwed",
-					"sharped", "inverted_sharped", "slipped", "split",
+					"poured", "scratched", "scratched_rotated_90", "scratched_rotated_180",
+					"scratched_rotated_270", "screwed", "sharped", "sharped_rotated_90",
+					"sharped_rotated_180", "sharped_rotated_270", "slipped", "split",
 					"striped", "tiled", "traversable", "windowed",
 					"wooded", /* those are a bit special */ "glass", "grate", /* normal one */ ""
 				).forEach(
 					prefix -> {
 						String path = !prefix.equals("glass") && !prefix.equals("grate") ? prefix + "_festive_rubber" : "festive_rubber_" + prefix;
+						if (path.contains("_rotated_90")) {
+							path = path.replace("_rotated_90", "") + "_rotated_90";
+						}
+						else if (path.contains("_rotated_180")) {
+							path = path.replace("_rotated_180", "") + "_rotated_180";
+						}
+						else if (path.contains("_rotated_270")) {
+							path = path.replace("_rotated_270", "") + "_rotated_270";
+						}
 						Identifier identifier = Extravaganza.createId(color.asString() + (!prefix.isEmpty() ? "_" + path : "_festive_rubber"));
 						Item currentFestiveRubber = Registries.ITEM.get(identifier);
 						if (!prefix.isEmpty()) {
@@ -690,12 +700,21 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				.offerTo(exporter);
 			Set.of(
 				"bent", "curved", "padded", "perforated",
-				"scratched", "inverted_scratched", "screwed", "slipped",
-				"striped", "tiled", "windowed", "chiseled",
-				/* special ones (again) */ "bricks", "tiles", "pavers", "glass",
-				"grate", /* default one */ ""
+				"scratched", "scratched_rotated_90", "scratched_rotated_180", "scratched_rotated_270",
+				"screwed", "slipped", "striped", "tiled",
+				"windowed", "chiseled", /* special ones (again) */ "bricks", "tiles",
+				"pavers", "glass", "grate", /* default one */ ""
 			).forEach(prefix -> {
 				String path = !Set.of("bricks", "tiles", "pavers", "glass", "grate").contains(prefix) ? prefix + "_festive_rubber" : "festive_rubber_" + prefix;
+				if (path.contains("_rotated_90")) {
+					path = path.replace("_rotated_90", "") + "_rotated_90";
+				}
+				else if (path.contains("_rotated_180")) {
+					path = path.replace("_rotated_180", "") + "_rotated_180";
+				}
+				else if (path.contains("_rotated_270")) {
+					path = path.replace("_rotated_270", "") + "_rotated_270";
+				}
 				Identifier identifier = Extravaganza.createId("colorful" + (!prefix.isEmpty() ? "_" + path : "_festive_rubber"));
 				Item currentColorfulFestiveRubber = Registries.ITEM.get(identifier);
 				if (!prefix.isEmpty()) {

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_plant_sharped_festive_rubber_rotated_90_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:plant_sharped_festive_rubber_rotated_90_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:plant_sharped_festive_rubber_rotated_90_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_plant_sharped_festive_rubber_rotated_90_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:plant_sharped_festive_rubber_rotated_90_slab"
+    ]
+  }
+}

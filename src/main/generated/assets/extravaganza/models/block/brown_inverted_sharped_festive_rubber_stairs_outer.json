@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "extravaganza:block/brown_inverted_sharped_festive_rubber",
-    "side": "extravaganza:block/brown_inverted_sharped_festive_rubber",
-    "top": "extravaganza:block/brown_inverted_sharped_festive_rubber"
-  }
-}

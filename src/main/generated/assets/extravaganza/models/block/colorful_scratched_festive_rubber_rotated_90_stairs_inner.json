@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "extravaganza:block/colorful_scratched_festive_rubber_rotated_90",
+    "side": "extravaganza:block/colorful_scratched_festive_rubber_rotated_90",
+    "top": "extravaganza:block/colorful_scratched_festive_rubber_rotated_90"
+  }
+}

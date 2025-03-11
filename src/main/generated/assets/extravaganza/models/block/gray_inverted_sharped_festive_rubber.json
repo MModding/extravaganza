@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "extravaganza:block/gray_inverted_sharped_festive_rubber"
-  }
-}

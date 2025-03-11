@@ -111,10 +111,14 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerColoredBlockSet("planked_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOD));
 		ExtravaganzaBlocks.registerColoredBlockSet("poured_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
 		ExtravaganzaBlocks.registerColoredBlockSet("scratched_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("inverted_scratched_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
+		ExtravaganzaBlocks.registerColoredBlockSet("scratched_festive_rubber_rotated_90", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
+		ExtravaganzaBlocks.registerColoredBlockSet("scratched_festive_rubber_rotated_180", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
+		ExtravaganzaBlocks.registerColoredBlockSet("scratched_festive_rubber_rotated_270", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
 		ExtravaganzaBlocks.registerColoredBlockSet("screwed_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
 		ExtravaganzaBlocks.registerColoredBlockSet("sharped_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("inverted_sharped_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
+		ExtravaganzaBlocks.registerColoredBlockSet("sharped_festive_rubber_rotated_90", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
+		ExtravaganzaBlocks.registerColoredBlockSet("sharped_festive_rubber_rotated_180", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
+		ExtravaganzaBlocks.registerColoredBlockSet("sharped_festive_rubber_rotated_270", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
 		ExtravaganzaBlocks.registerColoredBlockSet("slipped_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
 		ExtravaganzaBlocks.registerColoredBlockSet("split_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
 		ExtravaganzaBlocks.registerColoredBlockSet("striped_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
@@ -134,7 +138,9 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerBlockSet("colorful_padded_festive_rubber", COLORFUL_SETTINGS.get());
 		ExtravaganzaBlocks.registerBlockSet("colorful_perforated_festive_rubber", COLORFUL_SETTINGS.get());
 		ExtravaganzaBlocks.registerBlockSet("colorful_scratched_festive_rubber", COLORFUL_SETTINGS.get());
-		ExtravaganzaBlocks.registerBlockSet("colorful_inverted_scratched_festive_rubber", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_scratched_festive_rubber_rotated_90", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_scratched_festive_rubber_rotated_180", COLORFUL_SETTINGS.get());
+		ExtravaganzaBlocks.registerBlockSet("colorful_scratched_festive_rubber_rotated_270", COLORFUL_SETTINGS.get());
 		ExtravaganzaBlocks.registerBlockSet("colorful_screwed_festive_rubber", COLORFUL_SETTINGS.get());
 		ExtravaganzaBlocks.registerBlockSet("colorful_slipped_festive_rubber", COLORFUL_SETTINGS.get());
 		ExtravaganzaBlocks.registerBlockSet("colorful_striped_festive_rubber", COLORFUL_SETTINGS.get());

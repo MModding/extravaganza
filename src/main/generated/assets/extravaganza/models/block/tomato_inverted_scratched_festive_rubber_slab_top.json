@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "extravaganza:block/tomato_inverted_scratched_festive_rubber",
-    "side": "extravaganza:block/tomato_inverted_scratched_festive_rubber",
-    "top": "extravaganza:block/tomato_inverted_scratched_festive_rubber"
-  }
-}
