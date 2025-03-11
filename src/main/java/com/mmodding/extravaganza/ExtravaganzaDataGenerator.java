@@ -943,17 +943,30 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS);
 			this.getOrCreateTagBuilder(BlockTags.LEAVES)
 				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES);
+			FabricTagProvider<Block>.FabricTagBuilder festiveRubbers = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("festive_rubbers")));
 			FabricTagProvider<Block>.FabricTagBuilder climbable = this.getOrCreateTagBuilder(BlockTags.CLIMBABLE);
 			FabricTagProvider<Block>.FabricTagBuilder fences = this.getOrCreateTagBuilder(BlockTags.FENCES);
+			FabricTagProvider<Block>.FabricTagBuilder stairs = this.getOrCreateTagBuilder(BlockTags.STAIRS);
+			FabricTagProvider<Block>.FabricTagBuilder slabs = this.getOrCreateTagBuilder(BlockTags.SLABS);
 			FabricTagProvider<Block>.FabricTagBuilder walls = this.getOrCreateTagBuilder(BlockTags.WALLS);
 			Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
-				if (key.getValue().getPath().contains("ladder")) {
+				String path = key.getValue().getPath();
+				if (path.contains("festive_rubber") && !path.contains("ladder") && !path.contains("stairs") && !path.contains("slab") && !path.contains("wall")) {
+					festiveRubbers.add(Registries.BLOCK.get(key));
+				}
+				if (path.contains("ladder")) {
 					climbable.add(Registries.BLOCK.get(key));
 				}
-				if (key.getValue().getPath().contains("fence")) {
+				if (path.contains("fence")) {
 					fences.add(Registries.BLOCK.get(key));
 				}
-				if (key.getValue().getPath().contains("wall")) {
+				if (path.contains("stairs")) {
+					stairs.add(Registries.BLOCK.get(key));
+				}
+				if (path.contains("slab")) {
+					slabs.add(Registries.BLOCK.get(key));
+				}
+				if (path.contains("wall")) {
 					walls.add(Registries.BLOCK.get(key));
 				}
 			});
