@@ -1,13 +1,20 @@
-// 1.21	2025-03-11T22:56:22.6725949	Extravaganza!/Tags for minecraft:block
-3beb633387723292a10db14ec0b409495df02047 data\extravaganza\tags\block\festive_rubbers.json
+// 1.21	2025-03-11T18:30:37.5324106	Extravaganza!/Tags for minecraft:block
+2d9295cb924359497ef7b21c3b4303469f4954ac data\extravaganza\tags\block\trash_cans.json
+43eb9b19981a25fd612ae81e92dda523cec50ab5 data\minecraft\tags\block\wooden_buttons.json
+f3d40243906df8a86411541141c56f143c0c66b8 data\extravaganza\tags\block\festive_rubber_ladders.json
+6f01c28a2fb1851d5343826e0c1f4a3fc471e198 data\minecraft\tags\block\wooden_pressure_plates.json
+55786c9bbcdceb69fa2bf2b3be010a0cac171f71 data\minecraft\tags\block\mineable\pickaxe.json
 344d7e09e43b7cb81d9e8bfb620cf14915f48ace data\minecraft\tags\block\slabs.json
 d49855514a52a24131b88491ec7e495f06f34d3d data\minecraft\tags\block\stairs.json
+55786c9bbcdceb69fa2bf2b3be010a0cac171f71 data\minecraft\tags\block\needs_stone_tool.json
+dbff392afc55efca744c56e3454d0e5de2012e20 data\minecraft\tags\block\fences.json
+e35ac935d3c22f3ac71f623769b56109430b4914 data\minecraft\tags\block\mineable\axe.json
 a8b6770510cf194d8c33705d68e554cc38552304 data\minecraft\tags\block\leaves.json
 c58fa380156a46ee40acafab7082a5d157ddaa7f data\minecraft\tags\block\planks.json
-869b050fc75552bca4dae428fbfd91837c77b108 data\minecraft\tags\block\logs_that_burn.json
-f3d40243906df8a86411541141c56f143c0c66b8 data\minecraft\tags\block\climbable.json
-dbff392afc55efca744c56e3454d0e5de2012e20 data\minecraft\tags\block\fences.json
+3beb633387723292a10db14ec0b409495df02047 data\extravaganza\tags\block\festive_rubbers.json
+57459d1d6fd225ae179bbdce3ade5a8d128ed6c3 data\minecraft\tags\block\wooden_trapdoors.json
 40622e1c7d6e47e5f62985bf710e45b77d59e8d5 data\minecraft\tags\block\walls.json
-55786c9bbcdceb69fa2bf2b3be010a0cac171f71 data\minecraft\tags\block\mineable\pickaxe.json
-e35ac935d3c22f3ac71f623769b56109430b4914 data\minecraft\tags\block\mineable\axe.json
-55786c9bbcdceb69fa2bf2b3be010a0cac171f71 data\minecraft\tags\block\needs_stone_tool.json
+f3d40243906df8a86411541141c56f143c0c66b8 data\minecraft\tags\block\climbable.json
+6348c9375c7d45b0500ed4d6e0c08a8d0120e379 data\minecraft\tags\block\wooden_doors.json
+8977a2cb938819a7f30627ea872c5ced6bac6fcd data\minecraft\tags\block\saplings.json
+869b050fc75552bca4dae428fbfd91837c77b108 data\minecraft\tags\block\logs_that_burn.json
