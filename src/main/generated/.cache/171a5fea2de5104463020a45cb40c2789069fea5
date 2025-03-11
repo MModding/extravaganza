@@ -1,10 +1,10 @@
-// 1.21	2025-03-11T20:15:17.8022303	Extravaganza!/Tags for minecraft:block
+// 1.21	2025-03-11T22:38:31.3602974	Extravaganza!/Tags for minecraft:block
 dbff392afc55efca744c56e3454d0e5de2012e20 data\minecraft\tags\block\fences.json
 40622e1c7d6e47e5f62985bf710e45b77d59e8d5 data\minecraft\tags\block\walls.json
 55786c9bbcdceb69fa2bf2b3be010a0cac171f71 data\minecraft\tags\block\mineable\pickaxe.json
 a8b6770510cf194d8c33705d68e554cc38552304 data\minecraft\tags\block\leaves.json
 e35ac935d3c22f3ac71f623769b56109430b4914 data\minecraft\tags\block\mineable\axe.json
-55786c9bbcdceb69fa2bf2b3be010a0cac171f71 data\minecraft\tags\block\needs_stone_tool.json
 c58fa380156a46ee40acafab7082a5d157ddaa7f data\minecraft\tags\block\planks.json
+55786c9bbcdceb69fa2bf2b3be010a0cac171f71 data\minecraft\tags\block\needs_stone_tool.json
 869b050fc75552bca4dae428fbfd91837c77b108 data\minecraft\tags\block\logs_that_burn.json
 f3d40243906df8a86411541141c56f143c0c66b8 data\minecraft\tags\block\climbable.json

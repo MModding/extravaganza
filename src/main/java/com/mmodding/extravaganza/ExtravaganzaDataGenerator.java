@@ -135,6 +135,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			translations.add("painting.extravaganza.reflect.title", "Reflect");
 			translations.add("tag.item.extravaganza.festive_balls", "Festive Balls");
 			Extravaganza.executeKeyForRegistry(Registries.ITEM, key -> translations.add(Registries.ITEM.get(key), this.makeItReadable(key)));
+			Extravaganza.executeKeyForRegistry(Registries.ENTITY_TYPE, key -> translations.add(Registries.ENTITY_TYPE.get(key), this.makeItReadable(key)));
 		}
 
 		private <T> String makeItReadable(RegistryKey<T> key) {
