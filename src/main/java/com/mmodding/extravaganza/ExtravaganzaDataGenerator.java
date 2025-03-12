@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.*;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.data.client.*;
@@ -938,11 +939,15 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG)
 				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_WOOD)
 				.add(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG)
-				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_WOOD);
+				.add(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD);
 			this.getOrCreateTagBuilder(BlockTags.PLANKS)
 				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS);
 			this.getOrCreateTagBuilder(BlockTags.LEAVES)
 				.add(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES);
+			this.getOrCreateTagBuilder(ConventionalBlockTags.STRIPPED_LOGS)
+				.add(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG);
+			this.getOrCreateTagBuilder(ConventionalBlockTags.STRIPPED_WOODS)
+				.add(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD);
 			FabricTagProvider<Block>.FabricTagBuilder festiveRubbers = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("festive_rubbers")));
 			FabricTagProvider<Block>.FabricTagBuilder festiveRubberLadders = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("festive_rubber_ladders")));
 			FabricTagProvider<Block>.FabricTagBuilder trashCans = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("trash_cans")));
