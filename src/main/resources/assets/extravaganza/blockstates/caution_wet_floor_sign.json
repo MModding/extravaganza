@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "extravaganza:block/caution_wet_floor_sign"
+    },
+    "facing=east": {
+      "model": "extravaganza:block/caution_wet_floor_sign",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "extravaganza:block/caution_wet_floor_sign",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "extravaganza:block/caution_wet_floor_sign",
+      "y": 270
+    }
+  }
+}

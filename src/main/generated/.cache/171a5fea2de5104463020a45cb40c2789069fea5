@@ -1,4 +1,4 @@
-// 1.21	2025-03-11T22:56:22.6725949	Extravaganza!/Tags for minecraft:block
+// 1.21	2025-03-13T18:57:52.8862681	Extravaganza!/Tags for minecraft:block
 3beb633387723292a10db14ec0b409495df02047 data\extravaganza\tags\block\festive_rubbers.json
 344d7e09e43b7cb81d9e8bfb620cf14915f48ace data\minecraft\tags\block\slabs.json
 d49855514a52a24131b88491ec7e495f06f34d3d data\minecraft\tags\block\stairs.json
@@ -8,6 +8,6 @@ c58fa380156a46ee40acafab7082a5d157ddaa7f data\minecraft\tags\block\planks.json
 f3d40243906df8a86411541141c56f143c0c66b8 data\minecraft\tags\block\climbable.json
 dbff392afc55efca744c56e3454d0e5de2012e20 data\minecraft\tags\block\fences.json
 40622e1c7d6e47e5f62985bf710e45b77d59e8d5 data\minecraft\tags\block\walls.json
-55786c9bbcdceb69fa2bf2b3be010a0cac171f71 data\minecraft\tags\block\mineable\pickaxe.json
+eb6242d55273cf90c47b99c9c6d054630b469cbd data\minecraft\tags\block\mineable\pickaxe.json
 e35ac935d3c22f3ac71f623769b56109430b4914 data\minecraft\tags\block\mineable\axe.json
-55786c9bbcdceb69fa2bf2b3be010a0cac171f71 data\minecraft\tags\block\needs_stone_tool.json
+eb6242d55273cf90c47b99c9c6d054630b469cbd data\minecraft\tags\block\needs_stone_tool.json

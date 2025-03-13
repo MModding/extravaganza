@@ -166,6 +166,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			block.equals(ExtravaganzaBlocks.POPCORN_MACHINE) ||
 			block.equals(ExtravaganzaBlocks.GARLAND) ||
 			block.equals(ExtravaganzaBlocks.PINATA) ||
+			block.equals(ExtravaganzaBlocks.CAUTION_WET_FLOOR_SIGN) ||
 			block.equals(ExtravaganzaBlocks.TEAR_STAINED_GLASS) ||
 			block.equals(ExtravaganzaBlocks.PLANT_STAINED_GLASS) ||
 			block.equals(ExtravaganzaBlocks.TOMATO_STAINED_GLASS) ||
@@ -174,9 +175,10 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		private final static Set<Block> WITH_GENERATED_ITEM = Set.of(
 			ExtravaganzaBlocks.BALL_PIT_CONTENT,
 			ExtravaganzaBlocks.BALL_DISTRIBUTOR,
+			ExtravaganzaBlocks.POPCORN_MACHINE,
 			ExtravaganzaBlocks.GARLAND,
 			ExtravaganzaBlocks.PINATA,
-			ExtravaganzaBlocks.POPCORN_MACHINE
+			ExtravaganzaBlocks.CAUTION_WET_FLOOR_SIGN
 		);
 
 		private static final Predicate<Item> UNCOMMON_ITEMS = item -> item.equals(ExtravaganzaItems.BAT);
