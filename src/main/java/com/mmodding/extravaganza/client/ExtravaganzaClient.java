@@ -1,10 +1,7 @@
 package com.mmodding.extravaganza.client;
 
 import com.mmodding.extravaganza.block.TrashCanBlock;
-import com.mmodding.extravaganza.client.init.ExtravaganzaModelLayers;
-import com.mmodding.extravaganza.client.init.ExtravaganzaParticles;
-import com.mmodding.extravaganza.client.init.ExtravaganzaRenderLayers;
-import com.mmodding.extravaganza.client.init.ExtravaganzaRenderers;
+import com.mmodding.extravaganza.client.init.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.item.BlockItem;
@@ -24,6 +21,7 @@ public class ExtravaganzaClient implements ClientModInitializer {
 		ExtravaganzaParticles.register();
 		ExtravaganzaRenderers.register();
 		ExtravaganzaRenderLayers.register();
+		ExtravaganzaColorProviders.register();
 		ItemTooltipCallback.EVENT.register(ExtravaganzaClient::itemTooltipCallback);
 	}
 

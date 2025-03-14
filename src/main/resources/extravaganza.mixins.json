@@ -5,6 +5,7 @@
   "mixins": [
     "DamageSourceMixin",
     "EntityMixin",
+    "ItemEntityMixin",
     "ServerPlayerInteractionManagerMixin",
     "TallPlantBlockAccessor"
   ],

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class ExtravaganzaRenderLayers {
 
-	private static final Set<String> CUTOUT = Set.of("sapling", "table", "popcorn", "garland", "pinata", "grate", "traversable", "windowed", "ladder");
+	private static final Set<String> CUTOUT = Set.of("sapling", "table", "popcorn", "garland", "pinata", "grate", "traversable", "windowed", "ladder", "ink_marks");
 
 	private static final Set<String> TRANSLUCENT = Set.of("distributor", "glass");
 

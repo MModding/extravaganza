@@ -1,8 +1,10 @@
 package com.mmodding.extravaganza.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mmodding.extravaganza.block.BallPitContentBlock;
+import com.mmodding.extravaganza.block.InkMarksBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -53,6 +55,16 @@ public abstract class EntityMixin {
 	private void removeHandleFallDamageIfBallPollContent(Block instance, World world, BlockState state, BlockPos landedPosition, Entity entity, float fallDistance, Operation<Void> original) {
 		if (!this.getWorld().getBlockState(this.getBlockPos()).isOf(ExtravaganzaBlocks.BALL_PIT_CONTENT)) {
 			original.call(instance, world, state, landedPosition, entity, fallDistance);
+		}
+	}
+
+	@ModifyReturnValue(method = "getVelocityAffectingPos", at = @At("RETURN"))
+	private BlockPos modifyVelocityAffectingPos(BlockPos original) {
+		if (this.getWorld().getBlockState(this.getBlockPos()).getBlock() instanceof InkMarksBlock) {
+			return this.getBlockPos();
+		}
+		else {
+			return original;
 		}
 	}
 }

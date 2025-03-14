@@ -1,9 +1,6 @@
 package com.mmodding.extravaganza;
 
-import com.mmodding.extravaganza.block.BallDistributorBlock;
-import com.mmodding.extravaganza.block.GarlandBlock;
-import com.mmodding.extravaganza.block.HeveaBrasiliensisLog;
-import com.mmodding.extravaganza.block.TrashCanBlock;
+import com.mmodding.extravaganza.block.*;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.extravaganza.init.ExtravaganzaDamageTypes;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
@@ -65,6 +62,11 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 	public static final Function<Block, TextureMap> MAIN = block -> TextureMap.of(ExtravaganzaDataGenerator.MAIN_KEY, TextureMap.getId(block));
 
 	public static final Function<Block, TextureMap> MAIN_PARTICLE = block -> ExtravaganzaDataGenerator.MAIN.apply(block).put(TextureKey.PARTICLE, TextureMap.getId(block));
+
+	public static final TexturedModel.Factory INK_MARKS = TexturedModel.makeFactory(
+		ExtravaganzaDataGenerator.MAIN_PARTICLE,
+		ExtravaganzaDataGenerator.MAIN_PARTICLE_MODEL.apply("block/ink_marks")
+	);
 
 	public static final TexturedModel.Factory TRASH_CAN = TexturedModel.makeFactory(
 		ExtravaganzaDataGenerator.MAIN_PARTICLE,
@@ -158,6 +160,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 	public static class ExtravaganzaModelProvider extends FabricModelProvider {
 
 		private static final Predicate<Block> UNCOMMON_BLOCKS = block ->
+			block instanceof InkMarksBlock ||
 			block instanceof TrashCanBlock ||
 			block instanceof LadderBlock ||
 			block.equals(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE) ||
@@ -278,6 +281,11 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				}
 				else if (Registries.BLOCK.getId(block).getPath().contains("stained")) {
 					blockStateModelGenerator.registerSimpleCubeAll(block);
+				}
+				else if (block instanceof InkMarksBlock) {
+					String path = "block/" + (Registries.BLOCK.getId(block).getPath().contains("colorful") ? "colorful_" : "") + "ink_marks";
+					blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(block, Extravaganza.createId(path)));
+					Models.GENERATED.upload(ModelIds.getItemModelId(block.asItem()), TextureMap.layer0(Extravaganza.createId(path)), blockStateModelGenerator.modelCollector);
 				}
 				else if (block instanceof TrashCanBlock) {
 					Identifier trashCan = ExtravaganzaDataGenerator.TRASH_CAN.upload(block, blockStateModelGenerator.modelCollector);
@@ -952,6 +960,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				.add(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD);
 			FabricTagProvider<Block>.FabricTagBuilder festiveRubbers = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("festive_rubbers")));
 			FabricTagProvider<Block>.FabricTagBuilder festiveRubberLadders = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("festive_rubber_ladders")));
+			FabricTagProvider<Block>.FabricTagBuilder inkMarks = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("ink_marks")));
 			FabricTagProvider<Block>.FabricTagBuilder trashCans = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("trash_cans")));
 			FabricTagProvider<Block>.FabricTagBuilder climbable = this.getOrCreateTagBuilder(BlockTags.CLIMBABLE);
 			FabricTagProvider<Block>.FabricTagBuilder fences = this.getOrCreateTagBuilder(BlockTags.FENCES);
@@ -995,6 +1004,9 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				}
 				else if (path.contains("wall")) {
 					walls.add(Registries.BLOCK.get(key));
+				}
+				else if (path.contains("ink_marks")) {
+					inkMarks.add(Registries.BLOCK.get(key));
 				}
 				else if (path.contains("trash_can")) {
 					trashCans.add(Registries.BLOCK.get(key));
