@@ -2,27 +2,7 @@
   "values": [
     "extravaganza:ball_distributor",
     "extravaganza:popcorn_machine",
-    "extravaganza:caution_wet_floor_sign",
-    "extravaganza:black_ink_marks",
-    "extravaganza:blue_ink_marks",
-    "extravaganza:brown_ink_marks",
-    "extravaganza:cyan_ink_marks",
-    "extravaganza:gray_ink_marks",
-    "extravaganza:green_ink_marks",
-    "extravaganza:light_blue_ink_marks",
-    "extravaganza:light_gray_ink_marks",
-    "extravaganza:lime_ink_marks",
-    "extravaganza:magenta_ink_marks",
-    "extravaganza:orange_ink_marks",
-    "extravaganza:pink_ink_marks",
-    "extravaganza:purple_ink_marks",
-    "extravaganza:red_ink_marks",
-    "extravaganza:white_ink_marks",
-    "extravaganza:yellow_ink_marks",
-    "extravaganza:plant_ink_marks",
-    "extravaganza:tomato_ink_marks",
-    "extravaganza:tear_ink_marks",
-    "extravaganza:nymph_ink_marks",
+    "extravaganza:cotton_candy_machine",
     "extravaganza:black_trash_can",
     "extravaganza:blue_trash_can",
     "extravaganza:brown_trash_can",
@@ -42,7 +22,6 @@
     "extravaganza:plant_trash_can",
     "extravaganza:tomato_trash_can",
     "extravaganza:tear_trash_can",
-    "extravaganza:nymph_trash_can",
-    "extravaganza:colorful_ink_marks"
+    "extravaganza:nymph_trash_can"
   ]
 }

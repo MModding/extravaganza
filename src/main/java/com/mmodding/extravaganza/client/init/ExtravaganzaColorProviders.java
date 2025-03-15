@@ -34,19 +34,24 @@ public class ExtravaganzaColorProviders {
 		Map.entry("nymph", 0xe79cb9)
 	);
 
-	public static void register() {
-		Block[] blockInkMarks = Extravaganza.extractKeyFromRegistry(Registries.BLOCK)
-			.filter(key -> key.getValue().getPath().contains("ink_marks") && !key.getValue().getPath().contains("colorful"))
+	private static void applyColorSet(String name) {
+		Block[] blockSet = Extravaganza.extractKeyFromRegistry(Registries.BLOCK)
+			.filter(key -> key.getValue().getPath().contains(name) && !key.getValue().getPath().contains("colorful"))
 			.map(Registries.BLOCK::get)
 			.toArray(Block[]::new);
 		ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
 			String path = Registries.BLOCK.getId(state.getBlock()).getPath();
-			return ExtravaganzaColorProviders.COLORS.get(path.substring(0, path.length() - 10)); // 10 is the length of "_ink_marks"
-		}, blockInkMarks);
-		Item[] itemInkMarks = Arrays.stream(blockInkMarks).map(Block::asItem).toArray(Item[]::new);
+			return ExtravaganzaColorProviders.COLORS.get(path.substring(0, path.length() - name.length() - 1));
+		}, blockSet);
+		Item[] itemSet = Arrays.stream(blockSet).map(Block::asItem).toArray(Item[]::new);
 		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
 			String path = Registries.ITEM.getId(stack.getItem()).getPath();
-			return ExtravaganzaColorProviders.COLORS.get(path.substring(0, path.length() - 10)); // 10 is the length of "_ink_marks"
-		}, itemInkMarks);
+			return ExtravaganzaColorProviders.COLORS.get(path.substring(0, path.length() - name.length() - 1));
+		}, itemSet);
+	}
+
+	public static void register() {
+		ExtravaganzaColorProviders.applyColorSet("ink_puddle");
+		ExtravaganzaColorProviders.applyColorSet("confetti");
 	}
 }

@@ -1,7 +1,9 @@
 package com.mmodding.extravaganza.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.mmodding.extravaganza.block.CottonCandyMachineBlock;
 import com.mmodding.extravaganza.block.TrashCanBlock;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
@@ -16,6 +18,7 @@ public class ServerPlayerInteractionManagerMixin {
 
 	@ModifyExpressionValue(method = "interactBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;shouldCancelInteraction()Z"))
 	private boolean allowTrashCan(boolean original, ServerPlayerEntity player, World world, ItemStack stack, Hand hand, BlockHitResult hitResult) {
-		return original && !(world.getBlockState(hitResult.getBlockPos()).getBlock() instanceof TrashCanBlock);
+		Block block = world.getBlockState(hitResult.getBlockPos()).getBlock();
+		return original && !(block instanceof TrashCanBlock) && !(block instanceof CottonCandyMachineBlock);
 	}
 }

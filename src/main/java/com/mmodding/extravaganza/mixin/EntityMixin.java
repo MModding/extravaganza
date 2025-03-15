@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mmodding.extravaganza.block.BallPitContentBlock;
-import com.mmodding.extravaganza.block.InkMarksBlock;
+import com.mmodding.extravaganza.block.FlattenedBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -60,7 +60,7 @@ public abstract class EntityMixin {
 
 	@ModifyReturnValue(method = "getVelocityAffectingPos", at = @At("RETURN"))
 	private BlockPos modifyVelocityAffectingPos(BlockPos original) {
-		if (this.getWorld().getBlockState(this.getBlockPos()).getBlock() instanceof InkMarksBlock) {
+		if (this.getWorld().getBlockState(this.getBlockPos()).getBlock() instanceof FlattenedBlock) {
 			return this.getBlockPos();
 		}
 		else {

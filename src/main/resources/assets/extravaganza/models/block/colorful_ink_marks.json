@@ -1,7 +1,0 @@
-{
-  "parent": "extravaganza:block/ink_marks",
-  "textures": {
-    "main": "extravaganza:block/colorful_ink_marks",
-    "particle": "extravaganza:block/colorful_ink_marks"
-  }
-}

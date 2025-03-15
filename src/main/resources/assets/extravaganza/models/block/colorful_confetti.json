@@ -1,0 +1,7 @@
+{
+  "parent": "extravaganza:block/confetti",
+  "textures": {
+    "main": "extravaganza:block/colorful_confetti",
+    "particle": "extravaganza:block/colorful_confetti"
+  }
+}

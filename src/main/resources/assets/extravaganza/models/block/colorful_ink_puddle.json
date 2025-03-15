@@ -1,0 +1,7 @@
+{
+  "parent": "extravaganza:block/ink_puddle",
+  "textures": {
+    "main": "extravaganza:block/colorful_ink_puddle",
+    "particle": "extravaganza:block/colorful_ink_puddle"
+  }
+}

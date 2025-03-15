@@ -63,11 +63,6 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
 	public static final Function<Block, TextureMap> MAIN_PARTICLE = block -> ExtravaganzaDataGenerator.MAIN.apply(block).put(TextureKey.PARTICLE, TextureMap.getId(block));
 
-	public static final TexturedModel.Factory INK_MARKS = TexturedModel.makeFactory(
-		ExtravaganzaDataGenerator.MAIN_PARTICLE,
-		ExtravaganzaDataGenerator.MAIN_PARTICLE_MODEL.apply("block/ink_marks")
-	);
-
 	public static final TexturedModel.Factory TRASH_CAN = TexturedModel.makeFactory(
 		ExtravaganzaDataGenerator.MAIN_PARTICLE,
 		ExtravaganzaDataGenerator.MAIN_PARTICLE_MODEL.apply("block/trash_can")
@@ -128,6 +123,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			translations.add("death.trash.player.0", "%1$s was shoved into a trash can by %2$s");
 			translations.add("death.trash.player.1", "%2$s took out the trash (%1$s)");
 			translations.add("itemGroup.extravaganza.main", "Extravaganza!");
+			translations.add("message.extravaganza.cotton_candy_machine", "There is %s sugar inside.");
 			translations.add("message.extravaganza.trash_can.right_click", "The player can open the trash by right-clicking.");
 			translations.add("message.extravaganza.trash_can.quick_throw", "The player can throw items to trash (one by one) by sneaking + right-clicking whenever the trash is open or not.");
 			translations.add("message.extravaganza.trash_can.opening_trash", "The player can throw entities to trash by putting them on top of the opened trash.");
@@ -160,7 +156,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 	public static class ExtravaganzaModelProvider extends FabricModelProvider {
 
 		private static final Predicate<Block> UNCOMMON_BLOCKS = block ->
-			block instanceof InkMarksBlock ||
+			block instanceof FlattenedBlock ||
 			block instanceof TrashCanBlock ||
 			block instanceof LadderBlock ||
 			block.equals(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE) ||
@@ -168,6 +164,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			block.equals(ExtravaganzaBlocks.BALL_PIT_PROTECTION) ||
 			block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR) ||
 			block.equals(ExtravaganzaBlocks.POPCORN_MACHINE) ||
+			block.equals(ExtravaganzaBlocks.COTTON_CANDY_MACHINE) ||
 			block.equals(ExtravaganzaBlocks.GARLAND) ||
 			block.equals(ExtravaganzaBlocks.PINATA) ||
 			block.equals(ExtravaganzaBlocks.CAUTION_WET_FLOOR_SIGN) ||
@@ -180,6 +177,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			ExtravaganzaBlocks.BALL_PIT_CONTENT,
 			ExtravaganzaBlocks.BALL_DISTRIBUTOR,
 			ExtravaganzaBlocks.POPCORN_MACHINE,
+			ExtravaganzaBlocks.COTTON_CANDY_MACHINE,
 			ExtravaganzaBlocks.GARLAND,
 			ExtravaganzaBlocks.PINATA,
 			ExtravaganzaBlocks.CAUTION_WET_FLOOR_SIGN
@@ -282,8 +280,9 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				else if (Registries.BLOCK.getId(block).getPath().contains("stained")) {
 					blockStateModelGenerator.registerSimpleCubeAll(block);
 				}
-				else if (block instanceof InkMarksBlock) {
-					String path = "block/" + (Registries.BLOCK.getId(block).getPath().contains("colorful") ? "colorful_" : "") + "ink_marks";
+				else if (block instanceof FlattenedBlock) {
+					String set = Registries.BLOCK.getId(block).getPath().contains("ink_puddle") ? "ink_puddle" : "confetti";
+					String path = "block/" + (Registries.BLOCK.getId(block).getPath().contains("colorful") ? "colorful_" : "") + set;
 					blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(block, Extravaganza.createId(path)));
 					Models.GENERATED.upload(ModelIds.getItemModelId(block.asItem()), TextureMap.layer0(Extravaganza.createId(path)), blockStateModelGenerator.modelCollector);
 				}
@@ -327,7 +326,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				else if (block.equals(ExtravaganzaBlocks.GARLAND)) {
 					this.generateGarlandModel(blockStateModelGenerator);
 				}
-				else if (block.equals(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE) || block.equals(ExtravaganzaBlocks.POPCORN_MACHINE)) {
+				else if (Set.of(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE, ExtravaganzaBlocks.POPCORN_MACHINE, ExtravaganzaBlocks.COTTON_CANDY_MACHINE).contains(block)) {
 					blockStateModelGenerator.registerNorthDefaultHorizontalRotation(block);
 					if (block.equals(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE)) {
 						blockStateModelGenerator.registerParentedItemModel(block, ModelIds.getBlockModelId(block));
@@ -937,10 +936,11 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 			Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
-				if (key.getValue().getPath().contains("hevea_brasiliensis") || key.getValue().getPath().contains("registration")) {
+				String path = key.getValue().getPath();
+				if (path.contains("hevea_brasiliensis") || path.contains("registration") || path.contains("sign")) {
 					this.getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(Registries.BLOCK.get(key));
 				}
-				else if (!key.getValue().getPath().contains("content") && !key.getValue().getPath().contains("rubber") && !key.getValue().getPath().contains("glass") && !key.getValue().getPath().contains("garland") && !key.getValue().getPath().contains("pinata")) {
+				else if (!path.contains("content") && !path.contains("ink_puddle") && !path.contains("confetti") && !path.contains("rubber") && !path.contains("glass") && !path.contains("garland") && !path.contains("pinata")) {
 					this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(Registries.BLOCK.get(key));
 					this.getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL).add(Registries.BLOCK.get(key));
 				}
@@ -960,7 +960,8 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				.add(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD);
 			FabricTagProvider<Block>.FabricTagBuilder festiveRubbers = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("festive_rubbers")));
 			FabricTagProvider<Block>.FabricTagBuilder festiveRubberLadders = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("festive_rubber_ladders")));
-			FabricTagProvider<Block>.FabricTagBuilder inkMarks = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("ink_marks")));
+			FabricTagProvider<Block>.FabricTagBuilder inkPuddles = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("ink_puddles")));
+			FabricTagProvider<Block>.FabricTagBuilder confetti = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("confetti")));
 			FabricTagProvider<Block>.FabricTagBuilder trashCans = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("trash_cans")));
 			FabricTagProvider<Block>.FabricTagBuilder climbable = this.getOrCreateTagBuilder(BlockTags.CLIMBABLE);
 			FabricTagProvider<Block>.FabricTagBuilder fences = this.getOrCreateTagBuilder(BlockTags.FENCES);
@@ -1005,8 +1006,11 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				else if (path.contains("wall")) {
 					walls.add(Registries.BLOCK.get(key));
 				}
-				else if (path.contains("ink_marks")) {
-					inkMarks.add(Registries.BLOCK.get(key));
+				else if (path.contains("ink_puddle")) {
+					inkPuddles.add(Registries.BLOCK.get(key));
+				}
+				else if (path.contains("confetti")) {
+					confetti.add(Registries.BLOCK.get(key));
 				}
 				else if (path.contains("trash_can")) {
 					trashCans.add(Registries.BLOCK.get(key));
