@@ -131,7 +131,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			translations.add("message.extravaganza.trash_can.right_click", "The player can open the trash by right-clicking.");
 			translations.add("message.extravaganza.trash_can.quick_throw", "The player can throw items to trash (one by one) by sneaking + right-clicking whenever the trash is open or not.");
 			translations.add("message.extravaganza.trash_can.opening_trash", "The player can throw entities to trash by putting them on top of the opened trash.");
-			translations.add("message.extravaganza.trash_can.throw_whole_stack", "If the player wants to throw an entire stack, he needs to open the trash and then throw the whole stack.");
+			translations.add("message.extravaganza.trash_can.throw_whole_stack", "If the player wants to throw an entire stack, they need to open the trash and then throw the whole stack.");
 			translations.add("painting.extravaganza.queerness.author", "Aeramisu");
 			translations.add("painting.extravaganza.queerness.title", "Queerness");
 			translations.add("painting.extravaganza.reflect.author", "Aeramisu");
