@@ -1,0 +1,7 @@
+{
+  "parent": "extravaganza:block/paper_lantern",
+  "textures": {
+    "main": "extravaganza:block/tomato_paper_lantern",
+    "particle": "extravaganza:block/tomato_paper_lantern"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "extravaganza:block/paper_lantern",
+  "textures": {
+    "main": "extravaganza:block/cyan_paper_lantern",
+    "particle": "extravaganza:block/cyan_paper_lantern"
+  }
+}

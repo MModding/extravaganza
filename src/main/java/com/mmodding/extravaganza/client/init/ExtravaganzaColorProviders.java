@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
+import net.minecraft.util.math.ColorHelper;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -41,12 +42,12 @@ public class ExtravaganzaColorProviders {
 			.toArray(Block[]::new);
 		ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
 			String path = Registries.BLOCK.getId(state.getBlock()).getPath();
-			return ExtravaganzaColorProviders.COLORS.get(path.substring(0, path.length() - name.length() - 1));
+			return ColorHelper.Argb.fullAlpha(ExtravaganzaColorProviders.COLORS.get(path.substring(0, path.length() - name.length() - 1)));
 		}, blockSet);
 		Item[] itemSet = Arrays.stream(blockSet).map(Block::asItem).toArray(Item[]::new);
 		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
 			String path = Registries.ITEM.getId(stack.getItem()).getPath();
-			return ExtravaganzaColorProviders.COLORS.get(path.substring(0, path.length() - name.length() - 1));
+			return ColorHelper.Argb.fullAlpha(ExtravaganzaColorProviders.COLORS.get(path.substring(0, path.length() - name.length() - 1)));
 		}, itemSet);
 	}
 

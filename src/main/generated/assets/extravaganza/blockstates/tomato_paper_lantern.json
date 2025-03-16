@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "extravaganza:block/tomato_paper_lantern"
+    },
+    "hanging=true": {
+      "model": "extravaganza:block/tomato_paper_lantern_hanging"
+    }
+  }
+}

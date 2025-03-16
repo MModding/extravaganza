@@ -63,6 +63,16 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
 	public static final Function<Block, TextureMap> MAIN_PARTICLE = block -> ExtravaganzaDataGenerator.MAIN.apply(block).put(TextureKey.PARTICLE, TextureMap.getId(block));
 
+	public static final TexturedModel.Factory PAPER_LANTERN = TexturedModel.makeFactory(
+		ExtravaganzaDataGenerator.MAIN_PARTICLE,
+		ExtravaganzaDataGenerator.MAIN_PARTICLE_MODEL.apply("block/paper_lantern")
+	);
+
+	public static final TexturedModel.Factory HANGING_PAPER_LANTERN = TexturedModel.makeFactory(
+		ExtravaganzaDataGenerator.MAIN_PARTICLE,
+		ExtravaganzaDataGenerator.MAIN_PARTICLE_MODEL.apply("block/hanging_paper_lantern")
+	);
+
 	public static final TexturedModel.Factory TRASH_CAN = TexturedModel.makeFactory(
 		ExtravaganzaDataGenerator.MAIN_PARTICLE,
 		ExtravaganzaDataGenerator.MAIN_PARTICLE_MODEL.apply("block/trash_can")
@@ -157,6 +167,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
 		private static final Predicate<Block> UNCOMMON_BLOCKS = block ->
 			block instanceof FlattenedBlock ||
+			block instanceof PaperLanternBlock ||
 			block instanceof TrashCanBlock ||
 			block instanceof LadderBlock ||
 			block.equals(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE) ||
@@ -190,10 +201,10 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		}
 
 		@Override
-		public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+		public void generateBlockStateModels(BlockStateModelGenerator generator) {
 			Block logBlock = ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG;
-			Identifier cubeColumn = Models.CUBE_COLUMN.upload(logBlock, TextureMap.sideAndEndForTop(logBlock), blockStateModelGenerator.modelCollector);
-			Identifier cubeColumnHorizontal = Models.CUBE_COLUMN_HORIZONTAL.upload(logBlock, TextureMap.sideAndEndForTop(logBlock), blockStateModelGenerator.modelCollector);
+			Identifier cubeColumn = Models.CUBE_COLUMN.upload(logBlock, TextureMap.sideAndEndForTop(logBlock), generator.modelCollector);
+			Identifier cubeColumnHorizontal = Models.CUBE_COLUMN_HORIZONTAL.upload(logBlock, TextureMap.sideAndEndForTop(logBlock), generator.modelCollector);
 			Identifier cubeColumnRubber = Models.CUBE_COLUMN.upload(
 				logBlock,
 				"_rubber",
@@ -201,7 +212,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					.put(TextureKey.SIDE, TextureMap.getSubId(logBlock, "_rubber"))
 					.put(TextureKey.END, TextureMap.getSubId(logBlock, "_top"))
 					.put(TextureKey.PARTICLE, TextureMap.getSubId(logBlock, "rubber")),
-				blockStateModelGenerator.modelCollector
+				generator.modelCollector
 			);
 			VariantsBlockStateSupplier supplier = VariantsBlockStateSupplier.create(logBlock)
 				.coordinate(
@@ -249,28 +260,28 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 								.put(VariantSettings.Y, VariantSettings.Rotation.R90)
 						)
 				);
-			blockStateModelGenerator.blockStateCollector.accept(supplier);
-			BlockStateModelGenerator.LogTexturePool log = blockStateModelGenerator.registerLog(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG);
+			generator.blockStateCollector.accept(supplier);
+			BlockStateModelGenerator.LogTexturePool log = generator.registerLog(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG);
 			log.wood(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_WOOD);
-			BlockStateModelGenerator.LogTexturePool stripped = blockStateModelGenerator.registerLog(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG);
+			BlockStateModelGenerator.LogTexturePool stripped = generator.registerLog(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG);
 			stripped.log(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG);
 			stripped.wood(ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD);
-			BlockStateModelGenerator.BlockTexturePool planks = blockStateModelGenerator.registerCubeAllModelTexturePool(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS);
+			BlockStateModelGenerator.BlockTexturePool planks = generator.registerCubeAllModelTexturePool(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS);
 			planks.stairs(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_STAIRS);
 			planks.slab(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SLAB);
 			planks.fence(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE);
 			planks.fenceGate(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE_GATE);
-			blockStateModelGenerator.registerDoor(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_DOOR);
-			blockStateModelGenerator.registerOrientableTrapdoor(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TRAPDOOR);
+			generator.registerDoor(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_DOOR);
+			generator.registerOrientableTrapdoor(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TRAPDOOR);
 			planks.pressurePlate(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PRESSURE_PLATE);
 			planks.button(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_BUTTON);
-			blockStateModelGenerator.registerSingleton(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES, TexturedModel.LEAVES);
-			blockStateModelGenerator.registerSimpleState(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SAPLING);
-			blockStateModelGenerator.registerItemModel(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SAPLING);
+			generator.registerSingleton(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES, TexturedModel.LEAVES);
+			generator.registerSimpleState(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SAPLING);
+			generator.registerItemModel(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SAPLING);
 			Extravaganza.executeForRegistry(Registries.BLOCK, block -> {
 				if (!ExtravaganzaModelProvider.UNCOMMON_BLOCKS.test(block) && !Registries.BLOCK.getId(block).getPath().contains("hevea_brasiliensis")) {
 					if (!(block instanceof StairsBlock) && !(block instanceof SlabBlock) && !(block instanceof WallBlock)) {
-						BlockStateModelGenerator.BlockTexturePool pool = blockStateModelGenerator.registerCubeAllModelTexturePool(block);
+						BlockStateModelGenerator.BlockTexturePool pool = generator.registerCubeAllModelTexturePool(block);
 						Identifier identifier = Registries.BLOCK.getId(block);
 						pool.stairs(Registries.BLOCK.get(identifier.withPath(string -> Extravaganza.nameTweak(string) + "_stairs")));
 						pool.slab(Registries.BLOCK.get(identifier.withPath(string -> Extravaganza.nameTweak(string) + "_slab")));
@@ -278,19 +289,26 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					}
 				}
 				else if (Registries.BLOCK.getId(block).getPath().contains("stained")) {
-					blockStateModelGenerator.registerSimpleCubeAll(block);
+					generator.registerSimpleCubeAll(block);
 				}
 				else if (block instanceof FlattenedBlock) {
 					String set = Registries.BLOCK.getId(block).getPath().contains("ink_puddle") ? "ink_puddle" : "confetti";
 					String path = "block/" + (Registries.BLOCK.getId(block).getPath().contains("colorful") ? "colorful_" : "") + set;
-					blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(block, Extravaganza.createId(path)));
-					Models.GENERATED.upload(ModelIds.getItemModelId(block.asItem()), TextureMap.layer0(Extravaganza.createId(path)), blockStateModelGenerator.modelCollector);
+					generator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(block, Extravaganza.createId(path)));
+					Models.GENERATED.upload(ModelIds.getItemModelId(block.asItem()), TextureMap.layer0(Extravaganza.createId(path)), generator.modelCollector);
+				}
+				else if (block instanceof PaperLanternBlock) {
+					Identifier lantern = ExtravaganzaDataGenerator.PAPER_LANTERN.upload(block, generator.modelCollector);
+					Identifier hangingLantern = ExtravaganzaDataGenerator.HANGING_PAPER_LANTERN.upload(block, "_hanging", generator.modelCollector);
+					generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block).coordinate(
+						BlockStateModelGenerator.createBooleanModelMap(Properties.HANGING, hangingLantern, lantern)
+					));
 				}
 				else if (block instanceof TrashCanBlock) {
-					Identifier trashCan = ExtravaganzaDataGenerator.TRASH_CAN.upload(block, blockStateModelGenerator.modelCollector);
-					Identifier trashCanLid = ExtravaganzaDataGenerator.TRASH_CAN_LID.upload(block, "_lid", blockStateModelGenerator.modelCollector);
-					Identifier trashCanLidOpen = ExtravaganzaDataGenerator.TRASH_CAN_LID_OPEN.upload(block, "_lid_open", blockStateModelGenerator.modelCollector);
-					blockStateModelGenerator.blockStateCollector.accept(
+					Identifier trashCan = ExtravaganzaDataGenerator.TRASH_CAN.upload(block, generator.modelCollector);
+					Identifier trashCanLid = ExtravaganzaDataGenerator.TRASH_CAN_LID.upload(block, "_lid", generator.modelCollector);
+					Identifier trashCanLidOpen = ExtravaganzaDataGenerator.TRASH_CAN_LID_OPEN.upload(block, "_lid_open", generator.modelCollector);
+					generator.blockStateCollector.accept(
 						MultipartBlockStateSupplier.create(block)
 							.with(BlockStateVariant.create().put(VariantSettings.MODEL, trashCan))
 							.with(When.create().set(TrashCanBlock.OPEN, false), BlockStateVariant.create().put(VariantSettings.MODEL, trashCanLid))
@@ -320,22 +338,22 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 					);
 				}
 				else if (block instanceof LadderBlock) {
-					blockStateModelGenerator.registerNorthDefaultHorizontalRotation(block);
-					blockStateModelGenerator.registerItemModel(block);
+					generator.registerNorthDefaultHorizontalRotation(block);
+					generator.registerItemModel(block);
 				}
 				else if (block.equals(ExtravaganzaBlocks.GARLAND)) {
-					this.generateGarlandModel(blockStateModelGenerator);
+					this.generateGarlandModel(generator);
 				}
 				else if (Set.of(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE, ExtravaganzaBlocks.POPCORN_MACHINE, ExtravaganzaBlocks.COTTON_CANDY_MACHINE).contains(block)) {
-					blockStateModelGenerator.registerNorthDefaultHorizontalRotation(block);
+					generator.registerNorthDefaultHorizontalRotation(block);
 					if (block.equals(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE)) {
-						blockStateModelGenerator.registerParentedItemModel(block, ModelIds.getBlockModelId(block));
+						generator.registerParentedItemModel(block, ModelIds.getBlockModelId(block));
 					}
 				}
 				else if (block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR)) {
 					Identifier up = Extravaganza.createId("block/ball_distributor_up");
 					Identifier down = Extravaganza.createId("block/ball_distributor_down");
-					blockStateModelGenerator.blockStateCollector.accept(
+					generator.blockStateCollector.accept(
 						VariantsBlockStateSupplier.create(block)
 							.coordinate(
 								BlockStateVariantMap.create(BallDistributorBlock.FACING, BallDistributorBlock.HALF)
@@ -541,7 +559,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			Extravaganza.executeForRegistry(Registries.ITEM, item -> {
 				if (item instanceof BlockItem blockItem) {
 					Block block = blockItem.getBlock();
-					if (ExtravaganzaModelProvider.WITH_GENERATED_ITEM.contains(block) || block instanceof TrashCanBlock) {
+					if (ExtravaganzaModelProvider.WITH_GENERATED_ITEM.contains(block) || block instanceof PaperLanternBlock || block instanceof TrashCanBlock) {
 						itemModelGenerator.register(item, Models.GENERATED);
 					}
 				}
@@ -937,7 +955,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 			Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
 				String path = key.getValue().getPath();
-				if (path.contains("hevea_brasiliensis") || path.contains("registration") || path.contains("sign")) {
+				if (path.contains("hevea_brasiliensis") || path.contains("registration") || path.contains("paper_lantern") || path.contains("sign")) {
 					this.getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(Registries.BLOCK.get(key));
 				}
 				else if (!path.contains("content") && !path.contains("ink_puddle") && !path.contains("confetti") && !path.contains("rubber") && !path.contains("glass") && !path.contains("garland") && !path.contains("pinata")) {
@@ -962,6 +980,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			FabricTagProvider<Block>.FabricTagBuilder festiveRubberLadders = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("festive_rubber_ladders")));
 			FabricTagProvider<Block>.FabricTagBuilder inkPuddles = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("ink_puddles")));
 			FabricTagProvider<Block>.FabricTagBuilder confetti = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("confetti")));
+			FabricTagProvider<Block>.FabricTagBuilder paperLanterns = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("paper_lanterns")));
 			FabricTagProvider<Block>.FabricTagBuilder trashCans = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("trash_cans")));
 			FabricTagProvider<Block>.FabricTagBuilder climbable = this.getOrCreateTagBuilder(BlockTags.CLIMBABLE);
 			FabricTagProvider<Block>.FabricTagBuilder fences = this.getOrCreateTagBuilder(BlockTags.FENCES);
@@ -1011,6 +1030,9 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				}
 				else if (path.contains("confetti")) {
 					confetti.add(Registries.BLOCK.get(key));
+				}
+				else if (path.contains("paper_lantern")) {
+					paperLanterns.add(Registries.BLOCK.get(key));
 				}
 				else if (path.contains("trash_can")) {
 					trashCans.add(Registries.BLOCK.get(key));

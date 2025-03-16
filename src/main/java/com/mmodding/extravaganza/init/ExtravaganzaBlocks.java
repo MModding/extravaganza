@@ -104,6 +104,7 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerBlockWithItem("nymph_stained_glass", ExtravaganzaBlocks.NYMPH_STAINED_GLASS);
 		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_ink_puddle", new FlattenedBlock(AbstractBlock.Settings.create().breakInstantly().slipperiness(0.98f).nonOpaque().solidBlock(Blocks::never).sounds(BlockSoundGroup.PACKED_MUD))));
 		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_confetti", new FlattenedBlock(AbstractBlock.Settings.create().breakInstantly().nonOpaque().solidBlock(Blocks::never).sounds(BlockSoundGroup.PACKED_MUD))));
+		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_paper_lantern", new PaperLanternBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).luminance(ignored -> 13).nonOpaque().sounds(BlockSoundGroup.PACKED_MUD))));
 		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_trash_can", new TrashCanBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN).mapColor(color.getMapColor()))));
 		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_festive_rubber_ladder", new RubberLadderBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.PACKED_MUD).mapColor(color.getMapColor()))));
 		ExtravaganzaBlocks.registerColoredBlockSet("festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
@@ -136,6 +137,7 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerColoredBlockSet("wooded_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOD));
 		ExtravaganzaBlocks.registerBlockWithItem("colorful_ink_puddle", new FlattenedBlock(COLORFUL_SETTINGS.get().breakInstantly().slipperiness(0.98f).nonOpaque().solidBlock(Blocks::never)));
 		ExtravaganzaBlocks.registerBlockWithItem("colorful_confetti", new FlattenedBlock(COLORFUL_SETTINGS.get().breakInstantly().nonOpaque().solidBlock(Blocks::never)));
+		ExtravaganzaBlocks.registerBlockWithItem("colorful_paper_lantern", new PaperLanternBlock(COLORFUL_SETTINGS.get().luminance(ignored -> 13).nonOpaque()));
 		ExtravaganzaBlocks.registerBlockWithItem("colorful_festive_rubber_ladder", new LadderBlock(COLORFUL_SETTINGS.get().nonOpaque()));
 		ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber", COLORFUL_SETTINGS.get());
 		ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber_bricks", COLORFUL_SETTINGS.get());

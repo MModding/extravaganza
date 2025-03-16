@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 public class ExtravaganzaRenderLayers {
 
-	private static final Set<String> CUTOUT = Set.of("sapling", "table", "popcorn", "cotton_candy", "garland", "pinata", "grate", "traversable", "windowed", "ladder", "ink_puddle", "confetti");
+	private static final Set<String> CUTOUT = Set.of("sapling", "table", "popcorn", "cotton_candy", "garland", "pinata", "grate", "traversable", "windowed", "ladder", "confetti");
 
-	private static final Set<String> TRANSLUCENT = Set.of("distributor", "glass");
+	private static final Set<String> TRANSLUCENT = Set.of("distributor", "ink_puddle", "glass");
 
 	public static void register() {
 		Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
