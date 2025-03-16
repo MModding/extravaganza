@@ -1,7 +1,21 @@
 {
   "variants": {
-    "": {
-      "model": "extravaganza:block/colorful_confetti"
-    }
+    "": [
+      {
+        "model": "extravaganza:block/colorful_confetti"
+      },
+      {
+        "model": "extravaganza:block/colorful_confetti",
+        "y": 90
+      },
+      {
+        "model": "extravaganza:block/colorful_confetti",
+        "y": 180
+      },
+      {
+        "model": "extravaganza:block/colorful_confetti",
+        "y": 270
+      }
+    ]
   }
 }

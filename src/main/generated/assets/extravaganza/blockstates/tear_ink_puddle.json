@@ -1,7 +1,21 @@
 {
   "variants": {
-    "": {
-      "model": "extravaganza:block/ink_puddle"
-    }
+    "": [
+      {
+        "model": "extravaganza:block/ink_puddle"
+      },
+      {
+        "model": "extravaganza:block/ink_puddle",
+        "y": 90
+      },
+      {
+        "model": "extravaganza:block/ink_puddle",
+        "y": 180
+      },
+      {
+        "model": "extravaganza:block/ink_puddle",
+        "y": 270
+      }
+    ]
   }
 }

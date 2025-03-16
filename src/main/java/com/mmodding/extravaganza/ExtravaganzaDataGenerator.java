@@ -294,7 +294,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				else if (block instanceof FlattenedBlock) {
 					String set = Registries.BLOCK.getId(block).getPath().contains("ink_puddle") ? "ink_puddle" : "confetti";
 					String path = "block/" + (Registries.BLOCK.getId(block).getPath().contains("colorful") ? "colorful_" : "") + set;
-					generator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(block, Extravaganza.createId(path)));
+					generator.blockStateCollector.accept(BlockStateModelGenerator.createBlockStateWithRandomHorizontalRotations(block, Extravaganza.createId(path)));
 					Models.GENERATED.upload(ModelIds.getItemModelId(block.asItem()), TextureMap.layer0(Extravaganza.createId(path)), generator.modelCollector);
 				}
 				else if (block instanceof PaperLanternBlock) {
