@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:yellow_ink_puddle"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_yellow_ink_puddle": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:yellow_ink_puddle"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_yellow_ink_puddle"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:yellow_ink_puddle"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_black_confetti": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:black_confetti"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:black_confetti"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_black_confetti"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:black_confetti"
+    ]
+  }
+}

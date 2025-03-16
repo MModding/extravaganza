@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_beesechurger": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:beesechurger"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:beesechurger"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_beesechurger"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:beesechurger"
+    ]
+  }
+}

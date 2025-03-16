@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "minecraft:ink_sac"
+    },
+    {
+      "item": "extravaganza:plant_dye"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:plant_ink_puddle"
+  }
+}

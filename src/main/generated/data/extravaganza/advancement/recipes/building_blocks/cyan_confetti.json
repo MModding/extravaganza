@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cyan_confetti": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:cyan_confetti"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:cyan_confetti"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cyan_confetti"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:cyan_confetti"
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "extravaganza:cyan_paper_lantern"
+    },
+    {
+      "item": "extravaganza:magenta_paper_lantern"
+    },
+    {
+      "item": "extravaganza:red_paper_lantern"
+    },
+    {
+      "item": "extravaganza:green_paper_lantern"
+    },
+    {
+      "item": "extravaganza:yellow_paper_lantern"
+    },
+    {
+      "item": "extravaganza:magenta_paper_lantern"
+    }
+  ],
+  "result": {
+    "count": 24,
+    "id": "extravaganza:hanging_lights"
+  }
+}

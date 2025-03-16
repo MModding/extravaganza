@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": {
+      "item": "minecraft:blue_dye"
+    },
+    "L": {
+      "item": "minecraft:lime_dye"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "R": {
+      "item": "minecraft:red_dye"
+    },
+    "Y": {
+      "item": "minecraft:yellow_dye"
+    }
+  },
+  "pattern": [
+    "PYP",
+    "BPL",
+    "PRP"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:colorful_paper_lantern"
+  }
+}

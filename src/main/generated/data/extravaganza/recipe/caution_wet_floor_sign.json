@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "stained_glass",
+  "key": {
+    "I": {
+      "item": "minecraft:ink_sac"
+    },
+    "Y": {
+      "item": "extravaganza:yellow_festive_rubber"
+    }
+  },
+  "pattern": [
+    "YYY",
+    "YIY",
+    "YYY"
+  ],
+  "result": {
+    "count": 8,
+    "id": "extravaganza:caution_wet_floor_sign"
+  }
+}

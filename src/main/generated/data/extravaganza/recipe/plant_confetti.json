@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "extravaganza:plant_dye"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:plant_confetti"
+  }
+}

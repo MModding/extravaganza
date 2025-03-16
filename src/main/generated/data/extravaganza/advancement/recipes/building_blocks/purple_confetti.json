@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_purple_confetti": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:purple_confetti"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:purple_confetti"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_purple_confetti"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:purple_confetti"
+    ]
+  }
+}

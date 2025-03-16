@@ -94,7 +94,7 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_sapling", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SAPLING);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_pit_registration_table", ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_pit_content", ExtravaganzaBlocks.BALL_PIT_CONTENT);
-		Registry.register(Registries.BLOCK, "ball_pit_protection", ExtravaganzaBlocks.BALL_PIT_PROTECTION);
+		Registry.register(Registries.BLOCK, Extravaganza.createId("ball_pit_protection"), ExtravaganzaBlocks.BALL_PIT_PROTECTION);
 		ExtravaganzaBlocks.registerBlockWithItem("ball_distributor", ExtravaganzaBlocks.BALL_DISTRIBUTOR);
 		ExtravaganzaBlocks.registerBlockWithItem("popcorn_machine", ExtravaganzaBlocks.POPCORN_MACHINE);
 		ExtravaganzaBlocks.registerBlockWithItem("cotton_candy_machine", ExtravaganzaBlocks.COTTON_CANDY_MACHINE);
@@ -106,9 +106,9 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerBlockWithItem("plant_stained_glass", ExtravaganzaBlocks.PLANT_STAINED_GLASS);
 		ExtravaganzaBlocks.registerBlockWithItem("tomato_stained_glass", ExtravaganzaBlocks.TOMATO_STAINED_GLASS);
 		ExtravaganzaBlocks.registerBlockWithItem("nymph_stained_glass", ExtravaganzaBlocks.NYMPH_STAINED_GLASS);
-		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_ink_puddle", new FlattenedBlock(AbstractBlock.Settings.create().breakInstantly().slipperiness(0.98f).nonOpaque().solidBlock(Blocks::never).sounds(BlockSoundGroup.PACKED_MUD))));
-		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_confetti", new FlattenedBlock(AbstractBlock.Settings.create().breakInstantly().nonOpaque().solidBlock(Blocks::never).sounds(BlockSoundGroup.PACKED_MUD))));
-		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_paper_lantern", new PaperLanternBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).luminance(ignored -> 13).nonOpaque().sounds(BlockSoundGroup.PACKED_MUD))));
+		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_ink_puddle", new FlattenedBlock(AbstractBlock.Settings.create().breakInstantly().slipperiness(0.98f).nonOpaque().solidBlock(Blocks::never).sounds(BlockSoundGroup.PACKED_MUD).mapColor(color.getMapColor()))));
+		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_confetti", new FlattenedBlock(AbstractBlock.Settings.create().breakInstantly().nonOpaque().solidBlock(Blocks::never).sounds(BlockSoundGroup.PACKED_MUD).mapColor(color.getMapColor()))));
+		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_paper_lantern", new PaperLanternBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).luminance(ignored -> 13).nonOpaque().sounds(BlockSoundGroup.PACKED_MUD).mapColor(color.getMapColor()))));
 		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_trash_can", new TrashCanBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN).mapColor(color.getMapColor()))));
 		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_festive_rubber_ladder", new RubberLadderBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.PACKED_MUD).mapColor(color.getMapColor()))));
 		ExtravaganzaBlocks.registerColoredBlockSet("festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));

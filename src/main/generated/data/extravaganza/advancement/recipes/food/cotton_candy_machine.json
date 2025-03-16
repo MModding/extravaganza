@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cotton_candy_machine": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:cotton_candy_machine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:cotton_candy_machine"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cotton_candy_machine"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:cotton_candy_machine"
+    ]
+  }
+}
