@@ -19,6 +19,7 @@ import net.minecraft.data.server.recipe.*;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
@@ -619,6 +620,42 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				.criterion("has_red_dye", ExtravaganzaRecipeProvider.conditionsFromItem(Items.RED_DYE))
 				.criterion("has_brown_dye", ExtravaganzaRecipeProvider.conditionsFromItem(Items.BROWN_DYE))
 				.offerTo(exporter, "tomato_dye_from_red_and_brown");
+			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ExtravaganzaBlocks.TEAR_STAINED_GLASS, 8)
+				.input('#', Blocks.GLASS)
+				.input('X', ExtravaganzaItems.TEAR_DYE)
+				.pattern("###")
+				.pattern("#X#")
+				.pattern("###")
+				.group("stained_glass")
+				.criterion("has_glass", ExtravaganzaRecipeProvider.conditionsFromItem(Blocks.GLASS))
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ExtravaganzaBlocks.PLANT_STAINED_GLASS, 8)
+				.input('#', Blocks.GLASS)
+				.input('X', ExtravaganzaItems.PLANT_DYE)
+				.pattern("###")
+				.pattern("#X#")
+				.pattern("###")
+				.group("stained_glass")
+				.criterion("has_glass", ExtravaganzaRecipeProvider.conditionsFromItem(Blocks.GLASS))
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ExtravaganzaBlocks.TOMATO_STAINED_GLASS, 8)
+				.input('#', Blocks.GLASS)
+				.input('X', ExtravaganzaItems.TOMATO_DYE)
+				.pattern("###")
+				.pattern("#X#")
+				.pattern("###")
+				.group("stained_glass")
+				.criterion("has_glass", ExtravaganzaRecipeProvider.conditionsFromItem(Blocks.GLASS))
+				.offerTo(exporter);
+			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ExtravaganzaBlocks.NYMPH_STAINED_GLASS, 8)
+				.input('#', Blocks.GLASS)
+				.input('X', ExtravaganzaItems.NYMPH_DYE)
+				.pattern("###")
+				.pattern("#X#")
+				.pattern("###")
+				.group("stained_glass")
+				.criterion("has_glass", ExtravaganzaRecipeProvider.conditionsFromItem(Blocks.GLASS))
+				.offerTo(exporter);
 			ExtravaganzaColor.VALUES.forEach(color -> {
 				Item festiveRubber = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_festive_rubber"));
 				Item trashCan = Registries.ITEM.get(Extravaganza.createId(color.asString() + "_trash_can"));

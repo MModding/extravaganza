@@ -1,10 +1,10 @@
-// 1.21.1	2025-03-16T03:07:02.9990869	Extravaganza!/Tags for minecraft:block
+// 1.21.1	2025-03-16T03:17:07.4798031	Extravaganza!/Tags for minecraft:block
 f3d40243906df8a86411541141c56f143c0c66b8 data\extravaganza\tags\block\festive_rubber_ladders.json
 344d7e09e43b7cb81d9e8bfb620cf14915f48ace data\minecraft\tags\block\slabs.json
 d49855514a52a24131b88491ec7e495f06f34d3d data\minecraft\tags\block\stairs.json
 a8b6770510cf194d8c33705d68e554cc38552304 data\minecraft\tags\block\leaves.json
-6f01c28a2fb1851d5343826e0c1f4a3fc471e198 data\minecraft\tags\block\wooden_pressure_plates.json
 6348c9375c7d45b0500ed4d6e0c08a8d0120e379 data\minecraft\tags\block\wooden_doors.json
+6f01c28a2fb1851d5343826e0c1f4a3fc471e198 data\minecraft\tags\block\wooden_pressure_plates.json
 c58fa380156a46ee40acafab7082a5d157ddaa7f data\minecraft\tags\block\planks.json
 43eb9b19981a25fd612ae81e92dda523cec50ab5 data\minecraft\tags\block\wooden_buttons.json
 97b73a2bd9868a34944e846b7ac4b98f29d68589 data\extravaganza\tags\block\confetti.json
