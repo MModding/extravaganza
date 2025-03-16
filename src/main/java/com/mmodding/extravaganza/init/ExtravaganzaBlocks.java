@@ -67,7 +67,7 @@ public class ExtravaganzaBlocks {
 	public static final Block CAUTION_WET_FLOOR_SIGN = new CautionWetFloorSignBlock(AbstractBlock.Settings.create().strength(1.0f, 2.0f).mapColor(MapColor.YELLOW).nonOpaque().sounds(BlockSoundGroup.WOOD));
 
 	// Not meant to be climbable.
-	public static final Block HANGING_LIGHTS = new LadderBlock(AbstractBlock.Settings.create().breakInstantly().nonOpaque().sounds(BlockSoundGroup.WOOD));
+	public static final Block HANGING_LIGHTS = new LadderBlock(AbstractBlock.Settings.create().breakInstantly().luminance(ignored -> 9).nonOpaque().sounds(BlockSoundGroup.WOOD));
 
 	public static final Block TEAR_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
 	public static final Block PLANT_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
