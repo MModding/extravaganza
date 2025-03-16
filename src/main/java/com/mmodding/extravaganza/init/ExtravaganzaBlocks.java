@@ -66,6 +66,9 @@ public class ExtravaganzaBlocks {
 
 	public static final Block CAUTION_WET_FLOOR_SIGN = new CautionWetFloorSignBlock(AbstractBlock.Settings.create().strength(1.0f, 2.0f).mapColor(MapColor.YELLOW).nonOpaque().sounds(BlockSoundGroup.WOOD));
 
+	// Not meant to be climbable.
+	public static final Block HANGING_LIGHTS = new LadderBlock(AbstractBlock.Settings.create().breakInstantly().nonOpaque().sounds(BlockSoundGroup.WOOD));
+
 	public static final Block TEAR_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
 	public static final Block PLANT_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
 	public static final Block TOMATO_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
@@ -98,6 +101,7 @@ public class ExtravaganzaBlocks {
 		ExtravaganzaBlocks.registerBlockWithItem("garland", ExtravaganzaBlocks.GARLAND);
 		ExtravaganzaBlocks.registerBlockWithItem("pinata", ExtravaganzaBlocks.PINATA);
 		ExtravaganzaBlocks.registerBlockWithItem("caution_wet_floor_sign", ExtravaganzaBlocks.CAUTION_WET_FLOOR_SIGN);
+		ExtravaganzaBlocks.registerBlockWithItem("hanging_lights", ExtravaganzaBlocks.HANGING_LIGHTS);
 		ExtravaganzaBlocks.registerBlockWithItem("tear_stained_glass", ExtravaganzaBlocks.TEAR_STAINED_GLASS);
 		ExtravaganzaBlocks.registerBlockWithItem("plant_stained_glass", ExtravaganzaBlocks.PLANT_STAINED_GLASS);
 		ExtravaganzaBlocks.registerBlockWithItem("tomato_stained_glass", ExtravaganzaBlocks.TOMATO_STAINED_GLASS);

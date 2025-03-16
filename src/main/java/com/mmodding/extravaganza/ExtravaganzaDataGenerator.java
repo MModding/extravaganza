@@ -958,7 +958,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				if (path.contains("hevea_brasiliensis") || path.contains("registration") || path.contains("paper_lantern") || path.contains("sign")) {
 					this.getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(Registries.BLOCK.get(key));
 				}
-				else if (!path.contains("content") && !path.contains("ink_puddle") && !path.contains("confetti") && !path.contains("rubber") && !path.contains("glass") && !path.contains("garland") && !path.contains("pinata")) {
+				else if (!path.contains("content") && !path.contains("hanging_lights") && !path.contains("ink_puddle") && !path.contains("confetti") && !path.contains("rubber") && !path.contains("glass") && !path.contains("garland") && !path.contains("pinata")) {
 					this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(Registries.BLOCK.get(key));
 					this.getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL).add(Registries.BLOCK.get(key));
 				}

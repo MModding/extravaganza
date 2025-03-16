@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "extravaganza:block/hanging_lights",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "extravaganza:block/hanging_lights"
+    },
+    "facing=south": {
+      "model": "extravaganza:block/hanging_lights",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "extravaganza:block/hanging_lights",
+      "y": 270
+    }
+  }
+}
