@@ -113,9 +113,11 @@ java {
 	targetCompatibility = JavaVersion.VERSION_21
 }
 
-jar {
-	from("LICENSE.md") {
-		rename { "${it}_${project.base.archivesName.get()}"}
+[sourceSets.main.jarTaskName, sourceSets.main.sourcesJarTaskName].each {
+	tasks.named(it, Jar) {
+		from("LICENSE.md") {
+			rename { "${it}_${project.base.archivesName.get()}"}
+		}
 	}
 }
 
