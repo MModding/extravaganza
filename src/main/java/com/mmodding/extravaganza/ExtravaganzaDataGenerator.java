@@ -5,6 +5,7 @@ import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.extravaganza.init.ExtravaganzaDamageTypes;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
 import com.mmodding.extravaganza.init.ExtravaganzaWorldGeneration;
+import com.mmodding.extravaganza.item.RubberScraperItem;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -142,6 +143,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			translations.add("painting.extravaganza.queerness.title", "Queerness");
 			translations.add("painting.extravaganza.reflect.author", "Aeramisu");
 			translations.add("painting.extravaganza.reflect.title", "Reflect");
+			translations.add("tag.item.extravaganza.candy_canes", "Candy Canes");
 			translations.add("tag.item.extravaganza.festive_balls", "Festive Balls");
 			Extravaganza.executeKeyForRegistry(Registries.ITEM, key -> translations.add(Registries.ITEM.get(key), this.makeItReadable(key)));
 			Extravaganza.executeKeyForRegistry(Registries.ENTITY_TYPE, key -> translations.add(Registries.ENTITY_TYPE.get(key), this.makeItReadable(key)));
@@ -563,6 +565,9 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 						itemModelGenerator.register(item, Models.GENERATED);
 					}
 				}
+				else if (item.equals(ExtravaganzaItems.RUBBER_SCRAPER)) {
+					itemModelGenerator.register(item, Models.HANDHELD);
+				}
 				else if (!ExtravaganzaModelProvider.UNCOMMON_ITEMS.test(item)) {
 					itemModelGenerator.register(item, Models.GENERATED);
 				}
@@ -868,6 +873,11 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				.input(ExtravaganzaItems.GREEN_CANDY_CANE)
 				.input(ExtravaganzaItems.RED_CANDY_CANE)
 				.offerTo(exporter);
+			ShapelessRecipeJsonBuilder.create(RecipeCategory.TOOLS, ExtravaganzaItems.RUBBER_SCRAPER)
+				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.RUBBER_SCRAPER), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.RUBBER_SCRAPER))
+				.input(Items.IRON_INGOT)
+				.input(TagKey.of(RegistryKeys.ITEM, Extravaganza.createId("candy_canes")))
+				.offerTo(exporter);
 			ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ExtravaganzaItems.RUBBER_EXTRACTOR)
 				.criterion(ExtravaganzaRecipeProvider.hasItem(ExtravaganzaItems.RUBBER_EXTRACTOR), ExtravaganzaRecipeProvider.conditionsFromItem(ExtravaganzaItems.RUBBER_EXTRACTOR))
 				.input('I', Items.IRON_INGOT)
@@ -1095,6 +1105,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+			FabricTagProvider<Block>.FabricTagBuilder rubberScrapperMineable = this.getOrCreateTagBuilder(RubberScraperItem.MINEABLE);
 			Extravaganza.executeKeyForRegistry(Registries.BLOCK, key -> {
 				String path = key.getValue().getPath();
 				if (path.contains("hevea_brasiliensis") || path.contains("registration") || path.contains("paper_lantern") || path.contains("sign")) {
@@ -1103,6 +1114,9 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 				else if (!path.contains("content") && !path.contains("hanging_lights") && !path.contains("ink_puddle") && !path.contains("confetti") && !path.contains("rubber") && !path.contains("glass") && !path.contains("garland") && !path.contains("pinata")) {
 					this.getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(Registries.BLOCK.get(key));
 					this.getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL).add(Registries.BLOCK.get(key));
+				}
+				else if (path.contains("rubber")) {
+					rubberScrapperMineable.add(Registries.BLOCK.get(key));
 				}
 			});
 			this.getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
@@ -1199,10 +1213,14 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-			FabricTagProvider<Item>.FabricTagBuilder builder = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Extravaganza.createId("festive_balls")));
+			FabricTagProvider<Item>.FabricTagBuilder candyCanes = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Extravaganza.createId("candy_canes")));
+			FabricTagProvider<Item>.FabricTagBuilder festiveBalls = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Extravaganza.createId("festive_balls")));
 			Extravaganza.executeKeyForRegistry(Registries.ITEM, key -> {
-				if (key.getValue().getPath().contains("festive_ball")) {
-					builder.add(Registries.ITEM.get(key));
+				if (key.getValue().getPath().contains("rubber_scraper")) {
+					candyCanes.add(Registries.ITEM.get(key));
+				}
+				else if (key.getValue().getPath().contains("festive_ball")) {
+					festiveBalls.add(Registries.ITEM.get(key));
 				}
 			});
 		}

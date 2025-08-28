@@ -2507,6 +2507,7 @@
   "item.extravaganza.red_festive_ball": "Red Festive Ball",
   "item.extravaganza.rubber": "Rubber",
   "item.extravaganza.rubber_extractor": "Rubber Extractor",
+  "item.extravaganza.rubber_scraper": "Rubber Scraper",
   "item.extravaganza.tear_dye": "Tear Dye",
   "item.extravaganza.tear_festive_ball": "Tear Festive Ball",
   "item.extravaganza.tomato_dye": "Tomato Dye",
@@ -2526,5 +2527,6 @@
   "painting.extravaganza.queerness.title": "Queerness",
   "painting.extravaganza.reflect.author": "Aeramisu",
   "painting.extravaganza.reflect.title": "Reflect",
+  "tag.item.extravaganza.candy_canes": "Candy Canes",
   "tag.item.extravaganza.festive_balls": "Festive Balls"
 }

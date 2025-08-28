@@ -4,6 +4,7 @@ import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.ExtravaganzaColor;
 import com.mmodding.extravaganza.item.*;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -17,6 +18,8 @@ public class ExtravaganzaItems {
 	public static final Item WRENCH_AGANZA = new WrenchAganzaItem(new Item.Settings().maxCount(1));
 
 	public static final Item RUBBER_EXTRACTOR = new RubberExtractorItem(new Item.Settings().maxCount(1).maxDamage(128));
+
+	public static final Item RUBBER_SCRAPER = new RubberScraperItem(new Item.Settings().maxDamage(238).component(DataComponentTypes.TOOL, RubberScraperItem.createToolComponent()));
 
 	public static final Item RUBBER = new Item(new Item.Settings());
 
@@ -56,6 +59,7 @@ public class ExtravaganzaItems {
 	public static void register() {
 		Registry.register(Registries.ITEM, Extravaganza.createId("wrench_aganza"), ExtravaganzaItems.WRENCH_AGANZA);
 		Registry.register(Registries.ITEM, Extravaganza.createId("rubber_extractor"), ExtravaganzaItems.RUBBER_EXTRACTOR);
+		Registry.register(Registries.ITEM, Extravaganza.createId("rubber_scraper"), ExtravaganzaItems.RUBBER_SCRAPER);
 		Registry.register(Registries.ITEM, Extravaganza.createId("rubber"), ExtravaganzaItems.RUBBER);
 		Registry.register(Registries.ITEM, Extravaganza.createId("tear_dye"), ExtravaganzaItems.TEAR_DYE);
 		Registry.register(Registries.ITEM, Extravaganza.createId("plant_dye"), ExtravaganzaItems.PLANT_DYE);

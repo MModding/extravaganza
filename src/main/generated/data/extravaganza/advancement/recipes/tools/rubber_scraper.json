@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_rubber_scraper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:rubber_scraper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:rubber_scraper"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rubber_scraper"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:rubber_scraper"
+    ]
+  }
+}
