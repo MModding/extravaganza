@@ -116,7 +116,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translations) {
-			translations.add("death.trash.0", "%1$s slipped and fell into the garbage. No funeral.");
+			translations.add("death.trash.0", "%1$s slipped and fell into the garbage");
 			translations.add("death.trash.1", "%1$s was stuffed into a trash can");
 			translations.add("death.trash.2", "%1$s became rubbish");
 			translations.add("death.trash.3", "%1$s fell into waste bin");
@@ -127,9 +127,9 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			translations.add("death.trash.8", "%1$s went dumpster diving");
 			translations.add("death.trash.9", "%1$s invoked the cans' wrath");
 			translations.add("death.trash.10", "%1$s was not recycled");
-			translations.add("death.trash.11", "%1$s suffocated in the garbage");
-			translations.add("death.trash.12", "%1$s will feed the raccoons well tonight");
-			translations.add("death.trash.13", "%1$s became a vessel for maggots");
+			translations.add("death.trash.11", "%1$s is due for collection this Friday");
+			translations.add("death.trash.12", "%1$s went to raccoon heaven");
+			translations.add("death.trash.13", "The death message that used to be here was thrown away. So was %1$s");
 			translations.add("death.trash.14", "Garbage God obliterated %1$s");
 			translations.add("death.trash.player.0", "%1$s was shoved into a trash can by %2$s");
 			translations.add("death.trash.player.1", "%2$s took out the trash (%1$s)");
