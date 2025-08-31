@@ -1216,7 +1216,7 @@ public class ExtravaganzaDataGenerator implements DataGeneratorEntrypoint {
 			FabricTagProvider<Item>.FabricTagBuilder candyCanes = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Extravaganza.createId("candy_canes")));
 			FabricTagProvider<Item>.FabricTagBuilder festiveBalls = this.getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Extravaganza.createId("festive_balls")));
 			Extravaganza.executeKeyForRegistry(Registries.ITEM, key -> {
-				if (key.getValue().getPath().contains("rubber_scraper")) {
+				if (key.getValue().getPath().contains("candy_cane")) {
 					candyCanes.add(Registries.ITEM.get(key));
 				}
 				else if (key.getValue().getPath().contains("festive_ball")) {
