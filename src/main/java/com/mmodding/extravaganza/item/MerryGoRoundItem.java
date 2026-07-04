@@ -1,61 +1,61 @@
 package com.mmodding.extravaganza.item;
 
 import com.mmodding.extravaganza.entity.MerryGoRoundEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class MerryGoRoundItem extends Item {
 
-	public MerryGoRoundItem(Settings settings) {
-		super(settings);
+	public MerryGoRoundItem(Properties properties) {
+		super(properties);
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		ItemStack stack = user.getStackInHand(hand);
-		HitResult result = MerryGoRoundItem.raycast(world, user, RaycastContext.FluidHandling.ANY);
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
+		ItemStack stack = player.getItemInHand(hand);
+		HitResult result = MerryGoRoundItem.getPlayerPOVHitResult(level, player, ClipContext.Fluid.ANY);
 		if (result.getType() == HitResult.Type.MISS) {
-			return TypedActionResult.pass(stack);
+			return InteractionResult.PASS;
 		}
 		else {
 			if (result.getType() == HitResult.Type.BLOCK) {
-				MerryGoRoundEntity merryGoRoundEntity = this.createEntity(world, result, stack, user);
-				if (!world.isSpaceEmpty(merryGoRoundEntity, merryGoRoundEntity.getBoundingBox())) {
-					return TypedActionResult.fail(stack);
+				MerryGoRoundEntity merryGoRoundEntity = this.createEntity(level, result, stack, player);
+				if (!level.noCollision(merryGoRoundEntity, merryGoRoundEntity.getBoundingBox())) {
+					return InteractionResult.FAIL;
 				}
 				else {
-					if (!world.isClient) {
-						world.spawnEntity(merryGoRoundEntity);
-						world.emitGameEvent(user, GameEvent.ENTITY_PLACE, result.getPos());
-						stack.decrementUnlessCreative(1, user);
+					if (!level.isClientSide()) {
+						level.addFreshEntity(merryGoRoundEntity);
+						level.gameEvent(player, GameEvent.ENTITY_PLACE, result.getLocation());
+						stack.consume(1, player);
 					}
 
-					user.incrementStat(Stats.USED.getOrCreateStat(this));
-					return TypedActionResult.success(stack, world.isClient());
+					player.awardStat(Stats.ITEM_USED.get(this));
+					return InteractionResult.SUCCESS;
 				}
 			}
 			else {
-				return TypedActionResult.pass(stack);
+				return InteractionResult.PASS;
 			}
 		}
 	}
 
-	private MerryGoRoundEntity createEntity(World world, HitResult hitResult, ItemStack stack, PlayerEntity player) {
-		Vec3d vec3d = hitResult.getPos();
-		MerryGoRoundEntity merryGoRoundEntity = new MerryGoRoundEntity(world, vec3d.x, vec3d.y, vec3d.z);
-		if (world instanceof ServerWorld serverWorld) {
-			EntityType.copier(serverWorld, stack, player).accept(merryGoRoundEntity);
+	private MerryGoRoundEntity createEntity(Level level, HitResult hitResult, ItemStack stack, Player player) {
+		Vec3 vec3d = hitResult.getLocation();
+		MerryGoRoundEntity merryGoRoundEntity = new MerryGoRoundEntity(level, vec3d.x, vec3d.y, vec3d.z);
+		if (level instanceof ServerLevel serverLevel) {
+			EntityType.createDefaultStackConfig(serverLevel, stack, player).apply(merryGoRoundEntity);
 		}
 		return merryGoRoundEntity;
 	}

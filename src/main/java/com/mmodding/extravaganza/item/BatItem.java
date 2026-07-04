@@ -1,17 +1,17 @@
 package com.mmodding.extravaganza.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.item.Item;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 
 public class BatItem extends Item {
 
-	public BatItem(Settings settings) {
-		super(settings);
+	public BatItem(Properties properties) {
+		super(properties);
 	}
 
 	@Override
-	public float getBonusAttackDamage(Entity target, float baseAttackDamage, DamageSource damageSource) {
+	public float getAttackDamageBonus(Entity victim, float damage, DamageSource damageSource) {
 		return 2.5f;
 	}
 }

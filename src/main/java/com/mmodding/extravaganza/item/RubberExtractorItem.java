@@ -3,32 +3,33 @@ package com.mmodding.extravaganza.item;
 import com.mmodding.extravaganza.block.HeveaBrasiliensisLog;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.Vec3;
 
 public class RubberExtractorItem extends Item {
 
-	public RubberExtractorItem(Settings settings) {
-		super(settings);
+	public RubberExtractorItem(Properties properties) {
+		super(properties);
 	}
 
 	@Override
-	public ActionResult useOnBlock(ItemUsageContext context) {
-		if (context.getWorld().getBlockState(context.getBlockPos()).isOf(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG) && context.getWorld().getBlockState(context.getBlockPos()).get(HeveaBrasiliensisLog.RUBBER)) {
-			Vec3d position = Vec3d.ofCenter(context.getBlockPos());
-			context.getWorld().spawnEntity(new ItemEntity(context.getWorld(), position.getX(), position.getY(), position.getZ(), ExtravaganzaItems.RUBBER.getDefaultStack()));
-			context.getWorld().setBlockState(context.getBlockPos(), context.getWorld().getBlockState(context.getBlockPos()).with(HeveaBrasiliensisLog.RUBBER, false));
+	public InteractionResult useOn(UseOnContext context) {
+		if (context.getLevel().getBlockState(context.getClickedPos()).is(ExtravaganzaBlocks.HEVEA_BRASILIENSIS.getLog()) && context.getLevel().getBlockState(context.getClickedPos()).getValue(HeveaBrasiliensisLog.RUBBER)) {
+			Vec3 position = Vec3.atCenterOf(context.getClickedPos());
+			context.getLevel().addFreshEntity(new ItemEntity(context.getLevel(), position.x(), position.y(), position.z(), ExtravaganzaItems.RUBBER.getDefaultInstance()));
+			context.getLevel().setBlock(context.getClickedPos(), context.getLevel().getBlockState(context.getClickedPos()).setValue(HeveaBrasiliensisLog.RUBBER, false), Block.UPDATE_ALL);
 			if (context.getPlayer() != null) {
-				context.getStack().damage(1, context.getPlayer(), EquipmentSlot.MAINHAND);
+				context.getItemInHand().hurtAndBreak(1, context.getPlayer(), EquipmentSlot.MAINHAND);
 			}
-			return ActionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 		else {
-			return super.useOnBlock(context);
+			return super.useOn(context);
 		}
 	}
 }

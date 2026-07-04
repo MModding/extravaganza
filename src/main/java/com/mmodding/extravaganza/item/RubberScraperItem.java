@@ -1,37 +1,38 @@
 package com.mmodding.extravaganza.item;
 
 import com.mmodding.extravaganza.Extravaganza;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.component.type.ToolComponent;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Tool;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
 public class RubberScraperItem extends Item {
 
-	public static final TagKey<Block> MINEABLE = TagKey.of(RegistryKeys.BLOCK, Extravaganza.createId("mineable/rubber_scrapper"));
+	public static final TagKey<Block> MINEABLE = TagKey.create(Registries.BLOCK, Extravaganza.createId("mineable/rubber_scrapper"));
 
-	public RubberScraperItem(Settings settings) {
-		super(settings);
+	public RubberScraperItem(Properties properties) {
+		super(properties);
 	}
 
-	public static ToolComponent createToolComponent() {
-		return new ToolComponent(List.of(ToolComponent.Rule.of(RubberScraperItem.MINEABLE, 10.0f)), 1.0f, 1);
+	public static Tool createToolComponent() {
+		return new Tool(List.of(Tool.Rule.minesAndDrops(BuiltInRegistries.BLOCK.getOrThrow(MINEABLE), 10.0f)), 1.0f, 1, false);
 	}
 
 	@Override
-	public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-		if (!world.isClient()) {
-			stack.damage(1, miner, EquipmentSlot.MAINHAND);
+	public boolean mineBlock(ItemStack itemStack, Level level, BlockState state, BlockPos pos, LivingEntity owner) {
+		if (!level.isClientSide()) {
+			itemStack.hurtAndBreak(1, owner, EquipmentSlot.MAINHAND);
 		}
-		return state.isIn(RubberScraperItem.MINEABLE);
+		return state.is(RubberScraperItem.MINEABLE);
 	}
 }
