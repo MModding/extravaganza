@@ -1,16 +1,16 @@
 ### License for Extravaganza! Past, Current and Future Assets:
 
 ```
-Copyright (c) 2024 MModding
+Copyright (c) 2026 MModding
 
 All rights reserved.
 ```
 
 ### Are Considered As Assets:
 ```
-- All Files in the ./src/main/java/com/mmodding/extravaganza/client/entity/model Directory
 - All Files in the ./src/main/resources/assets Directory
 - All Files in the ./external Directory
+- File: src/main/java/com/mmodding/extravaganza/client/init/ExtravaganzaModels.java
 ```
 
 ### License for Code:
