@@ -21,6 +21,8 @@ public enum ExtravaganzaColor implements StringRepresentable {
 
 	public static final List<ExtravaganzaColor> VALUES = Arrays.stream(ExtravaganzaColor.values()).toList();
 
+	public static final List<String> STRINGS = VALUES.stream().map(ExtravaganzaColor::getSerializedName).toList();
+
 	public static ExtravaganzaColor fromString(String identifier) {
 		return ExtravaganzaColor.valueOf(identifier.toUpperCase());
 	}

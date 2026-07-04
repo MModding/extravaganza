@@ -1,7 +1,6 @@
 package com.mmodding.extravaganza;
 
 import com.mmodding.extravaganza.init.*;
-import com.mmodding.extravaganza.resource.ExtravaganzaWorldGenerationResources;
 import com.mmodding.library.core.api.AdvancedContainer;
 import com.mmodding.library.core.api.ExtendedModInitializer;
 import com.mmodding.library.core.api.management.ElementsManager;
@@ -70,12 +69,12 @@ public class Extravaganza implements ExtendedModInitializer {
 		return Extravaganza.LOGGER;
 	}
 
-	public static String id() {
+	public static String namespace() {
 		return "extravaganza";
 	}
 
 	public static Identifier createId(String path) {
-		return Identifier.fromNamespaceAndPath(id(), path);
+		return Identifier.fromNamespaceAndPath(namespace(), path);
 	}
 
 	public static <T> ResourceKey<T> createKey(ResourceKey<? extends Registry<T>> registry, String path) {
