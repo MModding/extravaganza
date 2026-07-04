@@ -4,134 +4,140 @@ import com.mmodding.extravaganza.ExtravaganzaColor;
 import com.mmodding.extravaganza.init.ExtravaganzaEntities;
 import com.mmodding.extravaganza.init.ExtravaganzaGameRules;
 import com.mmodding.extravaganza.init.ExtravaganzaParticleTypes;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.InventoryOwner;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.thrown.ThrownEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.npc.InventoryCarrier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class FestiveBallEntity extends ThrownEntity {
+public class FestiveBallEntity extends ThrowableItemProjectile {
 
-	public static final TrackedData<String> COLOR = DataTracker.registerData(FestiveBallEntity.class, TrackedDataHandlerRegistry.STRING);
+	public static final EntityDataAccessor<String> COLOR = SynchedEntityData.defineId(FestiveBallEntity.class, EntityDataSerializers.STRING);
 
-	public FestiveBallEntity(EntityType<? extends FestiveBallEntity> type, World world) {
-		super(type, world);
+	public FestiveBallEntity(EntityType<? extends FestiveBallEntity> type, Level level) {
+		super(type, level);
 	}
 
-	public FestiveBallEntity(ExtravaganzaColor color, World world, Entity owner) {
-		this(ExtravaganzaEntities.FESTIVE_BALL, world);
+	public FestiveBallEntity(ExtravaganzaColor color, Level level, Entity owner) {
+		this(ExtravaganzaEntities.FESTIVE_BALL, level);
 		this.setColor(color);
 		this.setOwner(owner);
-		this.setPosition(owner.getX(), owner.getEyeY() - 0.1f, owner.getZ());
-		this.setVelocity(
-			owner.getRotationVec(1).getX(),
-			owner.getRotationVec(1).getY(),
-			owner.getRotationVec(1).getZ(),
-			1.0f,
-			0
+		this.setPosRaw(owner.getX(), owner.getEyeY() - 0.1f, owner.getZ());
+		this.setDeltaMovement(
+			owner.getViewVector(1).x(),
+			owner.getViewVector(1).y(),
+			owner.getViewVector(1).z()
 		);
 		this.setSilent(true);
 	}
 
 	@Override
-	protected void initDataTracker(DataTracker.Builder builder) {
-		builder.add(FestiveBallEntity.COLOR, ExtravaganzaColor.BLACK.asString());
+	protected void defineSynchedData(SynchedEntityData.Builder entityData) {
+		entityData.define(FestiveBallEntity.COLOR, ExtravaganzaColor.BLACK.getSerializedName());
 	}
 
 	@Override
-	protected void readCustomDataFromNbt(NbtCompound nbt) {
-		this.setColor(ExtravaganzaColor.fromString(nbt.getString("color")));
+	protected void readAdditionalSaveData(ValueInput input) {
+		this.setColor(ExtravaganzaColor.fromString(input.getStringOr("color", "black")));
 	}
 
 	@Override
-	protected void writeCustomDataToNbt(NbtCompound nbt) {
-		nbt.putString("color", this.getColor().asString());
+	protected void addAdditionalSaveData(ValueOutput output) {
+		output.putString("color", this.getColor().getSerializedName());
 	}
 
 	public ExtravaganzaColor getColor() {
-		return ExtravaganzaColor.fromString(this.dataTracker.get(FestiveBallEntity.COLOR));
+		return ExtravaganzaColor.fromString(this.entityData.get(FestiveBallEntity.COLOR));
 	}
 
 	public void setColor(ExtravaganzaColor color) {
-		this.dataTracker.set(FestiveBallEntity.COLOR, color.asString());
+		this.entityData.set(FestiveBallEntity.COLOR, color.getSerializedName());
 	}
 
 	@Override
-	protected void onBlockHit(BlockHitResult blockHitResult) {
-		Vec3d velocity = this.getVelocity();
-		switch (blockHitResult.getSide()) {
-			case WEST, EAST -> this.setVelocity(velocity.x * -0.8, velocity.y, velocity.z);
-			case UP, DOWN -> this.setVelocity(velocity.x, velocity.y * -0.8, velocity.z);
-			case NORTH, SOUTH -> this.setVelocity(velocity.x, velocity.y, velocity.z * -0.8);
+	protected Item getDefaultItem() {
+		return this.getColor().createBallStack().getItem();
+	}
+
+	@Override
+	protected void onHitBlock(BlockHitResult hitResult) {
+		Vec3 velocity = this.getDeltaMovement();
+		switch (hitResult.getDirection()) {
+			case WEST, EAST -> this.setDeltaMovement(velocity.x * -0.8, velocity.y, velocity.z);
+			case UP, DOWN -> this.setDeltaMovement(velocity.x, velocity.y * -0.8, velocity.z);
+			case NORTH, SOUTH -> this.setDeltaMovement(velocity.x, velocity.y, velocity.z * -0.8);
 		}
 	}
 
 	@Override
-	protected void onEntityHit(EntityHitResult entityHitResult) {
-		this.manageVelocityForEntity(this.getVelocity(), () -> {
+	protected void onHitEntity(EntityHitResult hitResult) {
+		this.manageVelocityForEntity(this.getDeltaMovement(), () -> {
 			this.discard();
-			if (entityHitResult.getEntity() instanceof PlayerEntity player) {
-				player.getInventory().insertStack(this.getColor().createBallStack());
-			} else if (entityHitResult.getEntity() instanceof InventoryOwner owner) {
-				owner.getInventory().addStack(this.getColor().createBallStack());
+			if (hitResult.getEntity() instanceof Player player) {
+				player.getInventory().add(this.getColor().createBallStack());
+			} else if (hitResult.getEntity() instanceof InventoryCarrier owner) {
+				owner.getInventory().addItem(this.getColor().createBallStack());
 			}
 		});
 	}
 
 	@Override
-	protected void onDeflected(@Nullable Entity deflector, boolean fromAttack) {
+	protected void onDeflection(boolean byAttack) {
+		if (!(this.level() instanceof ServerLevel level)) { super.onDeflection(byAttack); return; }
 		AtomicBoolean bool = new AtomicBoolean();
-		this.manageVelocityForEntity(this.getVelocity(), () -> {
+		this.manageVelocityForEntity(this.getDeltaMovement(), () -> {
 			this.discard();
-			if (deflector != null) {
-				if (deflector instanceof PlayerEntity player) {
-					player.getInventory().insertStack(this.getColor().createBallStack());
+			if (this.getOwner() != null) {
+				if (this.getOwner() instanceof Player player) {
+					player.getInventory().add(this.getColor().createBallStack());
 				}
-				else if (deflector instanceof InventoryOwner owner) {
-					owner.getInventory().addStack(this.getColor().createBallStack());
+				else if (this.getOwner() instanceof InventoryCarrier owner) {
+					owner.getInventory().addItem(this.getColor().createBallStack());
 				}
 				else {
 					this.discard();
-					this.dropStack(this.getColor().createBallStack());
+					this.spawnAtLocation(level, this.getColor().createBallStack());
 				}
 			}
 			else {
 				this.discard();
-				this.dropStack(this.getColor().createBallStack());
+				this.spawnAtLocation(level, this.getColor().createBallStack());
 			}
 			bool.set(true);
 		});
 		if (!bool.get()) {
-			this.setVelocity(
-				this.getVelocity().getX() * 1.5,
-				this.getVelocity().getY() * 1.5,
-				this.getVelocity().getZ() * 1.5
+			this.setDeltaMovement(
+				this.getDeltaMovement().x() * 1.5,
+				this.getDeltaMovement().y() * 1.5,
+				this.getDeltaMovement().z() * 1.5
 			);
 		}
 	}
 
-	private void manageVelocityForEntity(Vec3d velocity, Runnable halfAction) {
-		if (this.age <= this.getWorld().getGameRules().getInt(ExtravaganzaGameRules.FESTIVE_BALL_AGE_PERCENTAGE_BEFORE_PICKING) * 2) {
+	private void manageVelocityForEntity(Vec3 velocity, Runnable halfAction) {
+		if (this.tickCount <= this.level().getServer().getGameRules().get(ExtravaganzaGameRules.FESTIVE_BALL_AGE_PERCENTAGE_BEFORE_PICKING) * 2) {
 			boolean bl = Math.abs(velocity.y) > 0.3 || (Math.abs(velocity.y) > 0.05 && Math.abs(velocity.x) > 0.1 && Math.abs(velocity.z) > 0.1);
 			if (Math.abs(velocity.y) >= Math.abs(velocity.x) && Math.abs(velocity.y) >= Math.abs(velocity.z) && bl) {
-				this.setVelocity(velocity.x, velocity.y * -0.8, velocity.z);
+				this.setDeltaMovement(velocity.x, velocity.y * -0.8, velocity.z);
 			}
 			else if (Math.abs(velocity.x) >= Math.abs(velocity.y) && Math.abs(velocity.x) >= Math.abs(velocity.z) && Math.abs(velocity.x) > 0.3) {
-				this.setVelocity(velocity.x * -0.8, velocity.y, velocity.z);
+				this.setDeltaMovement(velocity.x * -0.8, velocity.y, velocity.z);
 			}
 			else if (Math.abs(velocity.z) >= Math.abs(velocity.x) && Math.abs(velocity.z) >= Math.abs(velocity.y) && Math.abs(velocity.z) > 0.3) {
-				this.setVelocity(velocity.x, velocity.y, velocity.z * -0.8);
+				this.setDeltaMovement(velocity.x, velocity.y, velocity.z * -0.8);
 			}
 		}
 		else {
@@ -142,10 +148,12 @@ public class FestiveBallEntity extends ThrownEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		this.getWorld().addParticle(ExtravaganzaParticleTypes.createRandomConfetti(this.getRandom()), this.getX(), this.getY(), this.getZ(), 0.2, 0.2, 0.2);
-		if (this.age >= 10 * 20) {
-			this.discard();
-			this.dropStack(this.getColor().createBallStack());
+		if (this.level() instanceof ServerLevel level) {
+			this.level().addParticle(ExtravaganzaParticleTypes.createRandomConfetti(this.getRandom()), this.getX(), this.getY(), this.getZ(), 0.2, 0.2, 0.2);
+			if (this.tickCount >= 10 * 20) {
+				this.discard();
+				this.spawnAtLocation(level, this.getColor().createBallStack());
+			}
 		}
 	}
 }
