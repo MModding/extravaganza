@@ -3,18 +3,21 @@ package com.mmodding.extravaganza.block.entity;
 import com.mmodding.extravaganza.block.BallPitContentBlock;
 import com.mmodding.extravaganza.init.ExtravaganzaBlockEntities;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -23,8 +26,8 @@ public class BallPitRegistrationTableBlockEntity extends BlockEntity {
 
 	private final PoolSettings poolSettings = new PoolSettings();
 
-	private BlockPos scannedStart = BlockPos.ORIGIN;
-	private BlockPos scannedEnd = BlockPos.ORIGIN;
+	private BlockPos scannedStart = BlockPos.ZERO;
+	private BlockPos scannedEnd = BlockPos.ZERO;
 
 	private SelectionMode selectionMode = SelectionMode.POSITIVE_X;
 
@@ -35,56 +38,53 @@ public class BallPitRegistrationTableBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		NbtCompound scannedPoolContent = nbt.getCompound("scanned_pool_content");
-		NbtCompound startPos = scannedPoolContent.getCompound("start_pos");
-		NbtCompound endPos = scannedPoolContent.getCompound("end_pos");
+	protected void loadAdditional(ValueInput input) {
+		ValueInput scannedPoolContent = input.childOrEmpty("scanned_pool_content");
+		ValueInput startPos = scannedPoolContent.childOrEmpty("start_pos");
+		ValueInput endPos = scannedPoolContent.childOrEmpty("end_pos");
 
-		this.scannedStart = new BlockPos(startPos.getInt("x"), startPos.getInt("y"), startPos.getInt("z"));
-		this.scannedEnd = new BlockPos(endPos.getInt("x"), endPos.getInt("y"), endPos.getInt("z"));
-		this.poolSettings.fromNbt(nbt.getCompound("pool_settings"));
-		this.selectionMode = SelectionMode.valueOf(nbt.getString("selection_mode").toUpperCase());
-		this.source = nbt.getBoolean("source");
+		this.scannedStart = new BlockPos(startPos.getIntOr("x", 0), startPos.getIntOr("y", 0), startPos.getIntOr("z", 0));
+		this.scannedEnd = new BlockPos(endPos.getIntOr("x", 0), endPos.getIntOr("y", 0), endPos.getIntOr("z", 0));
+		this.poolSettings.fromNbt(input.childOrEmpty("pool_settings"));
+		this.selectionMode = SelectionMode.valueOf(input.getStringOr("selection_mode", "positive_x").toUpperCase());
+		this.source = input.getBooleanOr("source", true);
 	}
 
 	@Override
-	protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		NbtCompound startPos = new NbtCompound();
+	protected void saveAdditional(ValueOutput output) {
+		ValueOutput scannedPoolContent = output.child("scanned_pool_content");
+		ValueOutput startPos = scannedPoolContent.child("start_pos");
 		startPos.putInt("x", this.scannedStart.getX());
 		startPos.putInt("y", this.scannedStart.getY());
 		startPos.putInt("z", this.scannedStart.getZ());
-		NbtCompound endPos = new NbtCompound();
+		ValueOutput endPos = scannedPoolContent.child("end_pos");
 		endPos.putInt("x", this.scannedEnd.getX());
 		endPos.putInt("y", this.scannedEnd.getY());
 		endPos.putInt("z", this.scannedEnd.getZ());
-		NbtCompound scannedPoolContent = new NbtCompound();
-		scannedPoolContent.put("start_pos", startPos);
-		scannedPoolContent.put("end_pos", endPos);
-		nbt.put("scanned_pool_content", scannedPoolContent);
-		nbt.put("pool_settings", this.poolSettings.toNbt());
-		nbt.putString("selection_mode", this.selectionMode.asString());
-		nbt.putBoolean("source", this.source);
+		this.poolSettings.save(output.child("pool_settings"));
+		output.putString("selection_mode", this.selectionMode.getSerializedName());
+		output.putBoolean("source", this.source);
 	}
 
 	@Nullable
 	@Override
-	public Packet<ClientPlayPacketListener> toUpdatePacket() {
-		return BlockEntityUpdateS2CPacket.create(this);
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
-	public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
-		return this.createComponentlessNbt(registryLookup);
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		return this.saveCustomOnly(registries);
 	}
 
-	public static void tick(World world, BlockPos pos, BlockState state, BallPitRegistrationTableBlockEntity bpitbe) {
-		for (BlockPos current : BlockPos.iterate(bpitbe.getRelativeScannedStart(pos), bpitbe.getRelativeScannedEnd(pos))) {
-			if (world.getBlockState(current).isAir()) {
-				world.setBlockState(current, ExtravaganzaBlocks.BALL_PIT_PROTECTION.getDefaultState());
+	public static void tick(Level level, BlockPos pos, BlockState state, BallPitRegistrationTableBlockEntity bpitbe) {
+		for (BlockPos current : BlockPos.betweenClosed(bpitbe.getRelativeScannedStart(pos), bpitbe.getRelativeScannedEnd(pos))) {
+			if (level.getBlockState(current).isAir()) {
+				level.setBlock(current, ExtravaganzaBlocks.BALL_PIT_PROTECTION.defaultBlockState(), Block.UPDATE_ALL);
 			}
-			else if (world.getBlockState(current).isOf(ExtravaganzaBlocks.BALL_PIT_CONTENT)) {
-				if (world.getBlockState(current).get(BallPitContentBlock.POWER) != bpitbe.getPoolSettings().power) {
-					world.setBlockState(current, world.getBlockState(current).with(BallPitContentBlock.POWER, bpitbe.getPoolSettings().power));
+			else if (level.getBlockState(current).is(ExtravaganzaBlocks.BALL_PIT_CONTENT)) {
+				if (level.getBlockState(current).getValue(BallPitContentBlock.POWER) != bpitbe.getPoolSettings().power) {
+					level.setBlock(current, level.getBlockState(current).setValue(BallPitContentBlock.POWER, bpitbe.getPoolSettings().power), Block.UPDATE_ALL);
 				}
 			}
 		}
@@ -98,20 +98,20 @@ public class BallPitRegistrationTableBlockEntity extends BlockEntity {
 		return this.scannedEnd;
 	}
 
-	public Box getFullScanned() {
-		return new Box(Vec3d.of(this.getScannedStart()), Vec3d.of(this.getScannedEnd())).stretch(1, 1, 1);
+	public AABB getFullScanned() {
+		return new AABB(Vec3.atLowerCornerOf(this.getScannedStart()), Vec3.atLowerCornerOf(this.getScannedEnd())).expandTowards(1, 1, 1);
 	}
 
 	public BlockPos getRelativeScannedStart(BlockPos pos) {
-		return pos.add(this.getScannedStart());
+		return pos.offset(this.getScannedStart());
 	}
 
 	public BlockPos getRelativeScannedEnd(BlockPos pos) {
-		return pos.add(this.getScannedEnd());
+		return pos.offset(this.getScannedEnd());
 	}
 
-	public Box getRelativeFullScanned(BlockPos pos) {
-		return new Box(Vec3d.of(this.getRelativeScannedStart(pos)), Vec3d.of(this.getRelativeScannedEnd(pos))).stretch(1, 1, 1);
+	public AABB getRelativeFullScanned(BlockPos pos) {
+		return new AABB(Vec3.atLowerCornerOf(this.getRelativeScannedStart(pos)), Vec3.atLowerCornerOf(this.getRelativeScannedEnd(pos))).expandTowards(1, 1, 1);
 	}
 
 	public PoolSettings getPoolSettings() {
@@ -133,9 +133,9 @@ public class BallPitRegistrationTableBlockEntity extends BlockEntity {
 	public void setScannedStart(BlockPos pos, Consumer<BlockPos> deleter) {
 		BlockPos previousStart = this.scannedStart;
 		this.scannedStart = pos;
-		BlockPos.iterate(this.getPos().add(previousStart), this.getPos().add(this.scannedEnd)).forEach(
+		BlockPos.betweenClosed(this.getBlockPos().offset(previousStart), this.getBlockPos().offset(this.scannedEnd)).forEach(
 			current -> {
-				if (!this.getFullScanned().contains(Vec3d.of(current))) {
+				if (!this.getFullScanned().contains(Vec3.atLowerCornerOf(current))) {
 					deleter.accept(current);
 				}
 			}
@@ -145,9 +145,9 @@ public class BallPitRegistrationTableBlockEntity extends BlockEntity {
 	public void setScannedEnd(BlockPos pos, Consumer<BlockPos> deleter) {
 		BlockPos previousEnd = this.scannedEnd;
 		this.scannedEnd = pos;
-		BlockPos.iterate(this.getPos().add(this.scannedStart), this.getPos().add(previousEnd)).forEach(
+		BlockPos.betweenClosed(this.getBlockPos().offset(this.scannedStart), this.getBlockPos().offset(previousEnd)).forEach(
 			current -> {
-				if (!this.getFullScanned().contains(Vec3d.of(current))) {
+				if (!this.getFullScanned().contains(Vec3.atLowerCornerOf(current))) {
 					deleter.accept(current);
 				}
 			}
@@ -175,18 +175,16 @@ public class BallPitRegistrationTableBlockEntity extends BlockEntity {
 
 		public int power = 1;
 
-		public void fromNbt(NbtCompound nbt) {
-			this.power = nbt.getInt("power");
+		public void fromNbt(ValueInput nbt) {
+			this.power = nbt.getIntOr("power", 1);
 		}
 
-		public NbtCompound toNbt() {
-			NbtCompound nbt = new NbtCompound();
-			nbt.putInt("power", this.power);
-			return nbt;
+		public void save(ValueOutput output) {
+			output.putInt("power", this.power);
 		}
 	}
 
-	public enum SelectionMode implements StringIdentifiable {
+	public enum SelectionMode implements StringRepresentable {
 
 		POSITIVE_X("positive_x"),
 		NEGATIVE_X("negative_x"),
@@ -203,7 +201,7 @@ public class BallPitRegistrationTableBlockEntity extends BlockEntity {
 		}
 
 		@Override
-		public String asString() {
+		public String getSerializedName() {
 			return this.identifier;
 		}
 	}

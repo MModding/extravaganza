@@ -1,22 +1,22 @@
 package com.mmodding.extravaganza.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Properties;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 public class BallPitContentBlock extends Block {
 
-	public static final IntProperty POWER = Properties.POWER;
+	public static final IntegerProperty POWER = BlockStateProperties.POWER;
 
-	public BallPitContentBlock(Settings settings) {
-		super(settings);
-		this.setDefaultState(this.getDefaultState().with(BallPitContentBlock.POWER, 3));
+	public BallPitContentBlock(Properties properties) {
+		super(properties);
+		this.registerDefaultState(this.defaultBlockState().setValue(BallPitContentBlock.POWER, 3));
 	}
 
 	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(BallPitContentBlock.POWER);
 	}
 }

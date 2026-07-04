@@ -1,12 +1,14 @@
 package com.mmodding.extravaganza.block.entity;
 
 import com.mmodding.extravaganza.init.ExtravaganzaBlockEntities;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class CottonCandyMachineBlockEntity extends BlockEntity {
 
@@ -17,18 +19,18 @@ public class CottonCandyMachineBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		this.sugarAmount = nbt.getInt("sugar_amount");
+	protected void loadAdditional(ValueInput input) {
+		this.sugarAmount = input.getIntOr("sugar_amount", 0);
 	}
 
 	@Override
-	protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		nbt.putInt("sugar_amount", this.sugarAmount);
+	protected void saveAdditional(ValueOutput output) {
+		output.putInt("sugar_amount", this.sugarAmount);
 	}
 
 	@Override
-	public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
-		return this.createComponentlessNbt(registryLookup);
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		return this.saveCustomOnly(registries);
 	}
 
 	public int getSugarAmount() {
@@ -40,7 +42,7 @@ public class CottonCandyMachineBlockEntity extends BlockEntity {
 	}
 
 	public void increaseSugarAmount(int sugarAmount) {
-		this.sugarAmount = MathHelper.clamp(this.sugarAmount + sugarAmount, 0, 256);
+		this.sugarAmount = Mth.clamp(this.sugarAmount + sugarAmount, 0, 256);
 	}
 
 	public boolean canDecreaseSugarAmount() {
@@ -48,7 +50,7 @@ public class CottonCandyMachineBlockEntity extends BlockEntity {
 	}
 
 	public void decreaseSugarAmount(int sugarAmount) {
-		this.sugarAmount = MathHelper.clamp(this.sugarAmount - sugarAmount, 0, 256);
+		this.sugarAmount = Mth.clamp(this.sugarAmount - sugarAmount, 0, 256);
 	}
 
 	public int clampCottonCandyCount(int cottonCandyCount) {

@@ -23,12 +23,12 @@ repositories {
 	exclusiveContent {
 		forRepository {
 			maven {
-				name "Modrinth"
-				url "https://api.modrinth.com/maven"
+				name = "Modrinth"
+				url = uri("https://api.modrinth.com/maven")
 			}
 		}
 		filter {
-			includeGroup "maven.modrinth"
+			includeGroup("maven.modrinth")
 		}
 	}
 }
@@ -41,7 +41,7 @@ dependencies {
 	implementation(libs.fabric.api)
 
 	// Ouch!
-	if (project.property("ouch_integration") as Boolean) {
+	if ((project.property("ouch_integration") as String).toBoolean()) {
 		compileOnlyApi(libs.ouch)
 	}
 }
@@ -70,15 +70,15 @@ mmodding {
 		addContributor("Aethyus (Pixel Artist)")
 		addContributor("Neokys (Icon Artist)")
 		withContact {
-			it.homepage = "https://modrinth.com/mod/extravaganza"
-			it.sources = "https://github.com/MModding/extravaganza"
-			it.issues = "https://github.com/MModding/extravaganza/issues"
+			homepage = "https://modrinth.com/mod/extravaganza"
+			sources = "https://github.com/MModding/extravaganza"
+			issues = "https://github.com/MModding/extravaganza/issues"
 		}
 		environment = EnvironmentTarget.ANY
 		withEntrypoints {
 			init("com.mmodding.extravaganza.Extravaganza")
 			client("com.mmodding.extravaganza.client.ExtravaganzaClient")
-			datagen("fabric-datagen", "com.mmodding.extravaganza.ExtravaganzaDataGenerator")
+			datagen("com.mmodding.extravaganza.ExtravaganzaDataGenerator")
 		}
 		addMixin("extravaganza.mixins.json")
 		accessWidener = "extravaganza.classtweaker"

@@ -1,0 +1,27 @@
+[versions]
+java = "25"
+minecraft = "26.2"
+fabric_loader = "0.19.3"
+
+fabric_api = "0.154.0+26.2"
+mmodding = "0.5.0-alpha+26.2"
+
+# Integrations
+
+ouch = "1.8.0+26.1"
+
+[libraries]
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
+
+fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
+mmodding = { module = "com.mmodding:mmodding-library", version.ref = "mmodding" }
+
+# Integrations
+
+ouch = { module = "maven.modrinth:ouch", version.ref = "ouch" }
+
+[plugins]
+fabric_loom = { id = "net.fabricmc.fabric-loom", version = "1.17+" }
+mod_publish = { id = "me.modmuss50.mod-publish-plugin", version = "2.0.0" }
+mmodding_gradle = { id = "com.mmodding.gradle", version = "0.1.8-beta" }

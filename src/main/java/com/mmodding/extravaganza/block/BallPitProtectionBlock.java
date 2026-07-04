@@ -1,48 +1,48 @@
 package com.mmodding.extravaganza.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BallPitProtectionBlock extends Block {
 
-	public BallPitProtectionBlock(Settings settings) {
-		super(settings);
+	public BallPitProtectionBlock(Properties properties) {
+		super(properties);
 	}
 
 	@Override
-	protected BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.INVISIBLE;
+	protected RenderShape getRenderShape(BlockState state) {
+		return RenderShape.INVISIBLE;
 	}
 
 	@Override
-	protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+	protected boolean propagatesSkylightDown(BlockState state) {
 		return true;
 	}
 
 	@Override
-	protected int getOpacity(BlockState state, BlockView world, BlockPos pos) {
+	protected int getLightDampening(BlockState state) {
 		return 0;
 	}
 
 	@Override
-	protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return VoxelShapes.empty();
+	protected VoxelShape getOcclusionShape(BlockState state) {
+		return Shapes.empty();
 	}
 
 	@Override
-	protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		for (Direction direction : Direction.values()) {
-			if (world.getBlockState(pos.offset(direction)).isAir()) {
-				return VoxelShapes.cuboid(0.0, 0.1, 0.0, 1.0, 1.0, 1.0);
+			if (level.getBlockState(pos.relative(direction)).isAir()) {
+				return Shapes.box(0.0, 0.1, 0.0, 1.0, 1.0, 1.0);
 			}
 		}
-		return VoxelShapes.empty();
+		return Shapes.empty();
 	}
 }

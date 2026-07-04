@@ -6,150 +6,153 @@ import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.extravaganza.init.ExtravaganzaDataAttachments;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
-import net.minecraft.util.*;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 // This block will manage the full Ball Pool, including changing the power of the velocity in example.
-public class BallPitRegistrationTableBlock extends BlockWithEntity {
+public class BallPitRegistrationTableBlock extends BaseEntityBlock {
 
-	public static final MapCodec<BallPitRegistrationTableBlock> CODEC = BallPitRegistrationTableBlock.createCodec(BallPitRegistrationTableBlock::new);
+	public static final MapCodec<BallPitRegistrationTableBlock> CODEC = simpleCodec(BallPitRegistrationTableBlock::new);
 
-	public static final EnumProperty<Direction> FACING = Properties.HORIZONTAL_FACING;
+	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-	public static final BooleanProperty LOCK_SCAN = BooleanProperty.of("lock_scan");
-	public static final BooleanProperty LOCK_SETTINGS = BooleanProperty.of("lock_settings");
+	public static final BooleanProperty LOCK_SCAN = BooleanProperty.create("lock_scan");
+	public static final BooleanProperty LOCK_SETTINGS = BooleanProperty.create("lock_settings");
 
-	public BallPitRegistrationTableBlock(Settings settings) {
-		super(settings);
-		this.setDefaultState(this.getDefaultState().with(BallPitRegistrationTableBlock.FACING, Direction.NORTH).with(BallPitRegistrationTableBlock.LOCK_SCAN, false).with(BallPitRegistrationTableBlock.LOCK_SETTINGS, false));
+	public BallPitRegistrationTableBlock(Properties properties) {
+		super(properties);
+		this.registerDefaultState(
+			this.defaultBlockState()
+				.setValue(BallPitRegistrationTableBlock.FACING, Direction.NORTH)
+				.setValue(BallPitRegistrationTableBlock.LOCK_SCAN, false)
+				.setValue(BallPitRegistrationTableBlock.LOCK_SETTINGS, false)
+		);
 	}
 
 	@Override
-	protected MapCodec<? extends BlockWithEntity> getCodec() {
+	protected MapCodec<? extends BaseEntityBlock> codec() {
 		return BallPitRegistrationTableBlock.CODEC;
+	}
+
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(BallPitRegistrationTableBlock.FACING);
+		builder.add(BallPitRegistrationTableBlock.LOCK_SCAN);
+		builder.add(BallPitRegistrationTableBlock.LOCK_SETTINGS);
 	}
 
 	@Nullable
 	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new BallPitRegistrationTableBlockEntity(pos, state);
 	}
 
 	@Override
-	protected BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.MODEL;
-	}
-
-	@Override
-	protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-		if (world.getBlockEntity(pos) instanceof BallPitRegistrationTableBlockEntity bpitbe) {
-			if (player instanceof ServerPlayerEntity serverPlayer) {
-				serverPlayer.setAttached(ExtravaganzaDataAttachments.BEFORE_BALL_PIT, serverPlayer.getPos());
-			}
-			Vec3d center = bpitbe.getRelativeFullScanned(pos).getCenter();
-			player.teleport(center.getX(), center.getY(), center.getZ(), false);
-		}
-		return ActionResult.SUCCESS;
-	}
-
-	@Override
-	protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (player.getStackInHand(hand).isOf(ExtravaganzaItems.WRENCH_AGANZA) || player.getStackInHand(hand).isOf(Items.DEBUG_STICK)) {
-			return ItemActionResult.FAIL;
+	protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+		if (player.getItemInHand(hand).is(ExtravaganzaItems.WRENCH_AGANZA) || player.getItemInHand(hand).is(Items.DEBUG_STICK)) {
+			return InteractionResult.FAIL;
 		}
 		else {
-			return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.PASS;
 		}
 	}
 
 	@Override
-	protected void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
-		if (world.getBlockEntity(pos) instanceof BallPitRegistrationTableBlockEntity bpitbe) {
-			if (!player.isSneaking() && !world.getBlockState(pos).get(BallPitRegistrationTableBlock.LOCK_SCAN)) {
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+		if (level.getBlockEntity(pos) instanceof BallPitRegistrationTableBlockEntity bpitbe) {
+			if (player instanceof ServerPlayer serverPlayer) {
+				serverPlayer.setAttached(ExtravaganzaDataAttachments.BEFORE_BALL_PIT, serverPlayer.position());
+			}
+			Vec3 center = bpitbe.getRelativeFullScanned(pos).getCenter();
+			player.teleportTo(center.x(), center.y(), center.z());
+		}
+		return InteractionResult.SUCCESS;
+	}
+
+	@Override
+	protected void attack(BlockState state, Level level, BlockPos pos, Player player) {
+		if (level.getBlockEntity(pos) instanceof BallPitRegistrationTableBlockEntity bpitbe) {
+			if (!player.isShiftKeyDown() && !level.getBlockState(pos).getValue(BallPitRegistrationTableBlock.LOCK_SCAN)) {
 				bpitbe.switchSelectionMode();
-				if (!world.isClient()) {
+				if (!level.isClientSide()) {
 					Object object;
 					if (bpitbe.getSelectionMode().equals(BallPitRegistrationTableBlockEntity.SelectionMode.SOURCE)) {
 						object = bpitbe.isSource();
 					} else {
 						object = bpitbe.getScannedCurrent();
 					}
-					player.sendMessage(Text.literal(bpitbe.getSelectionMode().asString() + ": " + object), true);
+					player.sendOverlayMessage(Component.literal(bpitbe.getSelectionMode().getSerializedName() + ": " + object));
 				}
 			}
-			else if (!world.getBlockState(pos).get(BallPitRegistrationTableBlock.LOCK_SETTINGS)) {
+			else if (!level.getBlockState(pos).getValue(BallPitRegistrationTableBlock.LOCK_SETTINGS)) {
 				if (bpitbe.getPoolSettings().power < 15) {
-					bpitbe.getPoolSettings().power = MathHelper.clamp(bpitbe.getPoolSettings().power + 1, 1, 15);
+					bpitbe.getPoolSettings().power = Mth.clamp(bpitbe.getPoolSettings().power + 1, 1, 15);
 				}
 				else {
 					bpitbe.getPoolSettings().power = 1;
 				}
-				if (!world.isClient()) {
-					player.sendMessage(Text.translatable("enchantment.minecraft.power").append(": " + bpitbe.getPoolSettings().power), true);
+				if (!level.isClientSide()) {
+					player.sendOverlayMessage(Component.translatable("enchantment.minecraft.power").append(": " + bpitbe.getPoolSettings().power));
 				}
 			}
 		}
 	}
 
 	@Override
-	public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-		if (world.getBlockEntity(pos) instanceof BallPitRegistrationTableBlockEntity bpitbe) {
-			BlockPos.iterate(bpitbe.getRelativeScannedStart(pos), bpitbe.getRelativeScannedEnd(pos)).forEach(blockPos -> {
-				if (world.getBlockState(blockPos).isOf(ExtravaganzaBlocks.BALL_PIT_PROTECTION)) {
-					world.removeBlock(blockPos, false);
+	public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+		if (level.getBlockEntity(pos) instanceof BallPitRegistrationTableBlockEntity bpitbe) {
+			BlockPos.betweenClosed(bpitbe.getRelativeScannedStart(pos), bpitbe.getRelativeScannedEnd(pos)).forEach(blockPos -> {
+				if (level.getBlockState(blockPos).is(ExtravaganzaBlocks.BALL_PIT_PROTECTION)) {
+					level.removeBlock(blockPos, false);
 				}
 			});
 		}
-		return super.onBreak(world, pos, state, player);
+		return super.playerWillDestroy(level, pos, state, player);
 	}
 
 	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return BallPitRegistrationTableBlock.validateTicker(type, ExtravaganzaBlockEntities.BALL_PIT_REGISTRATION_TABLE, BallPitRegistrationTableBlockEntity::tick);
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> type) {
+		return BallPitRegistrationTableBlock.createTickerHelper(type, ExtravaganzaBlockEntities.BALL_PIT_REGISTRATION_TABLE, BallPitRegistrationTableBlockEntity::tick);
 	}
 
 	@Override
-	protected BlockState rotate(BlockState state, BlockRotation rotation) {
-		return state.with(BallPitRegistrationTableBlock.FACING, rotation.rotate(state.get(BallPitRegistrationTableBlock.FACING)));
+	protected BlockState rotate(BlockState state, Rotation rotation) {
+		return state.setValue(BallPitRegistrationTableBlock.FACING, rotation.rotate(state.getValue(BallPitRegistrationTableBlock.FACING)));
 	}
 
 	@Override
-	protected BlockState mirror(BlockState state, BlockMirror mirror) {
-		return state.rotate(mirror.getRotation(state.get(BallPitRegistrationTableBlock.FACING)));
+	protected BlockState mirror(BlockState state, Mirror mirror) {
+		return state.rotate(mirror.getRotation(state.getValue(BallPitRegistrationTableBlock.FACING)));
 	}
 
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(BallPitRegistrationTableBlock.FACING, ctx.getHorizontalPlayerFacing().getOpposite());
-	}
-
-	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(BallPitRegistrationTableBlock.FACING);
-		builder.add(BallPitRegistrationTableBlock.LOCK_SCAN);
-		builder.add(BallPitRegistrationTableBlock.LOCK_SETTINGS);
+	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+		return this.defaultBlockState().setValue(BallPitRegistrationTableBlock.FACING, ctx.getHorizontalDirection().getOpposite());
 	}
 }

@@ -1,22 +1,21 @@
 package com.mmodding.extravaganza.block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class TraversableRubberStairsBlock extends StairsBlock {
+public class TraversableRubberStairsBlock extends StairBlock {
 
-	public TraversableRubberStairsBlock(BlockState baseBlockState, AbstractBlock.Settings settings) {
-		super(baseBlockState, settings);
+	public TraversableRubberStairsBlock(BlockState baseBlockState, Properties properties) {
+		super(baseBlockState, properties);
 	}
 
 	@Override
-	protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return !context.isDescending() ? super.getCollisionShape(state, world, pos, context) : VoxelShapes.empty();
+	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return !context.isDescending() ? super.getCollisionShape(state, level, pos, context) : Shapes.empty();
 	}
 }

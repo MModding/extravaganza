@@ -5,37 +5,41 @@ import com.google.common.collect.Maps;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.*;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Property;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.PipeBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Map;
 
-public class GarlandBlock extends ConnectingBlock {
+public class GarlandBlock extends PipeBlock {
 
-	public static final MapCodec<GarlandBlock> CODEC = GarlandBlock.createCodec(GarlandBlock::new);
+	public static final MapCodec<GarlandBlock> CODEC = simpleCodec(GarlandBlock::new);
 
-	public static final BooleanProperty ATTACHED_NORTH = BooleanProperty.of("attached_north");
-	public static final BooleanProperty ATTACHED_EAST = BooleanProperty.of("attached_east");
-	public static final BooleanProperty ATTACHED_SOUTH = BooleanProperty.of("attached_south");
-	public static final BooleanProperty ATTACHED_WEST = BooleanProperty.of("attached_west");
-	public static final BooleanProperty ATTACHED_UP = BooleanProperty.of("attached_up");
-	public static final BooleanProperty ATTACHED_DOWN = BooleanProperty.of("attached_down");
+	public static final BooleanProperty ATTACHED_NORTH = BooleanProperty.create("attached_north");
+	public static final BooleanProperty ATTACHED_EAST = BooleanProperty.create("attached_east");
+	public static final BooleanProperty ATTACHED_SOUTH = BooleanProperty.create("attached_south");
+	public static final BooleanProperty ATTACHED_WEST = BooleanProperty.create("attached_west");
+	public static final BooleanProperty ATTACHED_UP = BooleanProperty.create("attached_up");
+	public static final BooleanProperty ATTACHED_DOWN = BooleanProperty.create("attached_down");
 
 	public static final Map<Direction, BooleanProperty> ATTACHED_FACING_PROPERTIES = ImmutableMap.copyOf(Util.make(Maps.newEnumMap(Direction.class), directions -> {
 		directions.put(Direction.NORTH, ATTACHED_NORTH);
@@ -46,31 +50,31 @@ public class GarlandBlock extends ConnectingBlock {
 		directions.put(Direction.DOWN, ATTACHED_DOWN);
 	}));
 
-	public GarlandBlock(Settings settings) {
+	public GarlandBlock(Properties settings) {
 		super(0.15f, settings);
-		this.setDefaultState(
-			this.getDefaultState()
-				.with(NORTH, false).with(EAST, false)
-				.with(SOUTH, false).with(WEST, false)
-				.with(UP, false).with(DOWN, false)
-				.with(ATTACHED_NORTH, false).with(ATTACHED_EAST, false)
-				.with(ATTACHED_SOUTH, false).with(ATTACHED_WEST, false)
-				.with(ATTACHED_UP, false).with(ATTACHED_DOWN, false)
+		this.registerDefaultState(
+			this.defaultBlockState()
+				.setValue(NORTH, false).setValue(EAST, false)
+				.setValue(SOUTH, false).setValue(WEST, false)
+				.setValue(UP, false).setValue(DOWN, false)
+				.setValue(ATTACHED_NORTH, false).setValue(ATTACHED_EAST, false)
+				.setValue(ATTACHED_SOUTH, false).setValue(ATTACHED_WEST, false)
+				.setValue(ATTACHED_UP, false).setValue(ATTACHED_DOWN, false)
 		);
 	}
 
 	@Override
-	public MapCodec<GarlandBlock> getCodec() {
-		return GarlandBlock.CODEC;
+	protected MapCodec<? extends PipeBlock> codec() {
+		return CODEC;
 	}
 
 	private Direction determineDirection(BlockHitResult hit) {
-		double x = hit.getPos().x + -1 * Math.floor(hit.getPos().x);
-		double y = hit.getPos().y + -1 * Math.floor(hit.getPos().y);
-		double z = hit.getPos().z + -1 * Math.floor(hit.getPos().z);
-		Vec3d vector = new Vec3d(x >= 0 ? x - 0.5 : x + 0.5, y >= 0 ? y - 0.5 : y + 0.5, z >= 0 ? z - 0.5 : z + 0.5);
+		double x = hit.getLocation().x + -1 * Math.floor(hit.getLocation().x);
+		double y = hit.getLocation().y + -1 * Math.floor(hit.getLocation().y);
+		double z = hit.getLocation().z + -1 * Math.floor(hit.getLocation().z);
+		Vec3 vector = new Vec3(x >= 0 ? x - 0.5 : x + 0.5, y >= 0 ? y - 0.5 : y + 0.5, z >= 0 ? z - 0.5 : z + 0.5);
 		if (Math.abs(vector.x) == 0.5) {
-			return hit.getSide();
+			return hit.getDirection();
 		}
 		else if (Math.abs(vector.x) >= Math.abs(vector.y) && Math.abs(vector.x) >= Math.abs(vector.z)) {
 			if (vector.x > 0.0) {
@@ -81,7 +85,7 @@ public class GarlandBlock extends ConnectingBlock {
 			}
 		}
 		if (Math.abs(vector.y) == 0.5) {
-			return hit.getSide();
+			return hit.getDirection();
 		}
 		else if (Math.abs(vector.y) >= Math.abs(vector.x) && Math.abs(vector.y) >= Math.abs(vector.z)) {
 			if (vector.y > 0.0) {
@@ -92,7 +96,7 @@ public class GarlandBlock extends ConnectingBlock {
 			}
 		}
 		if (Math.abs(vector.z) == 0.5) {
-			return hit.getSide();
+			return hit.getDirection();
 		}
 		else if (Math.abs(vector.z) >= Math.abs(vector.x) && Math.abs(vector.z) >= Math.abs(vector.y)) {
 			if (vector.z > 0.0) {
@@ -102,72 +106,73 @@ public class GarlandBlock extends ConnectingBlock {
 				return Direction.NORTH;
 			}
 		}
-		return hit.getSide();
+		return hit.getDirection();
 	}
 
 	@Override
-	protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		BlockState blockState = world.getBlockState(pos.offset(this.determineDirection(hit)));
-		Property<Boolean> property = GarlandBlock.FACING_PROPERTIES.get(this.determineDirection(hit).getOpposite());
-		boolean bool = !blockState.contains(property) || !blockState.get(property);
-		if (stack.isOf(ExtravaganzaItems.WRENCH_AGANZA) && bool) {
-			world.setBlockState(
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		BlockState blockState = level.getBlockState(pos.relative(this.determineDirection(hit)));
+		Property<Boolean> property = GarlandBlock.PROPERTY_BY_DIRECTION.get(this.determineDirection(hit).getOpposite());
+		boolean bool = !blockState.hasProperty(property) || !blockState.getValue(property);
+		if (stack.is(ExtravaganzaItems.WRENCH_AGANZA) && bool) {
+			level.setBlock(
 				pos,
-				state.with(
-					GarlandBlock.FACING_PROPERTIES.get(this.determineDirection(hit)),
-					!state.get(GarlandBlock.ATTACHED_FACING_PROPERTIES.get(this.determineDirection(hit)))
-				).with(
+				state.setValue(
+					GarlandBlock.PROPERTY_BY_DIRECTION.get(this.determineDirection(hit)),
+					!state.getValue(GarlandBlock.ATTACHED_FACING_PROPERTIES.get(this.determineDirection(hit)))
+				).setValue(
 					GarlandBlock.ATTACHED_FACING_PROPERTIES.get(this.determineDirection(hit)),
-					!state.get(GarlandBlock.ATTACHED_FACING_PROPERTIES.get(this.determineDirection(hit)))
-				)
+					!state.getValue(GarlandBlock.ATTACHED_FACING_PROPERTIES.get(this.determineDirection(hit)))
+				),
+				GarlandBlock.UPDATE_ALL
 			);
-			return ItemActionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 		else {
-			return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
+			return super.useItemOn(stack, state, level, pos, player, hand, hit);
 		}
 	}
 
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return GarlandBlock.withConnectionProperties(ctx.getWorld(), ctx.getBlockPos(), this.getDefaultState());
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return GarlandBlock.withConnectionProperties(context.getLevel(), context.getClickedPos(), this.defaultBlockState());
 	}
 
-	public static BlockState withConnectionProperties(BlockView world, BlockPos pos, BlockState state) {
-		BlockState downState = world.getBlockState(pos.down());
-		BlockState upState = world.getBlockState(pos.up());
+	public static BlockState withConnectionProperties(BlockGetter world, BlockPos pos, BlockState state) {
+		BlockState downState = world.getBlockState(pos.below());
+		BlockState upState = world.getBlockState(pos.above());
 		BlockState northState = world.getBlockState(pos.north());
 		BlockState eastState = world.getBlockState(pos.east());
 		BlockState southState = world.getBlockState(pos.south());
 		BlockState westState = world.getBlockState(pos.west());
 		Block block = state.getBlock();
-		return state.withIfExists(DOWN, downState.isOf(block) || downState.isOf(ExtravaganzaBlocks.PINATA))
-			.withIfExists(UP, upState.isOf(block))
-			.withIfExists(NORTH, northState.isOf(block))
-			.withIfExists(EAST, eastState.isOf(block))
-			.withIfExists(SOUTH, southState.isOf(block))
-			.withIfExists(WEST, westState.isOf(block));
+		return state.trySetValue(DOWN, downState.is(block) || downState.is(ExtravaganzaBlocks.PINATA))
+			.trySetValue(UP, upState.is(block))
+			.trySetValue(NORTH, northState.is(block))
+			.trySetValue(EAST, eastState.is(block))
+			.trySetValue(SOUTH, southState.is(block))
+			.trySetValue(WEST, westState.is(block));
 	}
 
 	@Override
-	protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-		return state.with(
-			GarlandBlock.FACING_PROPERTIES.get(direction),
-			neighborState.isOf(this) || state.get(GarlandBlock.ATTACHED_FACING_PROPERTIES.get(direction))
-		).with(
-			GarlandBlock.ATTACHED_FACING_PROPERTIES.get(direction),
-			!neighborState.isOf(this) && state.get(GarlandBlock.ATTACHED_FACING_PROPERTIES.get(direction))
+	protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction directionToNeighbour, BlockPos neighbourPos, BlockState neighbourState, RandomSource random) {
+		return state.setValue(
+			GarlandBlock.PROPERTY_BY_DIRECTION.get(directionToNeighbour),
+			neighbourState.is(this) || state.getValue(GarlandBlock.ATTACHED_FACING_PROPERTIES.get(directionToNeighbour))
+		).setValue(
+			GarlandBlock.ATTACHED_FACING_PROPERTIES.get(directionToNeighbour),
+			!neighbourState.is(this) && state.getValue(GarlandBlock.ATTACHED_FACING_PROPERTIES.get(directionToNeighbour))
 		);
 	}
 
 	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN);
 		builder.add(ATTACHED_NORTH, ATTACHED_EAST, ATTACHED_SOUTH, ATTACHED_WEST, ATTACHED_UP, ATTACHED_DOWN);
 	}
 
 	@Override
-	protected boolean canPathfindThrough(BlockState state, NavigationType type) {
+	protected boolean isPathfindable(BlockState state, PathComputationType type) {
 		return false;
 	}
 }
