@@ -1,38 +1,51 @@
 package com.mmodding.extravaganza.client.entity.renderer;
 
 import com.mmodding.extravaganza.Extravaganza;
-import com.mmodding.extravaganza.client.entity.model.FestiveBallEntityModel;
+import com.mmodding.extravaganza.client.entity.state.FestiveBallRenderState;
 import com.mmodding.extravaganza.client.init.ExtravaganzaModelLayers;
 import com.mmodding.extravaganza.entity.FestiveBallEntity;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import com.mmodding.library.resource.api.client.model.SimpleEntityModel;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.phys.Vec3;
 
-public class FestiveBallEntityRenderer extends EntityRenderer<FestiveBallEntity> {
+public class FestiveBallEntityRenderer extends EntityRenderer<FestiveBallEntity, FestiveBallRenderState> {
 
-	private final FestiveBallEntityModel model;
+	private final EntityModel<FestiveBallRenderState> model;
 
-	public FestiveBallEntityRenderer(EntityRendererFactory.Context ctx) {
-		super(ctx);
-		this.model = new FestiveBallEntityModel(ctx.getPart(ExtravaganzaModelLayers.FESTIVE_BALL));
+	public FestiveBallEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
+		this.model = new SimpleEntityModel<>(ExtravaganzaModelLayers.FESTIVE_BALL, context);
+	}
+
+	public Identifier getTexture(FestiveBallRenderState state) {
+		return Extravaganza.createId("textures/entity/festive_ball/" + state.color.getSerializedName() + ".png");
 	}
 
 	@Override
-	public Identifier getTexture(FestiveBallEntity entity) {
-		return Extravaganza.createId("textures/entity/festive_ball/" + entity.getColor().asString() + ".png");
+	public FestiveBallRenderState createRenderState() {
+		return new FestiveBallRenderState();
 	}
 
 	@Override
-	public void render(FestiveBallEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-		if (entity.age >= 2 || !(this.dispatcher.camera.getFocusedEntity().squaredDistanceTo(entity) < 12.25)) {
-			matrices.push();
-			matrices.translate(0.0f, -1.1f, 0.0f);
-			matrices.scale(0.8f, 0.8f, 0.8f);
-			this.model.render(matrices, vertexConsumers.getBuffer(this.model.getLayer(this.getTexture(entity))), light, OverlayTexture.DEFAULT_UV, 654311423);
-			matrices.pop();
+	public void extractRenderState(FestiveBallEntity entity, FestiveBallRenderState state, float partialTicks) {
+		super.extractRenderState(entity, state, partialTicks);
+		state.color = entity.getColor();
+	}
+
+	@Override
+	public void submit(FestiveBallRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+		if (state.ageInTicks >= 2 || !(camera.pos.distanceTo(new Vec3(state.x, state.y, state.z)) < 12.25f)) {
+			poseStack.pushPose();
+			poseStack.translate(0.0f, -1.1f, 0.0f);
+			poseStack.scale(0.8f, 0.8f, 0.8f);
+			submitNodeCollector.submitModel(this.model, state, poseStack, this.getTexture(state), state.lightCoords, 0, state.outlineColor, null);
+			poseStack.popPose();
 		}
 	}
 }

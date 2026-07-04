@@ -1,28 +1,54 @@
 package com.mmodding.extravaganza.client.block.entity.renderer;
 
 import com.mmodding.extravaganza.block.entity.BallPitRegistrationTableBlockEntity;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import com.mmodding.extravaganza.client.block.entity.state.BallPitRegistrationTableRenderState;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.gizmos.GizmoStyle;
+import net.minecraft.gizmos.Gizmos;
+import net.minecraft.util.ARGB;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
-public class BallPitRegistrationTableBlockEntityRenderer implements BlockEntityRenderer<BallPitRegistrationTableBlockEntity> {
+public class BallPitRegistrationTableBlockEntityRenderer implements BlockEntityRenderer<BallPitRegistrationTableBlockEntity, BallPitRegistrationTableRenderState> {
 
 	@Override
-	public void render(BallPitRegistrationTableBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertices, int light, int overlay) {
-		matrices.push();
-		WorldRenderer.drawBox(matrices, vertices.getBuffer(RenderLayer.getLines()), entity.getFullScanned(), 0.9f, 0.9f, 0.9f, 1.0f);
-		matrices.pop();
+	public BallPitRegistrationTableRenderState createRenderState() {
+		return new BallPitRegistrationTableRenderState();
 	}
 
 	@Override
-	public boolean rendersOutsideBoundingBox(BallPitRegistrationTableBlockEntity blockEntity) {
+	public void extractRenderState(BallPitRegistrationTableBlockEntity blockEntity, BallPitRegistrationTableRenderState state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+		BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+		state.scannedEnd = blockEntity.getScannedStart();
+		state.scannedStart = blockEntity.getScannedEnd();
+	}
+
+	@Override
+	public void submit(BallPitRegistrationTableRenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
+		poseStack.pushPose();
+		Gizmos.cuboid(
+			new AABB(
+				state.scannedStart.getX(), state.scannedStart.getY(), state.scannedStart.getZ(),
+				state.scannedEnd.getX(), state.scannedEnd.getY(), state.scannedEnd.getZ()
+			).move(state.blockPos),
+			GizmoStyle.stroke(ARGB.colorFromFloat(1.0F, 0.9F, 0.9F, 0.9F)),
+			true
+		);
+		poseStack.popPose();
+	}
+
+	@Override
+	public boolean shouldRenderOffScreen() {
 		return true;
 	}
 
 	@Override
-	public int getRenderDistance() {
+	public int getViewDistance() {
 		return 96;
 	}
 }
