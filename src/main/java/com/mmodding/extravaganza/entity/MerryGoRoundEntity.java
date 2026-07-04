@@ -2,30 +2,32 @@ package com.mmodding.extravaganza.entity;
 
 import com.mmodding.extravaganza.init.ExtravaganzaEntities;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.vehicle.VehicleEntity;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.VehicleEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class MerryGoRoundEntity extends VehicleEntity {
 
-	private static final TrackedData<Byte> POWER = DataTracker.registerData(MerryGoRoundEntity.class, TrackedDataHandlerRegistry.BYTE);
-	private static final TrackedData<Integer> ROTATION = DataTracker.registerData(MerryGoRoundEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	private static final EntityDataAccessor<Byte> POWER = SynchedEntityData.defineId(MerryGoRoundEntity.class, EntityDataSerializers.BYTE);
+	private static final EntityDataAccessor<Integer> ROTATION = SynchedEntityData.defineId(MerryGoRoundEntity.class, EntityDataSerializers.INT);
+
+	private final InterpolationHandler interpolation;
 
 	private int lerpTicks;
 	private double x;
@@ -34,133 +36,85 @@ public class MerryGoRoundEntity extends VehicleEntity {
 	private double turnstileYaw;
 	private double turnstilePitch;
 
-	public MerryGoRoundEntity(EntityType<?> entityType, World world) {
-		super(entityType, world);
+	public MerryGoRoundEntity(EntityType<?> entityType, Level level) {
+		super(entityType, level);
+		this.interpolation = new InterpolationHandler(this, this::onInterpolation);
 	}
 
-	public MerryGoRoundEntity(World world, double x, double y, double z) {
-		super(ExtravaganzaEntities.MERRY_GO_ROUND, world);
-		this.setPosition(x, y, z);
-		this.prevX = x;
-		this.prevY = y;
-		this.prevZ = z;
-	}
-
-	@Override
-	protected void initDataTracker(DataTracker.Builder builder) {
-		super.initDataTracker(builder);
-		builder.add(MerryGoRoundEntity.POWER, (byte) 1);
-		builder.add(MerryGoRoundEntity.ROTATION, 0);
+	public MerryGoRoundEntity(Level level, double x, double y, double z) {
+		super(ExtravaganzaEntities.MERRY_GO_ROUND, level);
+		this.interpolation = new InterpolationHandler(this, this::onInterpolation);
+		this.setPosRaw(x, y, z);
+		this.xo = x;
+		this.yo = y;
+		this.zo = z;
 	}
 
 	@Override
-	public Item asItem() {
+	protected void defineSynchedData(SynchedEntityData.Builder entityData) {
+		super.defineSynchedData(entityData);
+	}
+
+	private void onInterpolation(InterpolationHandler interpolation) {
+		this.setRot(interpolation.xRot(), interpolation.yRot());
+	}
+
+	@Override
+	protected Item getDropItem() {
 		return ExtravaganzaItems.MERRY_GO_ROUND;
 	}
 
 	@Override
-	protected void readCustomDataFromNbt(NbtCompound nbt) {
-		this.dataTracker.set(MerryGoRoundEntity.POWER, nbt.getByte("Power"));
-		this.dataTracker.set(MerryGoRoundEntity.ROTATION, nbt.getInt("CustomRotation"));
+	protected void readAdditionalSaveData(ValueInput input) {
+		this.entityData.set(POWER, input.getByteOr("power", (byte) 1));
+		this.entityData.set(ROTATION, input.getIntOr("custom_rotation", 0));
 	}
 
 	@Override
-	protected void writeCustomDataToNbt(NbtCompound nbt) {
-		nbt.putByte("Power", this.dataTracker.get(MerryGoRoundEntity.POWER));
-		nbt.putInt("CustomRotation", this.dataTracker.get(MerryGoRoundEntity.ROTATION));
+	protected void addAdditionalSaveData(ValueOutput output) {
+		output.putByte("power", this.entityData.get(POWER));
+		output.putInt("custom_rotation", this.entityData.get(ROTATION));
 	}
 
 	@Override
-	public boolean collidesWithStateAtPos(BlockPos pos, BlockState state) {
+	public boolean isColliding(BlockPos pos, BlockState state) {
 		return false;
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.isLogicalSideForUpdatingMovement()) {
-			if (!this.getPassengerList().isEmpty()) {
-				this.dataTracker.set(MerryGoRoundEntity.ROTATION, this.dataTracker.get(MerryGoRoundEntity.ROTATION) + 3 * this.dataTracker.get(MerryGoRoundEntity.POWER));
+		if (this.isLocalInstanceAuthoritative()) {
+			if (!this.getPassengers().isEmpty()) {
+				this.entityData.set(MerryGoRoundEntity.ROTATION, this.entityData.get(MerryGoRoundEntity.ROTATION) + 3 * this.entityData.get(MerryGoRoundEntity.POWER));
 			}
 			else {
-				this.dataTracker.set(MerryGoRoundEntity.ROTATION, 0);
+				this.entityData.set(MerryGoRoundEntity.ROTATION, 0);
 			}
 		}
-		this.updatePositionAndRotation();
+		this.interpolation.setInterpolationLength(11 - this.entityData.get(MerryGoRoundEntity.POWER));
 	}
 
 	@Override
-	public double getLerpTargetX() {
-		return this.lerpTicks > 0 ? this.x : this.getX();
+	public @Nullable InterpolationHandler getInterpolation() {
+		return this.interpolation;
 	}
 
 	@Override
-	public double getLerpTargetY() {
-		return this.lerpTicks > 0 ? this.y : this.getY();
+	public boolean canBeCollidedWith(Entity other) {
+		return other != null && other.isPushable() && !this.isPassengerOfSameVehicle(other);
 	}
 
 	@Override
-	public double getLerpTargetZ() {
-		return this.lerpTicks > 0 ? this.z : this.getZ();
-	}
-
-	@Override
-	public float getLerpTargetYaw() {
-		return this.lerpTicks > 0 ? (float) this.turnstileYaw : this.getYaw();
-	}
-
-	@Override
-	public float getLerpTargetPitch() {
-		return this.lerpTicks > 0 ? (float) this.turnstilePitch : this.getPitch();
-	}
-
-	@Override
-	public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.turnstileYaw = this.dataTracker.get(MerryGoRoundEntity.ROTATION);
-		this.turnstilePitch = pitch;
-		this.lerpTicks = 11 - this.dataTracker.get(MerryGoRoundEntity.POWER);
-	}
-
-	private void updatePositionAndRotation() {
-		if (this.isLogicalSideForUpdatingMovement()) {
-			this.lerpTicks = 0;
-			this.updateTrackedPosition(this.getX(), this.getY(), this.getZ());
-		}
-
-		if (this.lerpTicks > 0) {
-			this.lerpPosAndRotation(this.lerpTicks, this.x, this.y, this.z, this.turnstileYaw, this.turnstilePitch);
-			this.lerpTicks--;
-		}
-	}
-
-	@Override
-	public boolean collidesWith(Entity other) {
-		return (other.isCollidable() || other.isPushable()) && !this.isConnectedThroughVehicle(other);
-	}
-
-	@Override
-	public boolean isCollidable() {
+	public boolean isPickable() {
 		return true;
 	}
 
 	@Override
-	public boolean canHit() {
-		return true;
-	}
-
-	@Override
-	public float getYaw() {
-		return this.dataTracker.get(MerryGoRoundEntity.ROTATION);
-	}
-
-	@Override
-	protected Vec3d getPassengerAttachmentPos(Entity passenger, EntityDimensions dimensions, float scaleFactor) {
+	protected @NonNull Vec3 getPassengerAttachmentPoint(Entity passenger, EntityDimensions dimensions, float scaleFactor) {
 		float additionalX = 0.0f;
 		float additionalZ = 0.0f;
-		int i = this.getPassengerList().indexOf(passenger);
+		int i = this.getPassengers().indexOf(passenger);
 
 		switch (i) {
 			case 0 -> {
@@ -181,12 +135,12 @@ public class MerryGoRoundEntity extends VehicleEntity {
 			}
 		}
 
-		return new Vec3d(additionalX, dimensions.height(), additionalZ).rotateY((float) Math.toRadians(-this.getYaw()));
+		return new Vec3(additionalX, dimensions.height(), additionalZ).yRot((float) Math.toRadians(-this.getYRot()));
 	}
 
 	@Override
 	protected boolean canAddPassenger(Entity passenger) {
-		return this.getPassengerList().size() < this.getMaxPassengers();
+		return this.getPassengers().size() < this.getMaxPassengers();
 	}
 
 	private int getMaxPassengers() {
@@ -194,52 +148,51 @@ public class MerryGoRoundEntity extends VehicleEntity {
 	}
 
 	@Override
-	public ActionResult interact(PlayerEntity player, Hand hand) {
-		if (player.getStackInHand(hand).isOf(ExtravaganzaItems.WRENCH_AGANZA)) {
-			if (this.dataTracker.get(MerryGoRoundEntity.POWER) < 10) {
-				this.dataTracker.set(MerryGoRoundEntity.POWER, (byte) MathHelper.clamp(this.dataTracker.get(MerryGoRoundEntity.POWER) + 1, 1, 10));
+	public InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
+		if (player.getItemInHand(hand).is(ExtravaganzaItems.WRENCH_AGANZA)) {
+			if (this.entityData.get(MerryGoRoundEntity.POWER) < 10) {
+				this.entityData.set(MerryGoRoundEntity.POWER, (byte) Mth.clamp(this.entityData.get(MerryGoRoundEntity.POWER) + 1, 1, 10));
 			}
 			else {
-				this.dataTracker.set(MerryGoRoundEntity.POWER, (byte) 1);
+				this.entityData.set(MerryGoRoundEntity.POWER, (byte) 1);
 			}
-			player.sendMessage(Text.translatable("enchantment.minecraft.power").append(": " + this.dataTracker.get(MerryGoRoundEntity.POWER)), true);
-			return ActionResult.SUCCESS;
+			player.sendOverlayMessage(Component.translatable("enchantment.minecraft.power").append(": " + this.entityData.get(MerryGoRoundEntity.POWER)));
+			return InteractionResult.SUCCESS;
 		}
-		else if (super.interact(player, hand) != ActionResult.PASS) {
-			return super.interact(player, hand);
+		else if (super.interact(player, hand, location) != InteractionResult.PASS) {
+			return super.interact(player, hand, location);
 		}
-		else if (player.shouldCancelInteraction()) {
-			return ActionResult.PASS;
+		else if (player.isSecondaryUseActive()) {
+			return InteractionResult.PASS;
 		}
-		else if (!this.getWorld().isClient()) {
-			return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
+		else if (!this.level().isClientSide()) {
+			return player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS;
 		}
 		else {
-			return ActionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 	}
 
 	@Override
-	protected void updatePassengerPosition(Entity passenger, PositionUpdater positionUpdater) {
-		super.updatePassengerPosition(passenger, positionUpdater);
+	protected void positionRider(Entity passenger, MoveFunction moveFunction) {
+		super.positionRider(passenger, moveFunction);
 		this.clampPassengerYaw(passenger);
 	}
 
 	protected void clampPassengerYaw(Entity passenger) {
-		passenger.setBodyYaw(this.getYaw());
-		float f = MathHelper.wrapDegrees(passenger.getYaw() - this.getYaw());
-		float g = MathHelper.clamp(f, -105.0f, 105.0f);
-		passenger.prevYaw += g - f;
-		passenger.setYaw(passenger.getYaw() + g - f);
-		passenger.setHeadYaw(passenger.getYaw());
-		if (passenger instanceof AnimalEntity && this.getPassengerList().size() == this.getMaxPassengers()) {
-			passenger.setBodyYaw(((AnimalEntity) passenger).bodyYaw);
-			passenger.setHeadYaw(passenger.getHeadYaw());
+		passenger.setYBodyRot(this.getYRot());
+		float f = Mth.wrapDegrees(passenger.getYRot() - this.getYRot());
+		float g = Mth.clamp(f, -105.0f, 105.0f);
+		passenger.setYRot(passenger.getYRot() + g - f);
+		passenger.setYHeadRot(passenger.getYRot());
+		if (passenger instanceof LivingEntity && this.getPassengers().size() == this.getMaxPassengers()) {
+			passenger.setYBodyRot(((LivingEntity) passenger).yBodyRot);
+			passenger.setYHeadRot(passenger.getYHeadRot());
 		}
 	}
 
 	@Override
-	public void onPassengerLookAround(Entity passenger) {
+	public void onPassengerTurned(Entity passenger) {
 		this.clampPassengerYaw(passenger);
 	}
 }
