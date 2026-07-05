@@ -52,10 +52,6 @@ fabricApi {
 	}
 }
 
-loom {
-	accessWidenerPath = file("src/main/resources/extravaganza.classtweaker")
-}
-
 mmodding {
 	configureFabricModJson {
 		name = "Extravaganza!"
@@ -81,7 +77,6 @@ mmodding {
 			datagen("com.mmodding.extravaganza.ExtravaganzaDataGenerator")
 		}
 		addMixin("extravaganza.mixins.json")
-		accessWidener = "extravaganza.classtweaker"
 		withDependencies {
 			javaVersion = ">=" + libs.versions.java.get()
 			minecraftVersion = "~" + libs.versions.minecraft.get()
