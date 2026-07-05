@@ -7,7 +7,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,15 +28,14 @@ public class DamageSourceMixin {
 
 	@Shadow
 	@Final
-	@Nullable
-	private Entity source;
+	private @Nullable Entity causingEntity;
 
 	@Inject(method = "<init>(Lnet/minecraft/core/Holder;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;)V", at = @At("TAIL"))
 	private void setupVariant(Holder<DamageType> type, Entity directEntity, Entity causingEntity, CallbackInfo ci) {
 		if (type.isBound()) {
 			if (type.unwrapKey().orElseThrow() == ExtravaganzaDamageTypes.TRASH) {
-				this.variant = RandomGenerator.getDefault().nextInt((source == null || causingEntity == null) ? 15 : 2);
-				this.self = source == null || causingEntity == null;
+				this.variant = RandomGenerator.getDefault().nextInt((directEntity == null || causingEntity == null) ? 15 : 2);
+				this.self = directEntity == null || causingEntity == null;
 			}
 		}
 	}
@@ -48,8 +47,8 @@ public class DamageSourceMixin {
 				cir.setReturnValue(Component.translatable("death.trash." + this.variant, victim.getDisplayName()));
 			}
 			else {
-				assert this.source != null;
-				cir.setReturnValue(Component.translatable("death.trash.player." + this.variant, victim.getDisplayName(), this.source.getDisplayName()));
+				assert this.causingEntity != null;
+				cir.setReturnValue(Component.translatable("death.trash.player." + this.variant, victim.getDisplayName(), this.causingEntity.getDisplayName()));
 			}
 		}
 	}
