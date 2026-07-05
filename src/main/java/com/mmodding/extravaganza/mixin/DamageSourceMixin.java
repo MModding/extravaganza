@@ -1,20 +1,20 @@
 package com.mmodding.extravaganza.mixin;
 
 import com.mmodding.extravaganza.init.ExtravaganzaDamageTypes;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageType;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.random.RandomGenerator;
 
 @Debug(export = true)
 @Mixin(DamageSource.class)
@@ -31,25 +31,25 @@ public class DamageSourceMixin {
 	@Nullable
 	private Entity source;
 
-	@Inject(method = "<init>(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;)V", at = @At("TAIL"))
-	private void setupVariant(RegistryEntry<DamageType> type, Entity source, Entity attacker, Vec3d position, CallbackInfo ci) {
-		if (type.getKey().isPresent()) {
-			if (type.getKey().orElseThrow() == ExtravaganzaDamageTypes.TRASH) {
-				this.variant = Random.create().nextInt((source == null || attacker == null) ? 15 : 2);
-				this.self = source == null || attacker == null;
+	@Inject(method = "<init>(Lnet/minecraft/core/Holder;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;)V", at = @At("TAIL"))
+	private void setupVariant(Holder<DamageType> type, Entity directEntity, Entity causingEntity, CallbackInfo ci) {
+		if (type.isBound()) {
+			if (type.unwrapKey().orElseThrow() == ExtravaganzaDamageTypes.TRASH) {
+				this.variant = RandomGenerator.getDefault().nextInt((source == null || causingEntity == null) ? 15 : 2);
+				this.self = source == null || causingEntity == null;
 			}
 		}
 	}
 
-	@Inject(method = "getDeathMessage", at = @At("HEAD"), cancellable = true)
-	private void injectVariant(LivingEntity killed, CallbackInfoReturnable<Text> cir) {
+	@Inject(method = "getLocalizedDeathMessage", at = @At("HEAD"), cancellable = true)
+	private void injectVariant(LivingEntity victim, CallbackInfoReturnable<Component> cir) {
 		if (this.variant != -1) {
 			if (this.self) {
-				cir.setReturnValue(Text.translatable("death.trash." + this.variant, killed.getDisplayName()));
+				cir.setReturnValue(Component.translatable("death.trash." + this.variant, victim.getDisplayName()));
 			}
 			else {
 				assert this.source != null;
-				cir.setReturnValue(Text.translatable("death.trash.player." + this.variant, killed.getDisplayName(), this.source.getDisplayName()));
+				cir.setReturnValue(Component.translatable("death.trash.player." + this.variant, victim.getDisplayName(), this.source.getDisplayName()));
 			}
 		}
 	}

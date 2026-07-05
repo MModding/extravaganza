@@ -2,21 +2,21 @@ package com.mmodding.extravaganza.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mmodding.extravaganza.entity.MerryGoRoundEntity;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.network.packet.s2c.play.EntityS2CPacket;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(ClientPlayNetworkHandler.class)
+@Mixin(ClientPacketListener.class)
 public class ClientPlayNetworkHandlerMixin {
 
 	@Shadow
-	private ClientWorld world;
+	private ClientLevel level;
 
-	@ModifyExpressionValue(method = "onEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/s2c/play/EntityS2CPacket;hasRotation()Z"))
-	private boolean alwaysRotateIfMerryGoRound(boolean original, EntityS2CPacket packet) {
-		return packet.getEntity(this.world) instanceof MerryGoRoundEntity || original;
+	@ModifyExpressionValue(method = "handleMoveEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/game/ClientboundMoveEntityPacket;hasRotation()Z"))
+	private boolean alwaysRotateIfMerryGoRound(boolean original, ClientboundMoveEntityPacket packet) {
+		return packet.getEntity(this.level) instanceof MerryGoRoundEntity || original;
 	}
 }
