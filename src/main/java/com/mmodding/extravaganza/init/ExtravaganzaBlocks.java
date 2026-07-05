@@ -10,6 +10,7 @@ import com.mmodding.library.block.api.wrapper.BlockRelatives;
 import com.mmodding.library.core.api.AdvancedContainer;
 import com.mmodding.library.woodset.api.WoodSet;
 import com.mmodding.library.woodset.api.WoodSetBuilder;
+import com.mmodding.library.woodset.api.WoodSetSettings;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
@@ -29,12 +30,9 @@ import java.util.function.Supplier;
 
 public class ExtravaganzaBlocks {
 
-	public static final WoodSet HEVEA_BRASILIENSIS = WoodSetBuilder.create(
-		Extravaganza.namespace(),
-		"hevea_brasiliensis",
-		WoodTypeBuilder.copyOf(WoodType.OAK),
-		BlockSetTypeBuilder.copyOf(BlockSetType.OAK)
-	).buildAndRegister();
+	public static final WoodSet HEVEA_BRASILIENSIS = WoodSetBuilder.create(Extravaganza.namespace(), "hevea_brasiliensis", WoodTypeBuilder.copyOf(WoodType.OAK), BlockSetTypeBuilder.copyOf(BlockSetType.OAK))
+		.withSettings(WoodSetSettings.create(true, WoodSetSettings.LogDisplay.WITH_HORIZONTAL, () -> Blocks.IRON_CHAIN, true, false))
+		.buildAndRegister();
 
 	public static final Block BALL_PIT_REGISTRATION_TABLE = register("ball_pit_registration_table", BallPitRegistrationTableBlock::new, BlockBehaviour.Properties.of().noOcclusion().strength(2.0f).sound(SoundType.WOOD)).registerItem();
 	public static final Block BALL_PIT_CONTENT = register("ball_pit_content", BallPitContentBlock::new, BlockBehaviour.Properties.of().noCollision().sound(SoundType.SLIME_BLOCK)).registerItem();
@@ -174,8 +172,7 @@ public class ExtravaganzaBlocks {
 		return Blocks.register(ResourceKey.create(Registries.BLOCK, Extravaganza.createId(path)), factory::make, properties);
 	}
 
-	public static void register(AdvancedContainer mod) {
-	}
+	public static void register(AdvancedContainer mod) {}
 
 	public record ExtravaganzaColoredVariants(Map<ExtravaganzaColor, BlockRelatives> variants) {}
 }
