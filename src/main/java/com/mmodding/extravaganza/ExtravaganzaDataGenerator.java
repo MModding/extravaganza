@@ -17,9 +17,11 @@ import com.mmodding.library.datagen.api.management.DataManager;
 import com.mmodding.library.datagen.api.management.DefaultDataHandlers;
 import com.mmodding.library.datagen.api.management.resolver.DataContentResolver;
 import com.mmodding.library.datagen.api.model.block.DefaultBlockModelProcessing;
+import com.mmodding.library.datagen.api.provider.BuiltinRegistryTagsProvider;
 import com.mmodding.library.datagen.api.provider.MModdingLanguageProvider;
 import com.mmodding.library.datagen.api.provider.MModdingRecipeProvider;
 import com.mmodding.library.datagen.api.recipe.RecipeGenerator;
+import com.mmodding.library.datagen.api.tag.ValueTagAppender;
 import com.mmodding.library.datagen.api.tag.ValueTagProcessor;
 import com.mojang.math.Quadrant;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
@@ -27,6 +29,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
@@ -45,6 +48,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -94,6 +98,7 @@ public class ExtravaganzaDataGenerator implements ExtendedDataGeneratorEntrypoin
 
 		// Assets
 		manager.chain(ExtravaganzaBlocks.class, DefaultDataHandlers.BLOCK_MODELS)
+			.chain(Set.of(ExtravaganzaBlocks.COLORFUL_CONFETTI, ExtravaganzaBlocks.COLORFUL_INK_PUDDLE), ExtravaganzaBlockModelProcessors::createColorful)
 			.chain(block -> block instanceof FlattenedBlock, ExtravaganzaBlockModelProcessors::createInkPuddleOrConfetti)
 			.chain(block -> block instanceof PaperLanternBlock, ExtravaganzaBlockModelProcessors::createPaperLantern)
 			.chain(block -> block instanceof TrashCanBlock, ExtravaganzaBlockModelProcessors::createTrashCan)
@@ -104,21 +109,21 @@ public class ExtravaganzaDataGenerator implements ExtendedDataGeneratorEntrypoin
 			.chain(Set.of(ExtravaganzaBlocks.BALL_DISTRIBUTOR), ExtravaganzaBlockModelProcessors::createBallDistributor)
 			.chain(Predicate.not(UNCONSIDERED_BLOCKS), BlockModelGenerators::createTrivialCube);
 		manager.chain(ExtravaganzaItems.class, DefaultDataHandlers.ITEM_MODELS)
-			.chain(item -> item instanceof RubberScraperItem, (generator, item) -> generator.createFlatItemModel(item, ModelTemplates.FLAT_HANDHELD_ITEM))
-			.chain(item -> item != ExtravaganzaItems.BAT, (generator, item) -> generator.createFlatItemModel(item, ModelTemplates.FLAT_ITEM));
+			.chain(item -> item instanceof RubberScraperItem, (generator, item) -> generator.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM))
+			.chain(Set.of(ExtravaganzaItems.BAT), ItemModelGenerators::declareCustomModelItem)
+			.chain((generator, item) -> generator.generateFlatItem(item, ModelTemplates.FLAT_ITEM));
 		manager.task(ExtravaganzaBlocks.class, DefaultDataHandlers.getTranslationHandler(Registries.BLOCK, Block.class), DefaultLangProcessors.CLASSIC);
 		manager.task(ExtravaganzaItems.class, DefaultDataHandlers.getTranslationHandler(Registries.ITEM, Item.class), DefaultLangProcessors.CLASSIC);
 		// noinspection unchecked
 		manager.task(ExtravaganzaEntities.class, DefaultDataHandlers.getTranslationHandler(Registries.ENTITY_TYPE, (Class<EntityType<?>>) (Class<?>) EntityType.class), DefaultLangProcessors.CLASSIC);
 
 		// Data
-		manager.task(ExtravaganzaBlocks.class, DefaultDataHandlers.BLOCK_LOOTS, BlockLootSubProvider::dropSelf);
+		manager.task(ExtravaganzaBlocks.class, DefaultDataHandlers.BLOCK_LOOTS, block -> block != ExtravaganzaBlocks.BALL_PIT_PROTECTION, BlockLootSubProvider::dropSelf);
 		manager.chain(ExtravaganzaBlocks.class, DefaultDataHandlers.BLOCK_TAGS)
 			.chain(block -> {
 				String path = BuiltInRegistries.BLOCK.getKey(block).getPath();
 				return EXCLUDING_PICKAXE_KEYWORDS.stream().noneMatch(path::contains);
-			}, (provider, element) -> provider.apply(BlockTags.MINEABLE_WITH_PICKAXE).add(element))
-			.chain(block -> BuiltInRegistries.BLOCK.getKey(block).getPath().contains("rubber"), ValueTagProcessor.forTag(ExtravaganzaBlockTags.RUBBER_SCRAPPER_MINEABLE));
+			}, (provider, element) -> provider.apply(BlockTags.MINEABLE_WITH_PICKAXE).add(element));
 		manager.chain(ExtravaganzaBlocks.class, DefaultDataHandlers.BLOCK_TAGS)
 			.chain(block -> BuiltInRegistries.BLOCK.getKey(block).getPath().contains("ladder"), ValueTagProcessor.forTags(BlockTags.CLIMBABLE, ExtravaganzaBlockTags.FESTIVE_RUBBER_LADDERS))
 			.chain(block -> BuiltInRegistries.BLOCK.getKey(block).getPath().contains("ink_puddle"), ValueTagProcessor.forTag(ExtravaganzaBlockTags.INK_PUDDLES))
@@ -133,6 +138,7 @@ public class ExtravaganzaDataGenerator implements ExtendedDataGeneratorEntrypoin
 				ExtravaganzaBlocks.NYMPH_STAINED_GLASS
 			), ValueTagProcessor.forTag(ConventionalBlockTags.GLASS_BLOCKS_TINTED));
 		manager.chain(ExtravaganzaItems.class, DefaultDataHandlers.ITEM_TAGS)
+			.chain(Set.of(ExtravaganzaItems.RUBBER_SCRAPER), ValueTagProcessor.forTags(ItemTags.MINING_ENCHANTABLE, ItemTags.DURABILITY_ENCHANTABLE))
 			.chain(item -> BuiltInRegistries.ITEM.getKey(item).getPath().contains("candy_cane"), ValueTagProcessor.forTag(ExtravaganzaItemTags.CANDY_CANES))
 			.chain(item -> BuiltInRegistries.ITEM.getKey(item).getPath().contains("festive_ball"), ValueTagProcessor.forTag(ExtravaganzaItemTags.FESTIVE_BALLS));
 
@@ -146,7 +152,8 @@ public class ExtravaganzaDataGenerator implements ExtendedDataGeneratorEntrypoin
 		pack.addProvider(ExtravaganzaModelProvider::new);
 		pack.addProvider(ExtravaganzaLanguageProvider::new);
 		pack.addProvider(ExtravaganzaRecipeProvider::new);
-		pack.addProvider(ExtravaganzaDamageTypeTagProvider::new);
+		pack.addProvider(ExtravaganzaBlockTagsProvider::new);
+		pack.addProvider(ExtravaganzaDamageTypeTagsProvider::new);
 	}
 
 	private static class ExtravaganzaModelProvider extends FabricModelProvider {
@@ -411,7 +418,7 @@ public class ExtravaganzaDataGenerator implements ExtendedDataGeneratorEntrypoin
 				);
 
 				for (String variant : VARIANTS) {
-					String path = !variant.equals("glass") && !variant.equals("grate") ? variant + "_festive_rubber" : "festive_rubber" + variant;
+					String path = !variant.equals("glass") && !variant.equals("grate") ? variant + "_festive_rubber" : "festive_rubber_" + variant;
 					if (path.contains("_rotated_90")) {
 						path = path.replace("_rotated_90", "") + "_rotated_90";
 					}
@@ -587,7 +594,7 @@ public class ExtravaganzaDataGenerator implements ExtendedDataGeneratorEntrypoin
 						" M "
 					)
 			);
-			generator.forItem(ExtravaganzaItems.WAY_TO_SUGARY_WHITECAKE).shaped(
+			generator.forItem(ExtravaganzaItems.WAY_TOO_SUGARY_WHITECAKE).shaped(
 				RecipeCategory.FOOD,
 				recipe -> recipe.key('S', Items.SUGAR)
 					.key('C', Items.CAKE)
@@ -617,6 +624,17 @@ public class ExtravaganzaDataGenerator implements ExtendedDataGeneratorEntrypoin
 			generator.forItem(ExtravaganzaItems.CREEPER_BALLOON).shaped(
 				16, RecipeCategory.MISC,
 				recipe -> recipe.key('D', Items.DYE.green())
+					.key('P', Items.PAPER)
+					.key('S', Items.STRING)
+					.pattern(
+						"DP ",
+						"PD ",
+						"  S"
+					)
+			);
+			generator.forItem(ExtravaganzaItems.ENDERMAN_BALLOON).shaped(
+				16, RecipeCategory.MISC,
+				recipe -> recipe.key('D', Items.DYE.black())
 					.key('P', Items.PAPER)
 					.key('S', Items.STRING)
 					.pattern(
@@ -761,9 +779,27 @@ public class ExtravaganzaDataGenerator implements ExtendedDataGeneratorEntrypoin
 		}
 	}
 
-	private static class ExtravaganzaDamageTypeTagProvider extends FabricTagsProvider<DamageType> {
+	private static class ExtravaganzaBlockTagsProvider extends BuiltinRegistryTagsProvider.BlockTagsProvider {
 
-		public ExtravaganzaDamageTypeTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> future) {
+		public ExtravaganzaBlockTagsProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> future) {
+			super(output, future);
+		}
+
+		@Override
+		protected void addTags(HolderLookup.Provider registries) {
+			AdvancedContainer mod = AdvancedContainer.of(FabricLoader.getInstance().getModContainer("extravaganza").orElseThrow());
+			ValueTagAppender<Block> rubberScrapperMineable = this.valueBuilder(ExtravaganzaBlockTags.RUBBER_SCRAPPER_MINEABLE);
+			mod.iterateOverRegistry(BuiltInRegistries.BLOCK, (key, block) -> {
+				if (key.identifier().getPath().contains("rubber")) {
+					rubberScrapperMineable.add(block);
+				}
+			});
+		}
+	}
+
+	private static class ExtravaganzaDamageTypeTagsProvider extends FabricTagsProvider<DamageType> {
+
+		public ExtravaganzaDamageTypeTagsProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> future) {
 			super(output, Registries.DAMAGE_TYPE, future);
 		}
 

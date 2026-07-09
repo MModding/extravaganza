@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_colorful_festive_rubber_tile_stairs": {
+    "has_colorful_festive_rubber_tiles": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:colorful_festive_rubber_tile_stairs"
+            "items": "extravaganza:colorful_festive_rubber_tiles"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_colorful_festive_rubber_tile_stairs"
+      "has_colorful_festive_rubber_tiles"
     ]
   ],
   "rewards": {

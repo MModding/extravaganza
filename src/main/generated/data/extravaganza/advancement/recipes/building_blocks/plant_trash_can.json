@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_plant_trash_can": {
+    "has_hopper": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:plant_trash_can"
+            "items": "minecraft:hopper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_plant_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:plant_festive_rubber"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_plant_trash_can"
+      "has_plant_festive_rubber",
+      "has_hopper"
     ]
   ],
   "rewards": {

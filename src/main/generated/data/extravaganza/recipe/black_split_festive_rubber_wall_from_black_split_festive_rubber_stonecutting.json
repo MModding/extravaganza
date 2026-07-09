@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:black_split_festive_rubber",
+  "result": {
+    "id": "extravaganza:black_split_festive_rubber_wall"
+  }
+}

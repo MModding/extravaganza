@@ -14,14 +14,14 @@ public class RubberLadderBlock extends LadderBlock {
 
 	@Override
 	protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-		return level.getBlockState(pos.above()).getBlock() instanceof RubberLadderBlock || state.canSurvive(level, pos);
+		return level.getBlockState(pos.above()).getBlock() instanceof RubberLadderBlock || super.canSurvive(state, level, pos);
 	}
 
 	@Override
 	protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
 		BlockState downState = level.getBlockState(pos.below());
-		if (!(state.getBlock() instanceof RubberLadderBlock) && downState.getBlock() instanceof RubberLadderBlock && !state.canSurvive(level, pos.below())) {
-			level.removeBlock(pos.below(), true);
+		if (downState.getBlock() instanceof RubberLadderBlock && !state.canSurvive(level, pos.below())) {
+			level.removeBlock(pos.below(), movedByPiston);
 		}
 	}
 }

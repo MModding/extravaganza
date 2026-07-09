@@ -1,9 +1,11 @@
 package com.mmodding.extravaganza.data;
 
 import com.mmodding.extravaganza.Extravaganza;
+import com.mmodding.extravaganza.ExtravaganzaColor;
 import com.mmodding.extravaganza.block.BallDistributorBlock;
 import com.mmodding.extravaganza.block.GarlandBlock;
 import com.mmodding.extravaganza.block.TrashCanBlock;
+import com.mmodding.extravaganza.client.color.item.ExtravaganzaColorSource;
 import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.library.datagen.api.model.block.DefaultBlockModelProcessing;
 import com.mojang.math.Quadrant;
@@ -13,10 +15,12 @@ import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.TexturedModel;
+import net.minecraft.client.renderer.block.dispatch.Variant;
 import net.minecraft.client.renderer.block.dispatch.VariantMutator;
 import net.minecraft.client.renderer.block.dispatch.multipart.CombinedCondition;
 import net.minecraft.client.renderer.block.dispatch.multipart.Condition;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -28,9 +32,18 @@ import static net.minecraft.client.data.models.BlockModelGenerators.*;
 
 public class ExtravaganzaBlockModelProcessors {
 
-	public static void createInkPuddleOrConfetti(BlockModelGenerators generator, Block block) {
-		generator.createHorizontallyRotatedBlock(block, TexturedModel.CARPET);
+	public static void createColorful(BlockModelGenerators generator, Block block) {
+		Variant model = plainModel(TexturedModel.CARPET.create(block, generator.modelOutput));
+		generator.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, createRotatedVariants(model)));
 		generator.registerSimpleFlatItemModel(block.asItem());
+	}
+
+	public static void createInkPuddleOrConfetti(BlockModelGenerators generator, Block block) {
+		String path = BuiltInRegistries.BLOCK.getKey(block).getPath();
+		String name = path.contains("confetti") ? "confetti" : "ink_puddle";
+		Variant model = plainModel(Extravaganza.createId("block/" + name));
+		generator.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, createRotatedVariants(model)));
+		generator.registerSimpleTintedItemModel(block, Extravaganza.createId("item/" + name), new ExtravaganzaColorSource(ExtravaganzaColor.fromString(path.substring(0, path.length() - name.length() - 1))));
 	}
 
 	public static void createPaperLantern(BlockModelGenerators generator, Block block) {
@@ -41,9 +54,11 @@ public class ExtravaganzaBlockModelProcessors {
 				.select(false, plainVariant(lantern))
 				.select(true, plainVariant(hangingLantern))
 		));
+		generator.registerSimpleFlatItemModel(block.asItem());
 	}
 
 	public static void createTrashCan(BlockModelGenerators generator, Block block) {
+		generator.registerSimpleFlatItemModel(block.asItem());
 		Identifier trashCan = ExtravaganzaTexturedModels.TRASH_CAN.create(block, generator.modelOutput);
 		Identifier trashCanLid = ExtravaganzaTexturedModels.TRASH_CAN_LID.createWithSuffix(block, "_lid", generator.modelOutput);
 		Identifier trashCanLidOpen = ExtravaganzaTexturedModels.TRASH_CAN_LID_OPEN.createWithSuffix(block, "_lid_open", generator.modelOutput);
@@ -71,6 +86,7 @@ public class ExtravaganzaBlockModelProcessors {
 	}
 
 	public static void createGarland(BlockModelGenerators generator, Block block) {
+		generator.registerSimpleFlatItemModel(block.asItem());
 		Identifier garland = Extravaganza.createId("block/garland");
 		Identifier horizontal = Extravaganza.createId("block/garland_horizontal");
 		Identifier vertical = Extravaganza.createId("block/garland_vertical");

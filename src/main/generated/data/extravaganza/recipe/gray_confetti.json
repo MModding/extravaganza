@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "minecraft:paper"
-    },
-    {
-      "item": "minecraft:gray_dye"
-    }
+    "minecraft:paper",
+    "minecraft:gray_dye"
   ],
   "result": {
     "count": 4,

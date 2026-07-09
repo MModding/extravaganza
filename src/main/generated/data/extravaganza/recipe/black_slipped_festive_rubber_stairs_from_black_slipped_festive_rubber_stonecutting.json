@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:black_slipped_festive_rubber",
+  "result": {
+    "id": "extravaganza:black_slipped_festive_rubber_stairs"
+  }
+}

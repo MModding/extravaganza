@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_green_candy_cane": {
+    "has_green_dye": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:green_candy_cane"
+            "items": "minecraft:green_dye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_sugar": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:sugar"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_green_candy_cane"
+      "has_green_dye",
+      "has_sugar"
     ]
   ],
   "rewards": {

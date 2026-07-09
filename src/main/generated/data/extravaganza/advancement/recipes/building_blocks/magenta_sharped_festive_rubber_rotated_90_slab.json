@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_magenta_sharped_festive_rubber_rotated_90_slab": {
+    "has_magenta_sharped_festive_rubber_rotated_90": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:magenta_sharped_festive_rubber_rotated_90_slab"
+            "items": "extravaganza:magenta_sharped_festive_rubber_rotated_90"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_magenta_sharped_festive_rubber_rotated_90_slab"
+      "has_magenta_sharped_festive_rubber_rotated_90"
     ]
   ],
   "rewards": {

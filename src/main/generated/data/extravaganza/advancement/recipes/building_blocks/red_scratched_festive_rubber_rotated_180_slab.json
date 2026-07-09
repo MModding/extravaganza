@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_red_scratched_festive_rubber_rotated_180_slab": {
+    "has_red_scratched_festive_rubber_rotated_180": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:red_scratched_festive_rubber_rotated_180_slab"
+            "items": "extravaganza:red_scratched_festive_rubber_rotated_180"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_red_scratched_festive_rubber_rotated_180_slab"
+      "has_red_scratched_festive_rubber_rotated_180"
     ]
   ],
   "rewards": {

@@ -1,27 +1,38 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_cake": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:cake"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_sugar": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:sugar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "extravaganza:way_too_sugary_whitecake"
       },
       "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_way_too_sugary_whitecake": {
-      "conditions": {
-        "items": [
-          {
-            "items": "extravaganza:way_too_sugary_whitecake"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_way_too_sugary_whitecake"
+      "has_sugar",
+      "has_cake"
     ]
   ],
   "rewards": {

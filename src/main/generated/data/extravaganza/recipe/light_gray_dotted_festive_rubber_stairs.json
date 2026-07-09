@@ -2,14 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "R": {
-      "item": "extravaganza:light_gray_dotted_festive_rubber"
-    }
+    "#": "extravaganza:light_gray_dotted_festive_rubber"
   },
   "pattern": [
-    "R  ",
-    "RR ",
-    "RRR"
+    "#  ",
+    "## ",
+    "###"
   ],
   "result": {
     "count": 4,

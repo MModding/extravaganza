@@ -1,0 +1,20 @@
+// 26.2	-999999999-01-01T00:00:00	Extravaganza!/Automated Wood Set Tags for minecraft:block
+780c14f2fc0c68d5587d4579735d4a7edd78b147 data/extravaganza/tags/block/hevea_brasiliensis_logs.json
+1d8f5558470e7e5be8148f5b752871c87785342b data/minecraft/tags/block/ceiling_hanging_signs.json
+2388a56e898c2ab610242c3ced57c618ebd3548c data/minecraft/tags/block/fence_gates.json
+abfb215e7e7041bd97af5f3ca6cf690e619ed5f7 data/minecraft/tags/block/flower_pots.json
+a8b6770510cf194d8c33705d68e554cc38552304 data/minecraft/tags/block/leaves.json
+96f1e45ccf4af9bcce7b1b2e3cb4bc1aef0b6939 data/minecraft/tags/block/logs_that_burn.json
+c58fa380156a46ee40acafab7082a5d157ddaa7f data/minecraft/tags/block/planks.json
+8977a2cb938819a7f30627ea872c5ced6bac6fcd data/minecraft/tags/block/saplings.json
+a66fa26d3d1256f0b2f8ffdb7065aa6d16f8d2ee data/minecraft/tags/block/signs.json
+96d9bb61fc5acb8263bea5e3abd1a377b2187470 data/minecraft/tags/block/wall_hanging_signs.json
+c0d96ae9e6329c7eaec9964cde73353e991e1739 data/minecraft/tags/block/wall_signs.json
+43eb9b19981a25fd612ae81e92dda523cec50ab5 data/minecraft/tags/block/wooden_buttons.json
+6348c9375c7d45b0500ed4d6e0c08a8d0120e379 data/minecraft/tags/block/wooden_doors.json
+fce411f33d9ecd28d3bafedaf6f9fc860fd190e9 data/minecraft/tags/block/wooden_fences.json
+6f01c28a2fb1851d5343826e0c1f4a3fc471e198 data/minecraft/tags/block/wooden_pressure_plates.json
+8a2e4153394d5082bba7c2ec147335ce41841602 data/minecraft/tags/block/wooden_shelves.json
+b5f8636bfe8effddabc535f99544a9ab95648ad3 data/minecraft/tags/block/wooden_slabs.json
+19dfc16ffb29845983a33ac6a039fe33ade46026 data/minecraft/tags/block/wooden_stairs.json
+57459d1d6fd225ae179bbdce3ade5a8d128ed6c3 data/minecraft/tags/block/wooden_trapdoors.json

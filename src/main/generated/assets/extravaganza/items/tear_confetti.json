@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "extravaganza:item/confetti",
+    "tints": [
+      {
+        "type": "extravaganza:color",
+        "default": "tear"
+      }
+    ]
+  }
+}

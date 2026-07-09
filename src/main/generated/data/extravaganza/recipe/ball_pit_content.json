@@ -1,10 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
-    "B": {
-      "tag": "extravaganza:festive_balls"
-    }
+    "B": "#extravaganza:festive_balls"
   },
   "pattern": [
     "BBB",
@@ -12,7 +9,6 @@
     "BBB"
   ],
   "result": {
-    "count": 16,
     "id": "extravaganza:ball_pit_content"
   }
 }

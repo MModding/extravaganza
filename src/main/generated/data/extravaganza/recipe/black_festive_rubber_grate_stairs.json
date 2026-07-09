@@ -2,14 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "R": {
-      "item": "extravaganza:black_festive_rubber_grate"
-    }
+    "#": "extravaganza:black_festive_rubber_grate"
   },
   "pattern": [
-    "R  ",
-    "RR ",
-    "RRR"
+    "#  ",
+    "## ",
+    "###"
   ],
   "result": {
     "count": 4,

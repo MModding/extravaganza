@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_cyan_scratched_festive_rubber_rotated_90_slab": {
+    "has_cyan_scratched_festive_rubber_rotated_90": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:cyan_scratched_festive_rubber_rotated_90_slab"
+            "items": "extravaganza:cyan_scratched_festive_rubber_rotated_90"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_cyan_scratched_festive_rubber_rotated_90_slab"
+      "has_cyan_scratched_festive_rubber_rotated_90"
     ]
   ],
   "rewards": {

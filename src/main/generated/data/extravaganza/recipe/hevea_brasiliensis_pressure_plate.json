@@ -1,17 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
-  "group": "wooden_pressure_plate",
   "key": {
-    "#": {
-      "item": "extravaganza:hevea_brasiliensis_planks"
-    }
+    "#": "extravaganza:hevea_brasiliensis_planks"
   },
   "pattern": [
     "##"
   ],
   "result": {
-    "count": 1,
     "id": "extravaganza:hevea_brasiliensis_pressure_plate"
   }
 }

@@ -1,14 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "stained_glass",
   "key": {
-    "#": {
-      "item": "minecraft:glass"
-    },
-    "X": {
-      "item": "extravaganza:plant_dye"
-    }
+    "#": "minecraft:glass",
+    "X": "extravaganza:plant_dye"
   },
   "pattern": [
     "###",

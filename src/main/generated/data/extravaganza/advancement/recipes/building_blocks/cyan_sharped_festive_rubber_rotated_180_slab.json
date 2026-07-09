@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_cyan_sharped_festive_rubber_rotated_180_slab": {
+    "has_cyan_sharped_festive_rubber_rotated_180": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:cyan_sharped_festive_rubber_rotated_180_slab"
+            "items": "extravaganza:cyan_sharped_festive_rubber_rotated_180"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_cyan_sharped_festive_rubber_rotated_180_slab"
+      "has_cyan_sharped_festive_rubber_rotated_180"
     ]
   ],
   "rewards": {

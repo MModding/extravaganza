@@ -7,11 +7,11 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_tomato_sharped_festive_rubber_rotated_90_stairs": {
+    "has_tomato_sharped_festive_rubber_rotated_90": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:tomato_sharped_festive_rubber_rotated_90_stairs"
+            "items": "extravaganza:tomato_sharped_festive_rubber_rotated_90"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_tomato_sharped_festive_rubber_rotated_90_stairs"
+      "has_tomato_sharped_festive_rubber_rotated_90"
     ]
   ],
   "rewards": {

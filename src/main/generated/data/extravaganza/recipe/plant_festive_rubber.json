@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "extravaganza:plant_dye"
-    },
-    "R": {
-      "item": "extravaganza:rubber"
-    }
+    "C": "extravaganza:plant_dye",
+    "R": "extravaganza:rubber"
   },
   "pattern": [
     "CRC",

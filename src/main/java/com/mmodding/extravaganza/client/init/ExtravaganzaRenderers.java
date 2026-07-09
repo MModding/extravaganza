@@ -5,14 +5,18 @@ import com.mmodding.extravaganza.client.entity.renderer.FestiveBallEntityRendere
 import com.mmodding.extravaganza.client.entity.renderer.HeliumBalloonEntityRenderer;
 import com.mmodding.extravaganza.client.entity.renderer.MerryGoRoundEntityRenderer;
 import com.mmodding.extravaganza.init.ExtravaganzaBlockEntities;
+import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.extravaganza.init.ExtravaganzaEntities;
 import com.mmodding.library.core.api.AdvancedContainer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 
 public class ExtravaganzaRenderers {
 
 	public static void register(AdvancedContainer mod) {
+		EntityRenderers.register(ExtravaganzaBlocks.HEVEA_BRASILIENSIS.getBoatEntityType(), context -> new BoatRenderer(context, ExtravaganzaModelLayers.HEVEA_BRASILIENSIS_BOAT));
+		EntityRenderers.register(ExtravaganzaBlocks.HEVEA_BRASILIENSIS.getChestBoatEntityType(), context -> new BoatRenderer(context, ExtravaganzaModelLayers.HEVEA_BRASILIENSIS_CHEST_BOAT));
 		EntityRenderers.register(ExtravaganzaEntities.FESTIVE_BALL, FestiveBallEntityRenderer::new);
 		EntityRenderers.register(ExtravaganzaEntities.HELIUM_BALLOON, HeliumBalloonEntityRenderer::new);
 		EntityRenderers.register(ExtravaganzaEntities.MERRY_GO_ROUND, MerryGoRoundEntityRenderer::new);

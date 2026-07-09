@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_light_blue_confetti": {
+    "has_light_blue_dye": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:light_blue_confetti"
+            "items": "minecraft:light_blue_dye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_paper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:paper"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_light_blue_confetti"
+      "has_paper",
+      "has_light_blue_dye"
     ]
   ],
   "rewards": {

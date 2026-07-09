@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:purple_scratched_festive_rubber_rotated_180",
+  "result": {
+    "count": 2,
+    "id": "extravaganza:purple_scratched_festive_rubber_rotated_180_slab"
+  }
+}

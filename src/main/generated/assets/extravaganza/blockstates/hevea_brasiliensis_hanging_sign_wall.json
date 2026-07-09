@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "extravaganza:block/hevea_brasiliensis_hanging_sign_wall",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "extravaganza:block/hevea_brasiliensis_hanging_sign_wall",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "extravaganza:block/hevea_brasiliensis_hanging_sign_wall"
+    },
+    "facing=west": {
+      "model": "extravaganza:block/hevea_brasiliensis_hanging_sign_wall",
+      "y": 90
+    }
+  }
+}

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_nymph_festive_rubber_glass_slab": {
+    "has_nymph_festive_rubber_glass": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:nymph_festive_rubber_glass_slab"
+            "items": "extravaganza:nymph_festive_rubber_glass"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_nymph_festive_rubber_glass_slab"
+      "has_nymph_festive_rubber_glass"
     ]
   ],
   "rewards": {

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_shelf_center",
+  "textures": {
+    "all": "extravaganza:block/hevea_brasiliensis_shelf",
+    "particle": "extravaganza:block/stripped_hevea_brasiliensis_log"
+  }
+}

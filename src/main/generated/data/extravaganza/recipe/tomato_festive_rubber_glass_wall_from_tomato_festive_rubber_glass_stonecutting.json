@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:tomato_festive_rubber_glass",
+  "result": {
+    "id": "extravaganza:tomato_festive_rubber_glass_wall"
+  }
+}

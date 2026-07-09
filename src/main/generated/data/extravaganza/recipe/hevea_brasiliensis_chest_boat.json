@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "chest_boat",
+  "ingredients": [
+    "minecraft:chest",
+    "extravaganza:hevea_brasiliensis_planks"
+  ],
+  "result": {
+    "id": "extravaganza:hevea_brasiliensis_chest_boat"
+  }
+}

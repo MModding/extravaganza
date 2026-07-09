@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:magenta_festive_rubber_grate",
+  "result": {
+    "count": 2,
+    "id": "extravaganza:magenta_festive_rubber_grate_slab"
+  }
+}

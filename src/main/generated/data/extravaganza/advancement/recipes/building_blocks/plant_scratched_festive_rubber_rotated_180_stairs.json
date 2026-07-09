@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_plant_scratched_festive_rubber_rotated_180_stairs": {
+    "has_plant_scratched_festive_rubber_rotated_180": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:plant_scratched_festive_rubber_rotated_180_stairs"
+            "items": "extravaganza:plant_scratched_festive_rubber_rotated_180"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_plant_scratched_festive_rubber_rotated_180_stairs"
+      "has_plant_scratched_festive_rubber_rotated_180"
     ]
   ],
   "rewards": {

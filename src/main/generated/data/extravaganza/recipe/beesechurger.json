@@ -1,16 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
-    "B": {
-      "item": "minecraft:bread"
-    },
-    "C": {
-      "item": "minecraft:cooked_beef"
-    },
-    "M": {
-      "item": "minecraft:milk_bucket"
-    }
+    "B": "minecraft:bread",
+    "C": "minecraft:cooked_beef",
+    "M": "minecraft:milk_bucket"
   },
   "pattern": [
     " M ",
@@ -18,7 +11,6 @@
     " M "
   ],
   "result": {
-    "count": 1,
     "id": "extravaganza:beesechurger"
   }
 }

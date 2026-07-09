@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_pink_paper_lantern": {
+    "has_paper": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:pink_paper_lantern"
+            "items": "minecraft:paper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_pink_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:pink_dye"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_pink_paper_lantern"
+      "has_paper",
+      "has_pink_dye"
     ]
   ],
   "rewards": {

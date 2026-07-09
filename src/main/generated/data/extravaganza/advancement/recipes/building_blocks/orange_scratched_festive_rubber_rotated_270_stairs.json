@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_orange_scratched_festive_rubber_rotated_270_stairs": {
+    "has_orange_scratched_festive_rubber_rotated_270": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:orange_scratched_festive_rubber_rotated_270_stairs"
+            "items": "extravaganza:orange_scratched_festive_rubber_rotated_270"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_orange_scratched_festive_rubber_rotated_270_stairs"
+      "has_orange_scratched_festive_rubber_rotated_270"
     ]
   ],
   "rewards": {

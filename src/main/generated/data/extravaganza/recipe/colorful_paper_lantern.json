@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "B": {
-      "item": "minecraft:blue_dye"
-    },
-    "L": {
-      "item": "minecraft:lime_dye"
-    },
-    "P": {
-      "item": "minecraft:paper"
-    },
-    "R": {
-      "item": "minecraft:red_dye"
-    },
-    "Y": {
-      "item": "minecraft:yellow_dye"
-    }
+    "B": "minecraft:blue_dye",
+    "L": "minecraft:lime_dye",
+    "P": "minecraft:paper",
+    "R": "minecraft:red_dye",
+    "Y": "minecraft:yellow_dye"
   },
   "pattern": [
     "PYP",

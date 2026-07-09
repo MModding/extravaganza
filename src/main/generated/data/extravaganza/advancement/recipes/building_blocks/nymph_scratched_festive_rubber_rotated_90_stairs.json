@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_nymph_scratched_festive_rubber_rotated_90_stairs": {
+    "has_nymph_scratched_festive_rubber_rotated_90": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:nymph_scratched_festive_rubber_rotated_90_stairs"
+            "items": "extravaganza:nymph_scratched_festive_rubber_rotated_90"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_nymph_scratched_festive_rubber_rotated_90_stairs"
+      "has_nymph_scratched_festive_rubber_rotated_90"
     ]
   ],
   "rewards": {

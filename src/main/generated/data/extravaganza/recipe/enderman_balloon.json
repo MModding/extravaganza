@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": "minecraft:black_dye",
+    "P": "minecraft:paper",
+    "S": "minecraft:string"
+  },
+  "pattern": [
+    "DP ",
+    "PD ",
+    "  S"
+  ],
+  "result": {
+    "count": 16,
+    "id": "extravaganza:enderman_balloon"
+  }
+}

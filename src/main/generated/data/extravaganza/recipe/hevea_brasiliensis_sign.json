@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "sign",
+  "key": {
+    "#": "extravaganza:hevea_brasiliensis_planks",
+    "X": "minecraft:stick"
+  },
+  "pattern": [
+    "###",
+    "###",
+    " X "
+  ],
+  "result": {
+    "count": 3,
+    "id": "extravaganza:hevea_brasiliensis_sign"
+  }
+}

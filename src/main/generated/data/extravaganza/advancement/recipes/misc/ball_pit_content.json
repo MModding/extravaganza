@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_ball_pit_content": {
+    "has_rubber": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:ball_pit_content"
+            "items": "extravaganza:rubber"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_ball_pit_content"
+      "has_rubber"
     ]
   ],
   "rewards": {

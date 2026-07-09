@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_gray_festive_rubber_glass_slab": {
+    "has_gray_festive_rubber_glass": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:gray_festive_rubber_glass_slab"
+            "items": "extravaganza:gray_festive_rubber_glass"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_gray_festive_rubber_glass_slab"
+      "has_gray_festive_rubber_glass"
     ]
   ],
   "rewards": {

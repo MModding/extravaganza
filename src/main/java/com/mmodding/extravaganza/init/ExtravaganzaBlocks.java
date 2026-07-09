@@ -11,7 +11,7 @@ import com.mmodding.library.core.api.AdvancedContainer;
 import com.mmodding.library.woodset.api.WoodSet;
 import com.mmodding.library.woodset.api.WoodSetBuilder;
 import com.mmodding.library.woodset.api.WoodSetSettings;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.minecraft.core.registries.Registries;
@@ -31,12 +31,13 @@ import java.util.function.Supplier;
 public class ExtravaganzaBlocks {
 
 	public static final WoodSet HEVEA_BRASILIENSIS = WoodSetBuilder.create(Extravaganza.namespace(), "hevea_brasiliensis", WoodTypeBuilder.copyOf(WoodType.OAK), BlockSetTypeBuilder.copyOf(BlockSetType.OAK))
+		.withNormalLogFactory(HeveaBrasiliensisLog::new)
 		.withSettings(WoodSetSettings.create(true, WoodSetSettings.LogDisplay.WITH_HORIZONTAL, () -> Blocks.IRON_CHAIN, true, false))
 		.buildAndRegister();
 
 	public static final Block BALL_PIT_REGISTRATION_TABLE = register("ball_pit_registration_table", BallPitRegistrationTableBlock::new, BlockBehaviour.Properties.of().noOcclusion().strength(2.0f).sound(SoundType.WOOD)).registerItem();
 	public static final Block BALL_PIT_CONTENT = register("ball_pit_content", BallPitContentBlock::new, BlockBehaviour.Properties.of().noCollision().sound(SoundType.SLIME_BLOCK)).registerItem();
-	public static final Block BALL_PIT_PROTECTION = register("ball_pit_protection", BallPitProtectionBlock::new, BlockBehaviour.Properties.of().noCollision().isValidSpawn(Blocks::never).isRedstoneConductor(Blocks::never).isSuffocating(Blocks::never).isViewBlocking(Blocks::always).replaceable()).registerItem();
+	public static final Block BALL_PIT_PROTECTION = register("ball_pit_protection", BallPitProtectionBlock::new, BlockBehaviour.Properties.of().noCollision().isValidSpawn(Blocks::never).isRedstoneConductor(Blocks::never).isSuffocating(Blocks::never).isViewBlocking(Blocks::always).replaceable());
 
 	public static final Block BALL_DISTRIBUTOR = register("ball_distributor", BallDistributorBlock::new, BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(2.5f, 3.0f).noOcclusion().sound(SoundType.LANTERN)).registerItem();
 
@@ -87,11 +88,11 @@ public class ExtravaganzaBlocks {
 	public static final ExtravaganzaColoredVariants WINDOWED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("windowed_festive_rubber", BlockBehaviour.Properties.of().noOcclusion().sound(SoundType.PACKED_MUD), TransparentBlock::new);
 	public static final ExtravaganzaColoredVariants WOODED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("wooded_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.WOOD));
 
-	public static final BlockHeap INK_PUDDLE = BlockHeap.register(FlattenedBlock::new, sColor -> sColor + "_ink_puddle", sColor -> BlockBehaviour.Properties.of().instabreak().friction(0.98f).noOcclusion().isRedstoneConductor(Blocks::never).sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS);
-	public static final BlockHeap CONFETTI = BlockHeap.register(FlattenedBlock::new, sColor -> sColor + "_confetti", sColor -> BlockBehaviour.Properties.of().instabreak().noOcclusion().isRedstoneConductor(Blocks::never).sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS);
-	public static final BlockHeap PAPER_LANTERN = BlockHeap.register(PaperLanternBlock::new, sColor -> sColor + "_paper_lantern", sColor -> BlockBehaviour.Properties.of().strength(1.5f, 3.0f).lightLevel(ignored -> 13).noOcclusion().sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS);
-	public static final BlockHeap TRASH_CAN = BlockHeap.register(TrashCanBlock::new, sColor -> sColor + "_trash_can", sColor -> BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(2.5f, 3.0f).noOcclusion().sound(SoundType.LANTERN).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS);
-	public static final BlockHeap FESTIVE_RUBBER_LADDER = BlockHeap.register(RubberLadderBlock::new, sColor -> sColor + "_festive_rubber_ladder", sColor -> BlockBehaviour.Properties.of().strength(1.5f, 3.0f).noOcclusion().sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS);
+	public static final BlockHeap INK_PUDDLE = BlockHeap.register(FlattenedBlock::new, sColor -> sColor + "_ink_puddle", sColor -> BlockBehaviour.Properties.of().instabreak().friction(0.98f).noOcclusion().isRedstoneConductor(Blocks::never).sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS).registerBlockItems();
+	public static final BlockHeap CONFETTI = BlockHeap.register(FlattenedBlock::new, sColor -> sColor + "_confetti", sColor -> BlockBehaviour.Properties.of().instabreak().noOcclusion().isRedstoneConductor(Blocks::never).sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS).registerBlockItems();
+	public static final BlockHeap PAPER_LANTERN = BlockHeap.register(PaperLanternBlock::new, sColor -> sColor + "_paper_lantern", sColor -> BlockBehaviour.Properties.of().strength(1.5f, 3.0f).lightLevel(ignored -> 13).noOcclusion().sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS).registerBlockItems();
+	public static final BlockHeap TRASH_CAN = BlockHeap.register(TrashCanBlock::new, sColor -> sColor + "_trash_can", sColor -> BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(2.5f, 3.0f).noOcclusion().sound(SoundType.LANTERN).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS).registerBlockItems();
+	public static final BlockHeap FESTIVE_RUBBER_LADDER = BlockHeap.register(RubberLadderBlock::new, sColor -> sColor + "_festive_rubber_ladder", sColor -> BlockBehaviour.Properties.of().strength(1.5f, 3.0f).noOcclusion().sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS).registerBlockItems();
 
 	public static final Supplier<BlockBehaviour.Properties> COLORFUL_SETTINGS = () -> BlockBehaviour.Properties.of().strength(1.5f, 3.0f).mapColor(MapColor.ICE).sound(SoundType.PACKED_MUD);
 
@@ -116,10 +117,10 @@ public class ExtravaganzaBlocks {
 	public static final BlockRelatives COLORFUL_WINDOWED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_windowed_festive_rubber", COLORFUL_SETTINGS.get().noOcclusion(), TransparentBlock::new);
 	public static final BlockRelatives COLORFUL_CHISELED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_chiseled_festive_rubber", COLORFUL_SETTINGS.get());
 
-	public static final Block COLORFUL_INK_PUDDLE = register("colorful_ink_puddle", FlattenedBlock::new, COLORFUL_SETTINGS.get().instabreak().friction(0.98f).noOcclusion().isRedstoneConductor(Blocks::never));
-	public static final Block COLORFUL_CONFETTI = register("colorful_confetti", FlattenedBlock::new, COLORFUL_SETTINGS.get().instabreak().noOcclusion().isRedstoneConductor(Blocks::never));
-	public static final Block COLORFUL_PAPER_LANTERN = register("colorful_paper_lantern", PaperLanternBlock::new, COLORFUL_SETTINGS.get().lightLevel(_ -> 13).noOcclusion());
-	public static final Block COLORFUL_FESTIVE_RUBBER_LADDER = register("colorful_festive_rubber_ladder", RubberLadderBlock::new, COLORFUL_SETTINGS.get().noOcclusion());
+	public static final Block COLORFUL_INK_PUDDLE = register("colorful_ink_puddle", FlattenedBlock::new, COLORFUL_SETTINGS.get().instabreak().friction(0.98f).noOcclusion().isRedstoneConductor(Blocks::never)).registerItem();
+	public static final Block COLORFUL_CONFETTI = register("colorful_confetti", FlattenedBlock::new, COLORFUL_SETTINGS.get().instabreak().noOcclusion().isRedstoneConductor(Blocks::never)).registerItem();
+	public static final Block COLORFUL_PAPER_LANTERN = register("colorful_paper_lantern", PaperLanternBlock::new, COLORFUL_SETTINGS.get().lightLevel(_ -> 13).noOcclusion()).registerItem();
+	public static final Block COLORFUL_FESTIVE_RUBBER_LADDER = register("colorful_festive_rubber_ladder", RubberLadderBlock::new, COLORFUL_SETTINGS.get().noOcclusion()).registerItem();
 
 	public static void register() {}
 
@@ -132,7 +133,7 @@ public class ExtravaganzaBlocks {
 	}
 
 	private static <T extends Block, S extends StairBlock, L extends SlabBlock, W extends WallBlock> ExtravaganzaColoredVariants registerColoredBlockSet(String path, BlockBehaviour.Properties settings, BlockFactory<T> blockFactory, BiFunction<BlockState, BlockBehaviour.Properties, S> stairsBlockFactory, BlockFactory<L> slabBlockFactory, BlockFactory<W> wallBlockFactory) {
-		Map<ExtravaganzaColor, BlockRelatives> variants = new Object2ObjectOpenHashMap<>();
+		Map<ExtravaganzaColor, BlockRelatives> variants = new Object2ObjectLinkedOpenHashMap<>();
 		ExtravaganzaColor.VALUES.forEach(color -> variants.put(color, ExtravaganzaBlocks.registerBlockSet(
 			color.getSerializedName() + "_" + path,
 			settings.strength(1.5f, 3.0f).mapColor(color.getMapColor()),

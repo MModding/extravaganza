@@ -16,7 +16,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 public class HeliumBalloonEntity extends Entity {
 
-	private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(HeliumBalloonEntity.class, EntityDataSerializers.STRING);
+	public static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(HeliumBalloonEntity.class, EntityDataSerializers.STRING);
 
 	public HeliumBalloonEntity(EntityType<?> type, Level level) {
 		super(type, level);

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_purple_sharped_festive_rubber_rotated_90_stairs": {
+    "has_purple_sharped_festive_rubber_rotated_90": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:purple_sharped_festive_rubber_rotated_90_stairs"
+            "items": "extravaganza:purple_sharped_festive_rubber_rotated_90"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_purple_sharped_festive_rubber_rotated_90_stairs"
+      "has_purple_sharped_festive_rubber_rotated_90"
     ]
   ],
   "rewards": {

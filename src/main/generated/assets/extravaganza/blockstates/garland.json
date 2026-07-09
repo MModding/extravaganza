@@ -7,42 +7,24 @@
       "when": {
         "OR": [
           {
-            "AND": [
-              {
-                "up": "false"
-              },
-              {
-                "down": "false"
-              },
-              {
-                "north": "false"
-              },
-              {
-                "south": "false"
-              },
-              {
-                "west": "false"
-              },
-              {
-                "east": "false"
-              }
-            ]
+            "down": "false",
+            "east": "false",
+            "north": "false",
+            "south": "false",
+            "up": "false",
+            "west": "false"
           },
           {
-            "OR": [
-              {
-                "up": "true"
-              },
-              {
-                "down": "true"
-              },
-              {
-                "north": "true"
-              },
-              {
-                "south": "true"
-              }
-            ]
+            "up": "true"
+          },
+          {
+            "down": "true"
+          },
+          {
+            "north": "true"
+          },
+          {
+            "south": "true"
           }
         ]
       }
@@ -54,42 +36,24 @@
       "when": {
         "OR": [
           {
-            "AND": [
-              {
-                "up": "false"
-              },
-              {
-                "down": "false"
-              },
-              {
-                "north": "false"
-              },
-              {
-                "south": "false"
-              },
-              {
-                "west": "false"
-              },
-              {
-                "east": "false"
-              }
-            ]
+            "down": "false",
+            "east": "false",
+            "north": "false",
+            "south": "false",
+            "up": "false",
+            "west": "false"
           },
           {
-            "OR": [
-              {
-                "north": "true"
-              },
-              {
-                "south": "true"
-              },
-              {
-                "west": "true"
-              },
-              {
-                "east": "true"
-              }
-            ]
+            "north": "true"
+          },
+          {
+            "south": "true"
+          },
+          {
+            "east": "true"
+          },
+          {
+            "west": "true"
           }
         ]
       }
@@ -101,42 +65,24 @@
       "when": {
         "OR": [
           {
-            "AND": [
-              {
-                "up": "false"
-              },
-              {
-                "down": "false"
-              },
-              {
-                "north": "false"
-              },
-              {
-                "south": "false"
-              },
-              {
-                "west": "false"
-              },
-              {
-                "east": "false"
-              }
-            ]
+            "down": "false",
+            "east": "false",
+            "north": "false",
+            "south": "false",
+            "up": "false",
+            "west": "false"
           },
           {
-            "OR": [
-              {
-                "up": "true"
-              },
-              {
-                "down": "true"
-              },
-              {
-                "west": "true"
-              },
-              {
-                "east": "true"
-              }
-            ]
+            "up": "true"
+          },
+          {
+            "down": "true"
+          },
+          {
+            "east": "true"
+          },
+          {
+            "west": "true"
           }
         ]
       }
@@ -179,20 +125,20 @@
     },
     {
       "apply": {
-        "model": "extravaganza:block/garland_west"
-      },
-      "when": {
-        "attached_west": "false",
-        "west": "true"
-      }
-    },
-    {
-      "apply": {
         "model": "extravaganza:block/garland_east"
       },
       "when": {
         "attached_east": "false",
         "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/garland_west"
+      },
+      "when": {
+        "attached_west": "false",
+        "west": "true"
       }
     },
     {
@@ -233,20 +179,20 @@
     },
     {
       "apply": {
-        "model": "extravaganza:block/attached_garland_west"
-      },
-      "when": {
-        "attached_west": "true",
-        "west": "true"
-      }
-    },
-    {
-      "apply": {
         "model": "extravaganza:block/attached_garland_east"
       },
       "when": {
         "attached_east": "true",
         "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "extravaganza:block/attached_garland_west"
+      },
+      "when": {
+        "attached_west": "true",
+        "west": "true"
       }
     }
   ]

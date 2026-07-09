@@ -1,17 +1,27 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_paper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:paper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "extravaganza:tomato_paper_lantern"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_tomato_paper_lantern": {
+    "has_tomato_dye": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:tomato_paper_lantern"
+            "items": "extravaganza:tomato_dye"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_tomato_paper_lantern"
+      "has_paper",
+      "has_tomato_dye"
     ]
   ],
   "rewards": {

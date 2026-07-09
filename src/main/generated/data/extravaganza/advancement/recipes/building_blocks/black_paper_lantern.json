@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_black_paper_lantern": {
+    "has_black_dye": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:black_paper_lantern"
+            "items": "minecraft:black_dye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_paper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:paper"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_black_paper_lantern"
+      "has_paper",
+      "has_black_dye"
     ]
   ],
   "rewards": {

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_tear_scratched_festive_rubber_rotated_270_stairs": {
+    "has_tear_scratched_festive_rubber_rotated_270": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:tear_scratched_festive_rubber_rotated_270_stairs"
+            "items": "extravaganza:tear_scratched_festive_rubber_rotated_270"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_tear_scratched_festive_rubber_rotated_270_stairs"
+      "has_tear_scratched_festive_rubber_rotated_270"
     ]
   ],
   "rewards": {

@@ -1,14 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building",
   "key": {
-    "R": {
-      "item": "extravaganza:magenta_scratched_festive_rubber_rotated_180"
-    }
+    "#": "extravaganza:magenta_scratched_festive_rubber_rotated_180"
   },
   "pattern": [
-    "RRR",
-    "RRR"
+    "###",
+    "###"
   ],
   "result": {
     "count": 6,

@@ -4,6 +4,7 @@ import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.ExtravaganzaColor;
 import com.mmodding.extravaganza.item.*;
 import com.mmodding.library.core.api.AdvancedContainer;
+import com.mmodding.library.item.api.wrapper.ItemHeap;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -25,7 +26,7 @@ public class ExtravaganzaItems {
 
 	public static final Item RUBBER_EXTRACTOR = registerItem("rubber_extractor", RubberExtractorItem::new, new Item.Properties().stacksTo(1).durability(128));
 
-	public static final Item RUBBER_SCRAPER = new RubberScraperItem(new Item.Properties().durability(238).component(DataComponents.TOOL, RubberScraperItem.createToolComponent()));
+	public static final Item RUBBER_SCRAPER = registerItem("rubber_scraper", RubberScraperItem::new, new Item.Properties().durability(238).component(DataComponents.TOOL, RubberScraperItem.createToolComponent()));
 
 	public static final Item RUBBER = registerItem("rubber", new Item.Properties());
 
@@ -48,7 +49,7 @@ public class ExtravaganzaItems {
 	public static final Item CHEESEBURGER = registerItem("cheeseburger", new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationModifier(2.5f).build()));
 	public static final Item BEESECHURGER = registerItem("beesechurger", new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationModifier(2.5f).build()));
 
-	public static final Item WAY_TO_SUGARY_WHITECAKE = registerItem("way_to_sugary_whitecake", new Item.Properties().food(new FoodProperties.Builder().nutrition(20).saturationModifier(10.0f).build(), Consumable.builder().onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.POISON, 20 * 15, 0, true, false, true))).build()));
+	public static final Item WAY_TOO_SUGARY_WHITECAKE = registerItem("way_too_sugary_whitecake", new Item.Properties().food(new FoodProperties.Builder().nutrition(20).saturationModifier(10.0f).build(), Consumable.builder().onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.POISON, 20 * 15, 0, true, false, true))).build()));
 
 	public static final Item COTTON_CANDY = registerItem("cotton_candy", new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationModifier(0.75f).build()));
 
@@ -56,11 +57,14 @@ public class ExtravaganzaItems {
 	public static final Item POPCORN = registerItem("popcorn", new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.5f).alwaysEdible().build()).usingConvertsTo(ExtravaganzaItems.EMPTY_POPCORN).stacksTo(1));
 
 	public static final Item CHERRY_BALLOON = registerItem("cherry_balloon", p -> new HeliumBalloonItem("cherry", p), new Item.Properties().stacksTo(16));
-	public static final Item CREEPER_BALLOON = registerItem("creeper_ballon", p -> new HeliumBalloonItem("creeper", p), new Item.Properties().stacksTo(16));
+	public static final Item CREEPER_BALLOON = registerItem("creeper_balloon", p -> new HeliumBalloonItem("creeper", p), new Item.Properties().stacksTo(16));
+	public static final Item ENDERMAN_BALLOON = registerItem("enderman_balloon", p -> new HeliumBalloonItem("enderman", p), new Item.Properties().stacksTo(16));
 
 	public static final Item BAT = registerItem("bat", BatItem::new, new Item.Properties().stacksTo(1));
 
 	public static final Item MERRY_GO_ROUND = registerItem("merry_go_round", MerryGoRoundItem::new, new Item.Properties().stacksTo(1));
+
+	public static final ItemHeap FESTIVE_BALLS = ItemHeap.register((sColor, p) -> new FestiveBallItem(ExtravaganzaColor.fromString(sColor), p), sColor -> sColor + "_festive_ball", sColor -> new Item.Properties().stacksTo(16), Extravaganza.namespace(), ExtravaganzaColor.STRINGS);
 
 	private static Item registerItem(String path, Item.Properties properties) {
 		return registerItem(path, Item::new, properties);
@@ -80,13 +84,5 @@ public class ExtravaganzaItems {
 				.displayItems((_, entries) -> mod.streamRegistryValues(BuiltInRegistries.ITEM).forEach(entries::accept))
 				.build()
 		);
-	}
-
-	static {
-		ExtravaganzaColor.VALUES.forEach(color -> registerItem(
-			color.getSerializedName() + "_festive_ball",
-			p -> new FestiveBallItem(color, p),
-			new Item.Properties().stacksTo(16)
-		));
 	}
 }

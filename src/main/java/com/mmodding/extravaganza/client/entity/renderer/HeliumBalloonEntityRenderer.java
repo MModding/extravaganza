@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 
 public class HeliumBalloonEntityRenderer extends EntityRenderer<HeliumBalloonEntity, HeliumBalloonRenderState> {
@@ -38,9 +39,9 @@ public class HeliumBalloonEntityRenderer extends EntityRenderer<HeliumBalloonEnt
 	public void submit(HeliumBalloonRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
 		poseStack.pushPose();
 		poseStack.mulPose(Axis.XP.rotationDegrees(180.0f));
-		poseStack.translate(0.0, -1.3, 0.0);
+		poseStack.translate(0.0, -0.3, 0.0);
 		Identifier texture = Extravaganza.createId("textures/entity/helium_balloon/" + state.variant + ".png");
-		submitNodeCollector.submitModel(this.model, state, poseStack, texture, state.lightCoords, 0, state.outlineColor, null);
+		submitNodeCollector.submitModel(this.model, state, poseStack, texture, state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor, null);
 		poseStack.popPose();
 	}
 }

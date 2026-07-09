@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:plant_festive_rubber",
+  "result": {
+    "id": "extravaganza:plant_curved_festive_rubber"
+  }
+}

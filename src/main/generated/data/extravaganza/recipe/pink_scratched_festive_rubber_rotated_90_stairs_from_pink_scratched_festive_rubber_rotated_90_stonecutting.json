@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:pink_scratched_festive_rubber_rotated_90",
+  "result": {
+    "id": "extravaganza:pink_scratched_festive_rubber_rotated_90_stairs"
+  }
+}

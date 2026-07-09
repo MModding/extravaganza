@@ -1,6 +1,7 @@
 package com.mmodding.extravaganza;
 
 import com.mmodding.extravaganza.entity.FestiveBallEntity;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
@@ -18,6 +19,8 @@ public enum ExtravaganzaColor implements StringRepresentable {
 	LIME, MAGENTA, ORANGE, PINK,
 	PURPLE, RED, WHITE, YELLOW,
 	PLANT, TOMATO, TEAR, NYMPH; // ModFest Carnival Colors
+
+	public static final Codec<ExtravaganzaColor> CODEC = Codec.STRING.xmap(ExtravaganzaColor::fromString, ExtravaganzaColor::getSerializedName);
 
 	public static final List<ExtravaganzaColor> VALUES = Arrays.stream(ExtravaganzaColor.values()).toList();
 

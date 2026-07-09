@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_pink_scratched_festive_rubber_rotated_90_slab": {
+    "has_pink_scratched_festive_rubber_rotated_90": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:pink_scratched_festive_rubber_rotated_90_slab"
+            "items": "extravaganza:pink_scratched_festive_rubber_rotated_90"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_pink_scratched_festive_rubber_rotated_90_slab"
+      "has_pink_scratched_festive_rubber_rotated_90"
     ]
   ],
   "rewards": {

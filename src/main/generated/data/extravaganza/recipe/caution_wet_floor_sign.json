@@ -1,14 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "stained_glass",
   "key": {
-    "I": {
-      "item": "minecraft:ink_sac"
-    },
-    "Y": {
-      "item": "extravaganza:yellow_festive_rubber"
-    }
+    "I": "minecraft:ink_sac",
+    "Y": "extravaganza:yellow_festive_rubber"
   },
   "pattern": [
     "YYY",

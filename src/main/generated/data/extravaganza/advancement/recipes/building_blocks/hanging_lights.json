@@ -1,11 +1,41 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_hanging_lights": {
+    "has_cyan_paper_lantern": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:hanging_lights"
+            "items": "extravaganza:cyan_paper_lantern"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_green_paper_lantern": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:green_paper_lantern"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_magenta_paper_lantern": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:magenta_paper_lantern"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_red_paper_lantern": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:red_paper_lantern"
           }
         ]
       },
@@ -16,12 +46,26 @@
         "recipe": "extravaganza:hanging_lights"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_yellow_paper_lantern": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:yellow_paper_lantern"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_hanging_lights"
+      "has_cyan_paper_lantern",
+      "has_magenta_paper_lantern",
+      "has_red_paper_lantern",
+      "has_green_paper_lantern",
+      "has_yellow_paper_lantern"
     ]
   ],
   "rewards": {

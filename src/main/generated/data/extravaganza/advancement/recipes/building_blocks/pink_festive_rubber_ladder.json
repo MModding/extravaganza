@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_pink_festive_rubber_ladder": {
+    "has_pink_festive_rubber": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:pink_festive_rubber_ladder"
+            "items": "extravaganza:pink_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_stick": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:stick"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_pink_festive_rubber_ladder"
+      "has_pink_festive_rubber",
+      "has_stick"
     ]
   ],
   "rewards": {

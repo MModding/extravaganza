@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:tomato_dye_from_red_and_brown"
+        "recipe": "extravaganza:tomato_dye_from_red_and_brown"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -37,7 +37,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:tomato_dye_from_red_and_brown"
+      "extravaganza:tomato_dye_from_red_and_brown"
     ]
   }
 }

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:tomato_barred_festive_rubber",
+  "result": {
+    "count": 2,
+    "id": "extravaganza:tomato_barred_festive_rubber_slab"
+  }
+}

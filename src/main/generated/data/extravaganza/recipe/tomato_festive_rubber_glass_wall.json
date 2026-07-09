@@ -1,14 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building",
   "key": {
-    "R": {
-      "item": "extravaganza:tomato_festive_rubber_glass"
-    }
+    "#": "extravaganza:tomato_festive_rubber_glass"
   },
   "pattern": [
-    "RRR",
-    "RRR"
+    "###",
+    "###"
   ],
   "result": {
     "count": 6,

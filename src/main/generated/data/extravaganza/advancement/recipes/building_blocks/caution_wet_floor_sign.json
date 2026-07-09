@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_glass": {
+    "has_ink_sac": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:glass"
+            "items": "minecraft:ink_sac"
           }
         ]
       },
@@ -16,12 +16,23 @@
         "recipe": "extravaganza:caution_wet_floor_sign"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_yellow_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:yellow_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_glass"
+      "has_yellow_festive_rubber",
+      "has_ink_sac"
     ]
   ],
   "rewards": {

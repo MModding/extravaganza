@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_hevea_brasiliensis_planks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:hevea_brasiliensis_planks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:hevea_brasiliensis_sign"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_hevea_brasiliensis_planks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:hevea_brasiliensis_sign"
+    ]
+  }
+}

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:plant_dye_from_lime_and_white"
+        "recipe": "extravaganza:plant_dye_from_lime_and_white"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -37,7 +37,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:plant_dye_from_lime_and_white"
+      "extravaganza:plant_dye_from_lime_and_white"
     ]
   }
 }

@@ -1,11 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "wooden_slab",
   "key": {
-    "#": {
-      "item": "extravaganza:hevea_brasiliensis_planks"
-    }
+    "#": "extravaganza:hevea_brasiliensis_planks"
   },
   "pattern": [
     "###"

@@ -1,16 +1,10 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:cooked_beef"
-    },
-    {
-      "item": "minecraft:bread"
-    }
+    "minecraft:cooked_beef",
+    "minecraft:bread"
   ],
   "result": {
-    "count": 1,
     "id": "extravaganza:hot_dog"
   }
 }

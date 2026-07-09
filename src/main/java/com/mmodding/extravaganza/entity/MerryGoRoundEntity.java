@@ -29,13 +29,6 @@ public class MerryGoRoundEntity extends VehicleEntity {
 
 	private final InterpolationHandler interpolation;
 
-	private int lerpTicks;
-	private double x;
-	private double y;
-	private double z;
-	private double turnstileYaw;
-	private double turnstilePitch;
-
 	public MerryGoRoundEntity(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.interpolation = new InterpolationHandler(this, this::onInterpolation);
@@ -53,6 +46,8 @@ public class MerryGoRoundEntity extends VehicleEntity {
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder entityData) {
 		super.defineSynchedData(entityData);
+		entityData.define(POWER, (byte) 1);
+		entityData.define(ROTATION, 0);
 	}
 
 	private void onInterpolation(InterpolationHandler interpolation) {

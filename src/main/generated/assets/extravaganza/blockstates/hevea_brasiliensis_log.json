@@ -6,7 +6,7 @@
       "y": 90
     },
     "axis=x,rubber=true": {
-      "model": "extravaganza:block/hevea_brasiliensis_log_horizontal",
+      "model": "extravaganza:block/hevea_brasiliensis_log_rubber_horizontal",
       "x": 90,
       "y": 90
     },
@@ -21,7 +21,7 @@
       "x": 90
     },
     "axis=z,rubber=true": {
-      "model": "extravaganza:block/hevea_brasiliensis_log_horizontal",
+      "model": "extravaganza:block/hevea_brasiliensis_log_rubber_horizontal",
       "x": 90
     }
   }

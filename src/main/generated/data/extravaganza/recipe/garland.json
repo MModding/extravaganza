@@ -2,24 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "B": {
-      "item": "minecraft:blue_dye"
-    },
-    "L": {
-      "item": "minecraft:lime_dye"
-    },
-    "O": {
-      "item": "minecraft:orange_dye"
-    },
-    "R": {
-      "item": "minecraft:red_dye"
-    },
-    "S": {
-      "item": "minecraft:string"
-    },
-    "Y": {
-      "item": "minecraft:yellow_dye"
-    }
+    "B": "minecraft:blue_dye",
+    "L": "minecraft:lime_dye",
+    "O": "minecraft:orange_dye",
+    "R": "minecraft:red_dye",
+    "S": "minecraft:string",
+    "Y": "minecraft:yellow_dye"
   },
   "pattern": [
     "RSO",

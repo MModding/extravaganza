@@ -1,11 +1,31 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_cherry_balloon": {
+    "has_paper": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:cherry_balloon"
+            "items": "minecraft:paper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_red_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:red_dye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_string": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:string"
           }
         ]
       },
@@ -21,7 +41,9 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_cherry_balloon"
+      "has_red_dye",
+      "has_paper",
+      "has_string"
     ]
   ],
   "rewards": {

@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_pink_festive_rubber": {
+    "has_pink_dye": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:pink_festive_rubber"
+            "items": "minecraft:pink_dye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:rubber"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_pink_festive_rubber"
+      "has_pink_dye",
+      "has_rubber"
     ]
   ],
   "rewards": {

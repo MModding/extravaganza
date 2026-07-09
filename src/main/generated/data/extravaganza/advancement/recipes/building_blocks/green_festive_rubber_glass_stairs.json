@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_green_festive_rubber_glass_stairs": {
+    "has_green_festive_rubber_glass": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:green_festive_rubber_glass_stairs"
+            "items": "extravaganza:green_festive_rubber_glass"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_green_festive_rubber_glass_stairs"
+      "has_green_festive_rubber_glass"
     ]
   ],
   "rewards": {

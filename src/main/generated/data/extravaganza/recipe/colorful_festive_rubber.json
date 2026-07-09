@@ -2,24 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "B": {
-      "item": "minecraft:blue_dye"
-    },
-    "E": {
-      "item": "minecraft:red_dye"
-    },
-    "L": {
-      "item": "minecraft:lime_dye"
-    },
-    "P": {
-      "item": "minecraft:magenta_dye"
-    },
-    "R": {
-      "item": "extravaganza:rubber"
-    },
-    "Y": {
-      "item": "minecraft:yellow_dye"
-    }
+    "B": "minecraft:blue_dye",
+    "E": "minecraft:red_dye",
+    "L": "minecraft:lime_dye",
+    "P": "minecraft:magenta_dye",
+    "R": "extravaganza:rubber",
+    "Y": "minecraft:yellow_dye"
   },
   "pattern": [
     "YRB",

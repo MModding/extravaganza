@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 
 public class MerryGoRoundEntityRenderer extends EntityRenderer<MerryGoRoundEntity, MerryGoRoundRenderState> {
@@ -42,7 +43,7 @@ public class MerryGoRoundEntityRenderer extends EntityRenderer<MerryGoRoundEntit
 		poseStack.mulPose(Axis.YP.rotationDegrees(180.0f - state.yRot));
 		poseStack.mulPose(Axis.XP.rotationDegrees(180.0f));
 		poseStack.translate(0.0, -1.5, 0.0);
-		submitNodeCollector.submitModel(this.model, state, poseStack, TEXTURE, state.lightCoords, 0, state.outlineColor, null);
+		submitNodeCollector.submitModel(this.model, state, poseStack, TEXTURE, state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor, null);
 		poseStack.popPose();
 	}
 }

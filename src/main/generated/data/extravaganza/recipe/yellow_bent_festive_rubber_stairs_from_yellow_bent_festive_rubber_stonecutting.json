@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:yellow_bent_festive_rubber",
+  "result": {
+    "id": "extravaganza:yellow_bent_festive_rubber_stairs"
+  }
+}

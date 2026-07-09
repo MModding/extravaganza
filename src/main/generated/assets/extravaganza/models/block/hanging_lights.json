@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/ladder",
+  "textures": {
+    "particle": "extravaganza:block/hanging_lights",
+    "texture": "extravaganza:block/hanging_lights"
+  }
+}

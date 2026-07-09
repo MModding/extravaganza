@@ -1,10 +1,12 @@
 package com.mmodding.extravaganza.item;
 
 import com.mmodding.extravaganza.entity.MerryGoRoundEntity;
+import com.mmodding.extravaganza.init.ExtravaganzaEntities;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -31,7 +33,7 @@ public class MerryGoRoundItem extends Item {
 		else {
 			if (result.getType() == HitResult.Type.BLOCK) {
 				MerryGoRoundEntity merryGoRoundEntity = this.createEntity(level, result, stack, player);
-				if (!level.noCollision(merryGoRoundEntity, merryGoRoundEntity.getBoundingBox())) {
+				if (merryGoRoundEntity == null || !level.noCollision(merryGoRoundEntity, merryGoRoundEntity.getBoundingBox())) {
 					return InteractionResult.FAIL;
 				}
 				else {
@@ -52,10 +54,13 @@ public class MerryGoRoundItem extends Item {
 	}
 
 	private MerryGoRoundEntity createEntity(Level level, HitResult hitResult, ItemStack stack, Player player) {
-		Vec3 vec3d = hitResult.getLocation();
-		MerryGoRoundEntity merryGoRoundEntity = new MerryGoRoundEntity(level, vec3d.x, vec3d.y, vec3d.z);
-		if (level instanceof ServerLevel serverLevel) {
-			EntityType.createDefaultStackConfig(serverLevel, stack, player).apply(merryGoRoundEntity);
+		MerryGoRoundEntity merryGoRoundEntity = ExtravaganzaEntities.MERRY_GO_ROUND.create(level, EntitySpawnReason.SPAWN_ITEM_USE);
+		if (merryGoRoundEntity != null) {
+			Vec3 location = hitResult.getLocation();
+			merryGoRoundEntity.setPos(location.x, location.y, location.z);
+			if (level instanceof ServerLevel serverLevel) {
+				EntityType.createDefaultStackConfig(serverLevel, stack, player).apply(merryGoRoundEntity);
+			}
 		}
 		return merryGoRoundEntity;
 	}

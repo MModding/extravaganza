@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_nymph_paper_lantern": {
+    "has_nymph_dye": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:nymph_paper_lantern"
+            "items": "extravaganza:nymph_dye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_paper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:paper"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_nymph_paper_lantern"
+      "has_paper",
+      "has_nymph_dye"
     ]
   ],
   "rewards": {

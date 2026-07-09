@@ -1,9 +1,11 @@
 package com.mmodding.extravaganza.entity;
 
+import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.ExtravaganzaColor;
 import com.mmodding.extravaganza.init.ExtravaganzaEntities;
 import com.mmodding.extravaganza.init.ExtravaganzaGameRules;
 import com.mmodding.extravaganza.init.ExtravaganzaParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -46,6 +48,7 @@ public class FestiveBallEntity extends ThrowableItemProjectile {
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder entityData) {
+		super.defineSynchedData(entityData);
 		entityData.define(FestiveBallEntity.COLOR, ExtravaganzaColor.BLACK.getSerializedName());
 	}
 
@@ -69,7 +72,7 @@ public class FestiveBallEntity extends ThrowableItemProjectile {
 
 	@Override
 	protected Item getDefaultItem() {
-		return this.getColor().createBallStack().getItem();
+		return BuiltInRegistries.ITEM.getValue(Extravaganza.createId("black_festive_ball"));
 	}
 
 	@Override
@@ -128,6 +131,7 @@ public class FestiveBallEntity extends ThrowableItemProjectile {
 	}
 
 	private void manageVelocityForEntity(Vec3 velocity, Runnable halfAction) {
+		if (this.level().isClientSide()) return;
 		if (this.tickCount <= this.level().getServer().getGameRules().get(ExtravaganzaGameRules.FESTIVE_BALL_AGE_PERCENTAGE_BEFORE_PICKING) * 2) {
 			boolean bl = Math.abs(velocity.y) > 0.3 || (Math.abs(velocity.y) > 0.05 && Math.abs(velocity.x) > 0.1 && Math.abs(velocity.z) > 0.1);
 			if (Math.abs(velocity.y) >= Math.abs(velocity.x) && Math.abs(velocity.y) >= Math.abs(velocity.z) && bl) {

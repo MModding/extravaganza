@@ -1,16 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
-    "D": {
-      "item": "minecraft:green_dye"
-    },
-    "P": {
-      "item": "minecraft:paper"
-    },
-    "S": {
-      "item": "minecraft:string"
-    }
+    "D": "minecraft:green_dye",
+    "P": "minecraft:paper",
+    "S": "minecraft:string"
   },
   "pattern": [
     "DP ",

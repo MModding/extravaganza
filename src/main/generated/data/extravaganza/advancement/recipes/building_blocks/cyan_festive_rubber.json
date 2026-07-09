@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_cyan_festive_rubber": {
+    "has_cyan_dye": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:cyan_festive_rubber"
+            "items": "minecraft:cyan_dye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:rubber"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_cyan_festive_rubber"
+      "has_cyan_dye",
+      "has_rubber"
     ]
   ],
   "rewards": {

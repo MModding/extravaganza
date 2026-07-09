@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "minecraft:ink_sac"
-    },
-    {
-      "item": "minecraft:magenta_dye"
-    }
+    "minecraft:ink_sac",
+    "minecraft:magenta_dye"
   ],
   "result": {
     "count": 4,

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_blue_sharped_festive_rubber_stairs": {
+    "has_blue_sharped_festive_rubber": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:blue_sharped_festive_rubber_stairs"
+            "items": "extravaganza:blue_sharped_festive_rubber"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_blue_sharped_festive_rubber_stairs"
+      "has_blue_sharped_festive_rubber"
     ]
   ],
   "rewards": {

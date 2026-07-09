@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "minecraft:paper"
-    },
-    {
-      "item": "extravaganza:tear_dye"
-    }
+    "minecraft:paper",
+    "extravaganza:tear_dye"
   ],
   "result": {
     "count": 4,

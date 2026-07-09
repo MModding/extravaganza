@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_nymph_festive_rubber": {
+    "has_nymph_dye": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:nymph_festive_rubber"
+            "items": "extravaganza:nymph_dye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:rubber"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_nymph_festive_rubber"
+      "has_nymph_dye",
+      "has_rubber"
     ]
   ],
   "rewards": {

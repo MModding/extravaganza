@@ -1,11 +1,41 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_popcorn_machine": {
+    "has_blue_festive_rubber": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:popcorn_machine"
+            "items": "extravaganza:blue_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_blue_festive_rubber_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:blue_festive_rubber_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_red_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:red_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_red_festive_rubber_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:red_festive_rubber_slab"
           }
         ]
       },
@@ -21,7 +51,10 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_popcorn_machine"
+      "has_blue_festive_rubber",
+      "has_blue_festive_rubber_slab",
+      "has_red_festive_rubber",
+      "has_red_festive_rubber_slab"
     ]
   ],
   "rewards": {

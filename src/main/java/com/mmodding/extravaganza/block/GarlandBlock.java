@@ -51,7 +51,7 @@ public class GarlandBlock extends PipeBlock {
 	}));
 
 	public GarlandBlock(Properties settings) {
-		super(0.15f, settings);
+		super(2.4f, settings);
 		this.registerDefaultState(
 			this.defaultBlockState()
 				.setValue(NORTH, false).setValue(EAST, false)

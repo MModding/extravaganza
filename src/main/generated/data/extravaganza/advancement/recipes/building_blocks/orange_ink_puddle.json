@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_orange_ink_puddle": {
+    "has_ink_sac": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:orange_ink_puddle"
+            "items": "minecraft:ink_sac"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_orange_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:orange_dye"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_orange_ink_puddle"
+      "has_ink_sac",
+      "has_orange_dye"
     ]
   ],
   "rewards": {

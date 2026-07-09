@@ -19,7 +19,7 @@ public class ExtravaganzaEntities {
 		.build(Extravaganza.createKey(Registries.ENTITY_TYPE, "festive_ball"));
 
 	public static final EntityType<HeliumBalloonEntity> HELIUM_BALLOON = EntityType.Builder.<HeliumBalloonEntity>of(HeliumBalloonEntity::new, MobCategory.MISC)
-		.sized(0.3f, 1.3f)
+		.sized(0.3f, 0.8f)
 		.fireImmune()
 		.clientTrackingRange(10)
 		.build(Extravaganza.createKey(Registries.ENTITY_TYPE, "helium_balloon"));

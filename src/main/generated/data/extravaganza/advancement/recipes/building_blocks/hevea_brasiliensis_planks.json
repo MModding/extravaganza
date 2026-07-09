@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_logs": {
+    "has_log": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:hevea_brasiliensis_log"
+            "items": "#extravaganza:hevea_brasiliensis_logs"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_logs"
+      "has_log"
     ]
   ],
   "rewards": {

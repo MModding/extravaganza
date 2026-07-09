@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "R": {
-      "item": "extravaganza:light_gray_festive_rubber"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "R": "extravaganza:light_gray_festive_rubber",
+    "S": "minecraft:stick"
   },
   "pattern": [
     "R R",

@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_nymph_ink_puddle": {
+    "has_ink_sac": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:nymph_ink_puddle"
+            "items": "minecraft:ink_sac"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_nymph_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:nymph_dye"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_nymph_ink_puddle"
+      "has_ink_sac",
+      "has_nymph_dye"
     ]
   ],
   "rewards": {

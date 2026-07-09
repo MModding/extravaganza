@@ -7,11 +7,11 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_tomato_scratched_festive_rubber_rotated_180_stairs": {
+    "has_tomato_scratched_festive_rubber_rotated_180": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:tomato_scratched_festive_rubber_rotated_180_stairs"
+            "items": "extravaganza:tomato_scratched_festive_rubber_rotated_180"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_tomato_scratched_festive_rubber_rotated_180_stairs"
+      "has_tomato_scratched_festive_rubber_rotated_180"
     ]
   ],
   "rewards": {

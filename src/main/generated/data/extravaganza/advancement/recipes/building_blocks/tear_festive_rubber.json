@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_tear_festive_rubber": {
+    "has_rubber": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:tear_festive_rubber"
+            "items": "extravaganza:rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_tear_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:tear_dye"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_tear_festive_rubber"
+      "has_tear_dye",
+      "has_rubber"
     ]
   ],
   "rewards": {

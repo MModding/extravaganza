@@ -7,11 +7,11 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_white_scratched_festive_rubber_rotated_270_stairs": {
+    "has_white_scratched_festive_rubber_rotated_270": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:white_scratched_festive_rubber_rotated_270_stairs"
+            "items": "extravaganza:white_scratched_festive_rubber_rotated_270"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_white_scratched_festive_rubber_rotated_270_stairs"
+      "has_white_scratched_festive_rubber_rotated_270"
     ]
   ],
   "rewards": {

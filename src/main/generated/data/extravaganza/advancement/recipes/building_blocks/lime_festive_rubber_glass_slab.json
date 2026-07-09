@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_lime_festive_rubber_glass_slab": {
+    "has_lime_festive_rubber_glass": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:lime_festive_rubber_glass_slab"
+            "items": "extravaganza:lime_festive_rubber_glass"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_lime_festive_rubber_glass_slab"
+      "has_lime_festive_rubber_glass"
     ]
   ],
   "rewards": {

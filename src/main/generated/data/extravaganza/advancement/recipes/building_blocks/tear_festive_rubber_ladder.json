@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_tear_festive_rubber_ladder": {
+    "has_stick": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:tear_festive_rubber_ladder"
+            "items": "minecraft:stick"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_tear_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:tear_festive_rubber"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_tear_festive_rubber_ladder"
+      "has_tear_festive_rubber",
+      "has_stick"
     ]
   ],
   "rewards": {

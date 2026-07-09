@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:magenta_traversable_festive_rubber",
+  "result": {
+    "id": "extravaganza:magenta_traversable_festive_rubber_stairs"
+  }
+}

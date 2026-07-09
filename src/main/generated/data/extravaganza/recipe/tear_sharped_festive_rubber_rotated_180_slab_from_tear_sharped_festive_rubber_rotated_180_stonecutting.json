@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:tear_sharped_festive_rubber_rotated_180",
+  "result": {
+    "count": 2,
+    "id": "extravaganza:tear_sharped_festive_rubber_rotated_180_slab"
+  }
+}

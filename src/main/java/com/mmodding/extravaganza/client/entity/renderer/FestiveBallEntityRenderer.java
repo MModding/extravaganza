@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 
@@ -42,9 +43,9 @@ public class FestiveBallEntityRenderer extends EntityRenderer<FestiveBallEntity,
 	public void submit(FestiveBallRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
 		if (state.ageInTicks >= 2 || !(camera.pos.distanceTo(new Vec3(state.x, state.y, state.z)) < 12.25f)) {
 			poseStack.pushPose();
-			poseStack.translate(0.0f, -1.1f, 0.0f);
+			poseStack.translate(0.0f, 0.15f, 0.0f);
 			poseStack.scale(0.8f, 0.8f, 0.8f);
-			submitNodeCollector.submitModel(this.model, state, poseStack, this.getTexture(state), state.lightCoords, 0, state.outlineColor, null);
+			submitNodeCollector.submitModel(this.model, state, poseStack, this.getTexture(state), state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor, null);
 			poseStack.popPose();
 		}
 	}

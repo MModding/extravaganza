@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "extravaganza:tomato_dye"
-    },
-    "P": {
-      "item": "minecraft:paper"
-    }
+    "C": "extravaganza:tomato_dye",
+    "P": "minecraft:paper"
   },
   "pattern": [
     "PCP",

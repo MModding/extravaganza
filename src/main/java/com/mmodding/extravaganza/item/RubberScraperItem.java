@@ -20,7 +20,7 @@ public class RubberScraperItem extends Item {
 	}
 
 	public static Tool createToolComponent() {
-		return new Tool(List.of(Tool.Rule.minesAndDrops(BuiltInRegistries.BLOCK.getOrThrow(ExtravaganzaBlockTags.RUBBER_SCRAPPER_MINEABLE), 10.0f)), 1.0f, 1, false);
+		return new Tool(List.of(Tool.Rule.minesAndDrops(BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK).getOrThrow(ExtravaganzaBlockTags.RUBBER_SCRAPPER_MINEABLE), 10.0f)), 1.0f, 1, false);
 	}
 
 	@Override

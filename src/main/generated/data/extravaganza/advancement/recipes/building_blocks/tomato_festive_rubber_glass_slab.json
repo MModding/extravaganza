@@ -7,11 +7,11 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_tomato_festive_rubber_glass_slab": {
+    "has_tomato_festive_rubber_glass": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:tomato_festive_rubber_glass_slab"
+            "items": "extravaganza:tomato_festive_rubber_glass"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_tomato_festive_rubber_glass_slab"
+      "has_tomato_festive_rubber_glass"
     ]
   ],
   "rewards": {
