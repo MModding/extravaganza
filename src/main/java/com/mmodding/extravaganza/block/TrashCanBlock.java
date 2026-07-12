@@ -57,7 +57,7 @@ public class TrashCanBlock extends SimpleHorizontalFacingBlock {
 			return InteractionResult.SUCCESS;
 		}
 		else {
-			return InteractionResult.PASS;
+			return InteractionResult.TRY_WITH_EMPTY_HAND;
 		}
 	}
 

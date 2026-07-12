@@ -60,28 +60,8 @@ import net.minecraft.world.level.block.LadderBlock;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Predicate;
 
 public class ExtravaganzaDataGenerator implements ExtendedDataGeneratorEntrypoint {
-
-	private static final Predicate<Block> UNCONSIDERED_BLOCKS = block ->
-		block instanceof FlattenedBlock ||
-		block instanceof PaperLanternBlock ||
-		block instanceof TrashCanBlock ||
-		block instanceof LadderBlock ||
-		block.equals(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE) ||
-		block.equals(ExtravaganzaBlocks.BALL_PIT_CONTENT) ||
-		block.equals(ExtravaganzaBlocks.BALL_PIT_PROTECTION) ||
-		block.equals(ExtravaganzaBlocks.BALL_DISTRIBUTOR) ||
-		block.equals(ExtravaganzaBlocks.POPCORN_MACHINE) ||
-		block.equals(ExtravaganzaBlocks.COTTON_CANDY_MACHINE) ||
-		block.equals(ExtravaganzaBlocks.GARLAND) ||
-		block.equals(ExtravaganzaBlocks.PINATA) ||
-		block.equals(ExtravaganzaBlocks.CAUTION_WET_FLOOR_SIGN) ||
-		block.equals(ExtravaganzaBlocks.TEAR_STAINED_GLASS) ||
-		block.equals(ExtravaganzaBlocks.PLANT_STAINED_GLASS) ||
-		block.equals(ExtravaganzaBlocks.TOMATO_STAINED_GLASS) ||
-		block.equals(ExtravaganzaBlocks.NYMPH_STAINED_GLASS);
 
 	private static final Set<String> EXCLUDING_PICKAXE_KEYWORDS = Set.of(
 		"hevea_brasiliensis", "registration", "paper_lantern", "content",
@@ -104,10 +84,17 @@ public class ExtravaganzaDataGenerator implements ExtendedDataGeneratorEntrypoin
 			.chain(block -> block instanceof TrashCanBlock, ExtravaganzaBlockModelProcessors::createTrashCan)
 			.chain(block -> block instanceof LadderBlock, DefaultBlockModelProcessing::createLadder)
 			.chain(Set.of(ExtravaganzaBlocks.GARLAND), ExtravaganzaBlockModelProcessors::createGarland)
-			.chain(Set.of(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE), DefaultBlockModelProcessing::createDefinedModelHorizontalVariants)
-			.chain(Set.of(ExtravaganzaBlocks.POPCORN_MACHINE, ExtravaganzaBlocks.COTTON_CANDY_MACHINE), ExtravaganzaBlockModelProcessors::createHorizontalWithFlatItem)
+			.chain(Set.of(
+				ExtravaganzaBlocks.POPCORN_MACHINE,
+				ExtravaganzaBlocks.COTTON_CANDY_MACHINE,
+				ExtravaganzaBlocks.PINATA,
+				ExtravaganzaBlocks.CAUTION_WET_FLOOR_SIGN
+			), ExtravaganzaBlockModelProcessors::createHorizontalWithFlatItem)
 			.chain(Set.of(ExtravaganzaBlocks.BALL_DISTRIBUTOR), ExtravaganzaBlockModelProcessors::createBallDistributor)
-			.chain(Predicate.not(UNCONSIDERED_BLOCKS), BlockModelGenerators::createTrivialCube);
+			.chain(Set.of(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE), DefaultBlockModelProcessing::createDefinedModelHorizontalVariants)
+			.chain(Set.of(ExtravaganzaBlocks.BALL_PIT_CONTENT), BlockModelGenerators::createNonTemplateModelBlock)
+			.chain(Set.of(ExtravaganzaBlocks.BALL_PIT_PROTECTION), (generator, block) -> generator.createAirLikeBlock(block, Items.BARRIER))
+			.chain(BlockModelGenerators::createTrivialCube);
 		manager.chain(ExtravaganzaItems.class, DefaultDataHandlers.ITEM_MODELS)
 			.chain(item -> item instanceof RubberScraperItem, (generator, item) -> generator.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM))
 			.chain(Set.of(ExtravaganzaItems.BAT), ItemModelGenerators::declareCustomModelItem)

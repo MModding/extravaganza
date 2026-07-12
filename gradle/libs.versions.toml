@@ -8,7 +8,7 @@ mmodding = "0.6.0-alpha+26.2"
 
 # Integrations
 
-ouch = "1.8.0+26.1"
+ouch = "1.9.0+26.2"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }

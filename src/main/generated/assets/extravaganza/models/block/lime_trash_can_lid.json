@@ -1,6 +1,7 @@
 {
   "parent": "extravaganza:block/template_trash_can_lid",
   "textures": {
+    "particle": "extravaganza:block/lime_trash_can",
     "texture": "extravaganza:block/lime_trash_can"
   }
 }

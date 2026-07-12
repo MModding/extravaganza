@@ -1,6 +1,7 @@
 {
   "parent": "extravaganza:block/template_hanging_paper_lantern",
   "textures": {
+    "particle": "extravaganza:block/purple_paper_lantern",
     "texture": "extravaganza:block/purple_paper_lantern"
   }
 }

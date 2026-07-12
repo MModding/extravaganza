@@ -17,16 +17,12 @@ import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.block.dispatch.Variant;
 import net.minecraft.client.renderer.block.dispatch.VariantMutator;
-import net.minecraft.client.renderer.block.dispatch.multipart.CombinedCondition;
-import net.minecraft.client.renderer.block.dispatch.multipart.Condition;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-
-import java.util.List;
 
 import static net.minecraft.client.data.models.BlockModelGenerators.*;
 
@@ -35,7 +31,7 @@ public class ExtravaganzaBlockModelProcessors {
 	public static void createColorful(BlockModelGenerators generator, Block block) {
 		Variant model = plainModel(TexturedModel.CARPET.create(block, generator.modelOutput));
 		generator.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, createRotatedVariants(model)));
-		generator.registerSimpleFlatItemModel(block.asItem());
+		generator.registerSimpleFlatItemModel(block);
 	}
 
 	public static void createInkPuddleOrConfetti(BlockModelGenerators generator, Block block) {
@@ -102,44 +98,43 @@ public class ExtravaganzaBlockModelProcessors {
 		Identifier attachedSouth = Extravaganza.createId("block/attached_garland_south");
 		Identifier attachedEast = Extravaganza.createId("block/attached_garland_east");
 		Identifier attachedWest = Extravaganza.createId("block/attached_garland_west");
-		Condition none = new ConditionBuilder()
+		ConditionBuilder none = new ConditionBuilder()
 			.term(BlockStateProperties.UP, false)
 			.term(BlockStateProperties.DOWN, false)
 			.term(BlockStateProperties.NORTH, false)
 			.term(BlockStateProperties.EAST, false)
 			.term(BlockStateProperties.SOUTH, false)
-			.term(BlockStateProperties.WEST, false)
-			.build();
+			.term(BlockStateProperties.WEST, false);
 		generator.blockStateOutput.accept(
 			MultiPartGenerator.multiPart(ExtravaganzaBlocks.GARLAND)
 				.with(
-					new CombinedCondition(CombinedCondition.Operation.OR, List.of(
+					or(
 						none,
-						new ConditionBuilder().term(BlockStateProperties.UP, true).build(),
-						new ConditionBuilder().term(BlockStateProperties.DOWN, true).build(),
-						new ConditionBuilder().term(BlockStateProperties.NORTH, true).build(),
-						new ConditionBuilder().term(BlockStateProperties.SOUTH, true).build()
-					)),
+						new ConditionBuilder().term(BlockStateProperties.UP, true),
+						new ConditionBuilder().term(BlockStateProperties.DOWN, true),
+						new ConditionBuilder().term(BlockStateProperties.NORTH, true),
+						new ConditionBuilder().term(BlockStateProperties.SOUTH, true)
+					),
 					plainVariant(garland)
 				)
 				.with(
-					new CombinedCondition(CombinedCondition.Operation.OR, List.of(
+					or(
 						none,
-						new ConditionBuilder().term(BlockStateProperties.NORTH, true).build(),
-						new ConditionBuilder().term(BlockStateProperties.SOUTH, true).build(),
-						new ConditionBuilder().term(BlockStateProperties.EAST, true).build(),
-						new ConditionBuilder().term(BlockStateProperties.WEST, true).build()
-					)),
+						new ConditionBuilder().term(BlockStateProperties.NORTH, true),
+						new ConditionBuilder().term(BlockStateProperties.SOUTH, true),
+						new ConditionBuilder().term(BlockStateProperties.EAST, true),
+						new ConditionBuilder().term(BlockStateProperties.WEST, true)
+					),
 					plainVariant(horizontal)
 				)
 				.with(
-					new CombinedCondition(CombinedCondition.Operation.OR, List.of(
+					or(
 						none,
-						new ConditionBuilder().term(BlockStateProperties.UP, true).build(),
-						new ConditionBuilder().term(BlockStateProperties.DOWN, true).build(),
-						new ConditionBuilder().term(BlockStateProperties.EAST, true).build(),
-						new ConditionBuilder().term(BlockStateProperties.WEST, true).build()
-					)),
+						new ConditionBuilder().term(BlockStateProperties.UP, true),
+						new ConditionBuilder().term(BlockStateProperties.DOWN, true),
+						new ConditionBuilder().term(BlockStateProperties.EAST, true),
+						new ConditionBuilder().term(BlockStateProperties.WEST, true)
+					),
 					plainVariant(vertical)
 				)
 				.with(
@@ -250,5 +245,6 @@ public class ExtravaganzaBlockModelProcessors {
 					.select(Direction.WEST, DoubleBlockHalf.LOWER, plainVariant(down).with(VariantMutator.Y_ROT.withValue(Quadrant.R270)))
 			)
 		);
+		generator.registerSimpleFlatItemModel(block.asItem());
 	}
 }

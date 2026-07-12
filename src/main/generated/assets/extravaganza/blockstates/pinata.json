@@ -1,11 +1,11 @@
 {
   "variants": {
-    "facing=north": {
-      "model": "extravaganza:block/pinata"
-    },
     "facing=east": {
       "model": "extravaganza:block/pinata",
       "y": 90
+    },
+    "facing=north": {
+      "model": "extravaganza:block/pinata"
     },
     "facing=south": {
       "model": "extravaganza:block/pinata",

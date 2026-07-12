@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "extravaganza:block/ball_distributor"
+    "model": "extravaganza:item/ball_distributor"
   }
 }
