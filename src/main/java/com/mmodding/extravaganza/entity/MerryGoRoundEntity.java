@@ -1,6 +1,5 @@
 package com.mmodding.extravaganza.entity;
 
-import com.mmodding.extravaganza.init.ExtravaganzaEntities;
 import com.mmodding.extravaganza.init.ExtravaganzaItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -25,7 +24,6 @@ import org.jspecify.annotations.Nullable;
 public class MerryGoRoundEntity extends VehicleEntity {
 
 	private static final EntityDataAccessor<Byte> POWER = SynchedEntityData.defineId(MerryGoRoundEntity.class, EntityDataSerializers.BYTE);
-	private static final EntityDataAccessor<Integer> ROTATION = SynchedEntityData.defineId(MerryGoRoundEntity.class, EntityDataSerializers.INT);
 
 	private final InterpolationHandler interpolation;
 
@@ -34,20 +32,10 @@ public class MerryGoRoundEntity extends VehicleEntity {
 		this.interpolation = new InterpolationHandler(this, this::onInterpolation);
 	}
 
-	public MerryGoRoundEntity(Level level, double x, double y, double z) {
-		super(ExtravaganzaEntities.MERRY_GO_ROUND, level);
-		this.interpolation = new InterpolationHandler(this, this::onInterpolation);
-		this.setPosRaw(x, y, z);
-		this.xo = x;
-		this.yo = y;
-		this.zo = z;
-	}
-
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder entityData) {
 		super.defineSynchedData(entityData);
 		entityData.define(POWER, (byte) 1);
-		entityData.define(ROTATION, 0);
 	}
 
 	private void onInterpolation(InterpolationHandler interpolation) {
@@ -62,13 +50,11 @@ public class MerryGoRoundEntity extends VehicleEntity {
 	@Override
 	protected void readAdditionalSaveData(ValueInput input) {
 		this.entityData.set(POWER, input.getByteOr("power", (byte) 1));
-		this.entityData.set(ROTATION, input.getIntOr("custom_rotation", 0));
 	}
 
 	@Override
 	protected void addAdditionalSaveData(ValueOutput output) {
 		output.putByte("power", this.entityData.get(POWER));
-		output.putInt("custom_rotation", this.entityData.get(ROTATION));
 	}
 
 	@Override
@@ -79,21 +65,13 @@ public class MerryGoRoundEntity extends VehicleEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.isLocalInstanceAuthoritative()) {
-			if (!this.getPassengers().isEmpty()) {
-				this.entityData.set(MerryGoRoundEntity.ROTATION, this.entityData.get(MerryGoRoundEntity.ROTATION) + 3 * this.entityData.get(MerryGoRoundEntity.POWER));
-			}
-			else {
-				this.entityData.set(MerryGoRoundEntity.ROTATION, 0);
-			}
-		}
 		this.interpolation.setInterpolationLength(11 - this.entityData.get(MerryGoRoundEntity.POWER));
 	}
 
-	@Override
+	/* @Override
 	public @Nullable InterpolationHandler getInterpolation() {
 		return this.interpolation;
-	}
+	} */
 
 	@Override
 	public boolean canBeCollidedWith(Entity other) {

@@ -39,19 +39,19 @@ public class ExtravaganzaModels {
 
 	public static LayerDefinition createTurnstile() {
 		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition modelPartData = meshdefinition.getRoot();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition down = modelPartData.addOrReplaceChild("down", CubeListBuilder.create().texOffs(0, 54).addBox(-4.0f, -7.0f, -6.0f, 16.0f, 2.0f, 16.0f, new CubeDeformation(0.0f))
-			.texOffs(0, 33).addBox(-5.0f, -5.0f, -7.0f, 18.0f, 3.0f, 18.0f, new CubeDeformation(0.0f)), PartPose.rotation(-4.0f, 26.0f, -2.0f));
+		PartDefinition down = partdefinition.addOrReplaceChild("down", CubeListBuilder.create().texOffs(0, 54).addBox(-8.0F, -4.0F, -8.0F, 16.0F, 2.0F, 16.0F, new CubeDeformation(0.0F))
+			.texOffs(0, 33).addBox(-9.0F, -7.0F, -9.0F, 18.0F, 3.0F, 18.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
 
-		PartDefinition top = modelPartData.addOrReplaceChild("top", CubeListBuilder.create().texOffs(0, 0).addBox(0.0f, 0.0f, -22.0f, 28.0f, 5.0f, 28.0f, new CubeDeformation(0.0f))
-			.texOffs(48, 54).addBox(0.0f, -14.0f, -8.0f, 28.0f, 14.0f, 0.0f, new CubeDeformation(0.0f))
-			.texOffs(77, 81).addBox(15.0f, -2.0f, -20.0f, 11.0f, 2.0f, 11.0f, new CubeDeformation(0.0f))
-			.texOffs(33, 81).addBox(15.0f, -2.0f, -7.0f, 11.0f, 2.0f, 11.0f, new CubeDeformation(0.0f))
-			.texOffs(0, 72).addBox(2.0f, -2.0f, -20.0f, 11.0f, 2.0f, 11.0f, new CubeDeformation(0.0f))
-			.texOffs(53, 68).addBox(2.0f, -2.0f, -7.0f, 11.0f, 2.0f, 11.0f, new CubeDeformation(0.0f)), PartPose.rotation(-14.0f, 14.0f, 8.0f));
+		PartDefinition top = partdefinition.addOrReplaceChild("top", CubeListBuilder.create().texOffs(0, 0).addBox(-14.0F, -2.0F, -14.0F, 28.0F, 5.0F, 28.0F, new CubeDeformation(0.0F))
+			.texOffs(48, 54).addBox(-14.0F, 3.0F, 0.0F, 28.0F, 14.0F, 0.0F, new CubeDeformation(0.0F))
+			.texOffs(77, 81).addBox(1.0F, 3.0F, -12.0F, 11.0F, 2.0F, 11.0F, new CubeDeformation(0.0F))
+			.texOffs(33, 81).addBox(1.0F, 3.0F, 1.0F, 11.0F, 2.0F, 11.0F, new CubeDeformation(0.0F))
+			.texOffs(0, 72).addBox(-12.0F, 3.0F, -12.0F, 11.0F, 2.0F, 11.0F, new CubeDeformation(0.0F))
+			.texOffs(53, 68).addBox(-12.0F, 3.0F, 1.0F, 11.0F, 2.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
 
-		PartDefinition cube_r1 = top.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(54, 33).addBox(-14.0f, -12.0f, 0.0f, 28.0f, 14.0f, 0.0f, new CubeDeformation(0.0f)), PartPose.offsetAndRotation(14.0f, -2.0f, -8.0f, 0.0f, 1.5708f, 0.0f));
+		PartDefinition cube_r1 = top.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(54, 33).addBox(-14.0F, -7.0F, 0.0F, 28.0F, 14.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 10.0F, 0.0F, 0.0F, 1.5708F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

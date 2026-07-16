@@ -92,7 +92,7 @@ public class ExtravaganzaDataGenerator implements ExtendedDataGeneratorEntrypoin
 			), ExtravaganzaBlockModelProcessors::createHorizontalWithFlatItem)
 			.chain(Set.of(ExtravaganzaBlocks.BALL_DISTRIBUTOR), ExtravaganzaBlockModelProcessors::createBallDistributor)
 			.chain(Set.of(ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE), DefaultBlockModelProcessing::createDefinedModelHorizontalVariants)
-			.chain(Set.of(ExtravaganzaBlocks.BALL_PIT_CONTENT), BlockModelGenerators::createNonTemplateModelBlock)
+			.chain(Set.of(ExtravaganzaBlocks.BALL_PIT_CONTENT), (generator, block) -> { generator.createNonTemplateModelBlock(block); generator.registerSimpleFlatItemModel(block.asItem()); })
 			.chain(Set.of(ExtravaganzaBlocks.BALL_PIT_PROTECTION), (generator, block) -> generator.createAirLikeBlock(block, Items.BARRIER))
 			.chain(BlockModelGenerators::createTrivialCube);
 		manager.chain(ExtravaganzaItems.class, DefaultDataHandlers.ITEM_MODELS)

@@ -133,7 +133,9 @@ public class BallDistributorBlock extends Block {
 
 	@Override
 	protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-		level.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), Block.UPDATE_ALL);
+		if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
+			level.setBlock(pos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), Block.UPDATE_ALL);
+		}
 	}
 
 	@Override

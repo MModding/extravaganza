@@ -25,8 +25,13 @@ public class HeveaBrasiliensisLog extends RotatedPillarBlock {
 	}
 
 	@Override
+	protected boolean isRandomlyTicking(BlockState state) {
+		return !state.getValue(HeveaBrasiliensisLog.RUBBER);
+	}
+
+	@Override
 	protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-		if (!state.getValue(HeveaBrasiliensisLog.RUBBER) && level.getRandom().nextFloat() < 0.25f) {
+		if (level.getRandom().nextFloat() < 0.25f) {
 			level.setBlock(pos, state.setValue(HeveaBrasiliensisLog.RUBBER, true), Block.UPDATE_ALL);
 		}
 	}

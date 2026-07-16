@@ -16,8 +16,10 @@ import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.BlockFamily;
+import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -25,6 +27,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
@@ -33,6 +36,7 @@ public class ExtravaganzaBlocks {
 	public static final WoodSet HEVEA_BRASILIENSIS = WoodSetBuilder.create(Extravaganza.namespace(), "hevea_brasiliensis", WoodTypeBuilder.copyOf(WoodType.OAK), BlockSetTypeBuilder.copyOf(BlockSetType.OAK))
 		.withNormalLogFactory(HeveaBrasiliensisLog::new)
 		.withSettings(WoodSetSettings.create(true, WoodSetSettings.LogDisplay.WITH_HORIZONTAL, () -> Blocks.IRON_CHAIN, true, false))
+		.withTreeGrower(new TreeGrower("hevea_brasiliensis", Optional.empty(), Optional.of(ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS), Optional.empty()))
 		.buildAndRegister();
 
 	public static final Block BALL_PIT_REGISTRATION_TABLE = register("ball_pit_registration_table", BallPitRegistrationTableBlock::new, BlockBehaviour.Properties.of().noOcclusion().strength(2.0f).sound(SoundType.WOOD)).registerItem();

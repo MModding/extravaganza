@@ -40,9 +40,7 @@ public class MerryGoRoundEntityRenderer extends EntityRenderer<MerryGoRoundEntit
 	@Override
 	public void submit(MerryGoRoundRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
 		poseStack.pushPose();
-		poseStack.mulPose(Axis.YP.rotationDegrees(180.0f - state.yRot));
-		poseStack.mulPose(Axis.XP.rotationDegrees(180.0f));
-		poseStack.translate(0.0, -1.5, 0.0);
+		poseStack.mulPose(Axis.YP.rotationDegrees(state.yRot));
 		submitNodeCollector.submitModel(this.model, state, poseStack, TEXTURE, state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor, null);
 		poseStack.popPose();
 	}
