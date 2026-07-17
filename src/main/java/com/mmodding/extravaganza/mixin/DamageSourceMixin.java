@@ -11,6 +11,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,8 +37,8 @@ public class DamageSourceMixin {
 	@Final
 	private @Nullable Entity causingEntity;
 
-	@Inject(method = "<init>(Lnet/minecraft/core/Holder;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;)V", at = @At("TAIL"))
-	private void setupVariant(Holder<DamageType> type, Entity directEntity, Entity causingEntity, CallbackInfo ci) {
+	@Inject(method = "<init>(Lnet/minecraft/core/Holder;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;)V", at = @At("TAIL"))
+	private void setupVariant(Holder<DamageType> type, Entity directEntity, Entity causingEntity, Vec3 damageSourcePosition, CallbackInfo ci) {
 		if (type.isBound()) {
 			if (type.unwrapKey().orElseThrow() == ExtravaganzaDamageTypes.TRASH) {
 				this.variant = RandomGenerator.getDefault().nextInt((directEntity == null || causingEntity == null) ? 15 : 2);

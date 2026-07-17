@@ -27,7 +27,7 @@ public class Extravaganza implements ExtendedModInitializer {
 
 	public static final Config CONFIG = Config.builder(
 		"config.extravaganza",
-		"mmmodding/extravaganza",
+		"extravaganza",
 		ConfigSpec.create()
 			.bool("censored_death_messages", true)
 	).build(createId("config"));

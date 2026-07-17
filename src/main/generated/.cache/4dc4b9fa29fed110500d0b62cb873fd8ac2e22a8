@@ -7,7 +7,7 @@ a8b6770510cf194d8c33705d68e554cc38552304 data/minecraft/tags/block/leaves.json
 96f1e45ccf4af9bcce7b1b2e3cb4bc1aef0b6939 data/minecraft/tags/block/logs_that_burn.json
 c58fa380156a46ee40acafab7082a5d157ddaa7f data/minecraft/tags/block/planks.json
 8977a2cb938819a7f30627ea872c5ced6bac6fcd data/minecraft/tags/block/saplings.json
-a66fa26d3d1256f0b2f8ffdb7065aa6d16f8d2ee data/minecraft/tags/block/signs.json
+a66fa26d3d1256f0b2f8ffdb7065aa6d16f8d2ee data/minecraft/tags/block/standing_signs.json
 96d9bb61fc5acb8263bea5e3abd1a377b2187470 data/minecraft/tags/block/wall_hanging_signs.json
 c0d96ae9e6329c7eaec9964cde73353e991e1739 data/minecraft/tags/block/wall_signs.json
 43eb9b19981a25fd612ae81e92dda523cec50ab5 data/minecraft/tags/block/wooden_buttons.json
