@@ -38,7 +38,7 @@ any suggestion about content that we can add to the mod, you can submit it to
 Extravaganza! contains an item which is named the "Wrench Aganza" which is a kind of wrench allowing you to change some
 settings of different elements of the mod. This is notably used on Merry-Go-Round and Ball Pools.
 
-![Wrench Aganza Craft](https://github.com/MModding/extravaganza/blob/main/external/wrench_aganza_craft.png?raw=true)
+![Wrench Aganza Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/wrench_aganza_craft.png)
 
 ### Food
 
@@ -52,15 +52,15 @@ Popcorn:
 
 And it is done! You have your Popcorn.
 
-![Golden Candy Cane Craft](https://github.com/MModding/extravaganza/blob/main/external/golden_candy_cane_craft.png?raw=true)
-![Green Candy Cane Craft](https://github.com/MModding/extravaganza/blob/main/external/green_candy_cane_craft.png?raw=true)
-![Reed Candy Cane Craft](https://github.com/MModding/extravaganza/blob/main/external/red_candy_cane_craft.png?raw=true)
+![Golden Candy Cane Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/golden_candy_cane_craft.png)
+![Green Candy Cane Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/green_candy_cane_craft.png)
+![Reed Candy Cane Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/red_candy_cane_craft.png)
 
-![Hot Dog Craft](https://github.com/MModding/extravaganza/blob/main/external/hot_dog_craft.png?raw=true)
-![Hot Dog With Mayonnaise Craft](https://github.com/MModding/extravaganza/blob/main/external/hot_dog_with_mayonnaise_craft.png?raw=true)
+![Hot Dog Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/hot_dog_craft.png)
+![Hot Dog With Mayonnaise Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/hot_dog_with_mayonnaise_craft.png)
 
-![Popcorn Machine Craft](https://github.com/MModding/extravaganza/blob/main/external/popcorn_machine_craft.png?raw=true)
-![Empty Popcorn Craft](https://github.com/MModding/extravaganza/blob/main/external/empty_popcorn_craft.png?raw=true)
+![Popcorn Machine Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/popcorn_machine_craft.png)
+![Empty Popcorn Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/empty_popcorn_craft.png)
 
 ### Activities
 
@@ -73,8 +73,8 @@ obtained via exploring some mineshaft!
 Then, craft a Ball Distributor, and right-click with your coins on it. It will launch respectively one, two, or four
 Festive Balls depending on the rarity of the coin you have inserted to the distributor.
 
-![Coins Loot](https://github.com/MModding/extravaganza/blob/main/external/coins_loot.png?raw=true)
-![Ball Distributor Craft](https://github.com/MModding/extravaganza/blob/main/external/ball_distributor_craft.png?raw=true)
+![Coins Loot](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/coins_loot.png)
+![Ball Distributor Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/ball_distributor_craft.png)
 
 Another activity of Extravaganza! is the Merry Go Round. There is a big change you already experienced
 this activity in real-life, especially as a child.
@@ -82,7 +82,7 @@ this activity in real-life, especially as a child.
 Anyway, the Merry Go Round present in Extravaganza! has 10 different powers, that you can
 select by using the Wrench Aganza. It makes the Merry Go Round, slower, or faster.
 
-![Ball Distributor Craft](https://github.com/MModding/extravaganza/blob/main/external/merry_go_round_craft.png?raw=true)
+![Ball Distributor Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/merry_go_round_craft.png)
 
 By the way, have I already talked about Helium Balloons? Seems I didn't.
 
@@ -91,8 +91,8 @@ exploding in confetti.
 
 There are two Helium Balloons, the Cherry Balloon and the Creeper Balloon.
 
-![Cherry Balloon Craft](https://github.com/MModding/extravaganza/blob/main/external/cherry_balloon_craft.png?raw=true)
-![Creeper Balloon Craft](https://github.com/MModding/extravaganza/blob/main/external/creeper_balloon_craft.png?raw=true)
+![Cherry Balloon Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/cherry_balloon_craft.png)
+![Creeper Balloon Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/creeper_balloon_craft.png)
 
 Another work-in-progress activity (here be dragons - some bugs may be present) is the Ball Pool!
 
@@ -106,8 +106,8 @@ in order to make you feel like if you were not controlling your movements anymor
 can access the Ball Pool by right-clicking to the Registration Table, to get teleported at the center of the Ball Pool.
 If players wants to get out of the Ball Pool, they can simply execute the `/before-entering-poll` command.
 
-![Ball Pool Registration Table Craft](https://github.com/MModding/extravaganza/blob/main/external/ball_pit_registration_table_craft.png?raw=true)
-![Ball Pool Content Craft](https://github.com/MModding/extravaganza/blob/main/external/ball_pit_content_craft.gif?raw=true)
+![Ball Pool Registration Table Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/ball_pit_registration_table_craft.png)
+![Ball Pool Content Craft](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/ball_pit_content_craft.gif)
 
 ### Building Blocks
 
@@ -120,7 +120,7 @@ since rubber is used a lot to make the festive block variants.
 After having crafted festive block color variants, you are now able to put them in a Stonecutter,
 to get access to... even more variants!
 
-![Building Blocks](https://github.com/MModding/extravaganza/blob/main/external/building_blocks.png?raw=true)
+![Building Blocks](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/building_blocks.png)
 
 ### Trash Cans
 
@@ -132,7 +132,7 @@ those in trashes and not in natural places. So, anyway, Extravaganza! also provi
 - The player can open the trash by right-clicking.
 - If the player wants to throw an entire stack, he needs to open the trash and then throw the whole stack.
 
-![Trash Cans](https://github.com/MModding/extravaganza/blob/main/external/trash_cans.png?raw=true)
+![Trash Cans](https://raw.githubusercontent.com/MModding/extravaganza/HEAD/external/trash_cans.png)
 
 ## Promotion
 [![Made for ModFest: Carnival](https://raw.githubusercontent.com/ModFest/art/v2/badge/svg/carnival/cozy.svg)](https://modfest.net/carnival)
