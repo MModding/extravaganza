@@ -2,6 +2,13 @@
 
 # Extravaganza!
 
+[![Modrinth](https://img.shields.io/modrinth/dt/extravaganza?style=for-the-badge&logo=modrinth
+)](https://www.modrinth.com/mod/extravaganza/versions)
+[![CurseForge](https://img.shields.io/curseforge/dt/1042332?style=for-the-badge&logo=curseforge&color=orange
+)](https://www.curseforge.com/minecraft/mc-mods/extravaganza)
+
+![Java CI with Gradle](https://github.com/MModding/extravaganza/actions/workflows/build.yml/badge.svg?branch=main)
+
 [<img src="https://github.com/MModding/art/blob/main/mods/extravaganza/extravaganza.png?raw=true" width="512" alt="Extravaganza! Logo">](https://modrinth.com/mod/extravaganza)
 
 ## Supports
@@ -11,7 +18,8 @@
 
 ## Requirements
 
-[<img src="https://github.com/JR1811/Boatism/blob/5bdbea79b11428101353c4a67ccd4b3821200a76/extrernal/promo/badges/requires_fabric_api.png?raw=true" width="256" alt="Requires Fabric API">](https://modrinth.com/mod/fabric-api)
+[<img src="https://github.com/JR1811/Boatism/blob/5bdbea79b11428101353c4a67ccd4b3821200a76/extrernal/promo/badges/requires_fabric_api.png?raw=true" width="200" alt="Requires Fabric API">](https://modrinth.com/mod/fabric-api)
+[<img src="https://raw.githubusercontent.com/MModding/art/main/mods/library/requires_mmodding_library.png" width="234"></img>](https://modrinth.com/mod/mmodding-library)
 
 ## Overview
 Extravaganza! is a mod about adding carnival and festivity goodies, as well as some amusing activities through blocks, entities or items.
