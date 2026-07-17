@@ -62,7 +62,10 @@ public class Extravaganza implements ExtendedModInitializer {
 				}
 			}))
 		);
-		if (FabricLoader.getInstance().isModLoaded("ouch")) ExtravaganzaDamageTypes.ouch();
+
+		if (FabricLoader.getInstance().isModLoaded("ouch")) {
+			ExtravaganzaDamageTypes.ouch();
+		}
 	}
 
 	public static Logger getLogger() {

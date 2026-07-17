@@ -2,6 +2,7 @@ package com.mmodding.extravaganza.init;
 
 import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.ExtravaganzaColor;
+import com.mmodding.extravaganza.dispenser.HeliumBalloonDispenseBehavior;
 import com.mmodding.extravaganza.item.*;
 import com.mmodding.library.core.api.AdvancedContainer;
 import com.mmodding.library.item.api.wrapper.ItemHeap;
@@ -17,6 +18,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.level.block.DispenserBlock;
 
 import java.util.function.Function;
 
@@ -84,5 +86,10 @@ public class ExtravaganzaItems {
 				.displayItems((_, entries) -> mod.streamRegistryValues(BuiltInRegistries.ITEM).forEach(entries::accept))
 				.build()
 		);
+
+		ExtravaganzaItems.FESTIVE_BALLS.forEach(DispenserBlock::registerProjectileBehavior);
+		DispenserBlock.registerBehavior(ExtravaganzaItems.CHERRY_BALLOON, new HeliumBalloonDispenseBehavior());
+		DispenserBlock.registerBehavior(ExtravaganzaItems.CREEPER_BALLOON, new HeliumBalloonDispenseBehavior());
+		DispenserBlock.registerBehavior(ExtravaganzaItems.ENDERMAN_BALLOON, new HeliumBalloonDispenseBehavior());
 	}
 }

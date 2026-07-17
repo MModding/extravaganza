@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
 public class HeliumBalloonItem extends Item {
 
@@ -31,7 +32,7 @@ public class HeliumBalloonItem extends Item {
 		ItemStack stack = player.getItemInHand(hand);
 		HitResult result = HeliumBalloonItem.getPlayerPOVHitResult(level, player, ClipContext.Fluid.ANY);
 		if (result.getType() == HitResult.Type.BLOCK) {
-			HeliumBalloonEntity heliumBalloonEntity = this.createEntity(level, result, stack, player);
+			HeliumBalloonEntity heliumBalloonEntity = this.createEntity(level, result.getLocation(), stack, player);
 			if (heliumBalloonEntity == null || !level.noCollision(heliumBalloonEntity, heliumBalloonEntity.getBoundingBox())) {
 				return InteractionResult.FAIL;
 			}
@@ -51,11 +52,10 @@ public class HeliumBalloonItem extends Item {
 		}
 	}
 
-	private HeliumBalloonEntity createEntity(Level level, HitResult hitResult, ItemStack stack, Player player) {
+	public HeliumBalloonEntity createEntity(Level level, Vec3 location, ItemStack stack, @Nullable Player player) {
 		HeliumBalloonEntity heliumBalloonEntity = ExtravaganzaEntities.HELIUM_BALLOON.create(level, EntitySpawnReason.SPAWN_ITEM_USE);
 		if (heliumBalloonEntity != null) {
 			if (level instanceof ServerLevel serverLevel) {
-				Vec3 location = hitResult.getLocation();
 				heliumBalloonEntity.setPos(location.x, location.y, location.z);
 				heliumBalloonEntity.getEntityData().set(HeliumBalloonEntity.VARIANT, this.variant);
 				EntityType.createDefaultStackConfig(serverLevel, stack, player).apply(heliumBalloonEntity);
