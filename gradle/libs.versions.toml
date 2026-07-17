@@ -4,7 +4,7 @@ minecraft = "26.2"
 fabric_loader = "0.19.3"
 
 fabric_api = "0.154.0+26.2"
-mmodding = "0.6.0-alpha+26.2"
+mmodding = "0.6.5-alpha+26.2"
 
 # Integrations
 
