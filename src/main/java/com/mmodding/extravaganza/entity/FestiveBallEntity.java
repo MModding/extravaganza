@@ -5,6 +5,7 @@ import com.mmodding.extravaganza.ExtravaganzaColor;
 import com.mmodding.extravaganza.init.ExtravaganzaEntities;
 import com.mmodding.extravaganza.init.ExtravaganzaGameRules;
 import com.mmodding.extravaganza.init.ExtravaganzaParticleTypes;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -43,6 +44,13 @@ public class FestiveBallEntity extends ThrowableItemProjectile {
 			owner.getViewVector(1).y(),
 			owner.getViewVector(1).z()
 		);
+		this.setSilent(true);
+	}
+
+	public FestiveBallEntity(ExtravaganzaColor color, Level level, Direction direction) {
+		this(ExtravaganzaEntities.FESTIVE_BALL, level);
+		this.setColor(color);
+		this.setDeltaMovement(direction.getUnitVec3());
 		this.setSilent(true);
 	}
 

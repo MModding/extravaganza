@@ -2,6 +2,7 @@ package com.mmodding.extravaganza;
 
 import com.mmodding.extravaganza.entity.FestiveBallEntity;
 import com.mojang.serialization.Codec;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
@@ -65,5 +66,9 @@ public enum ExtravaganzaColor implements StringRepresentable {
 
 	public FestiveBallEntity createBallEntity(Level level, Entity owner) {
 		return new FestiveBallEntity(this, level, owner);
+	}
+
+	public FestiveBallEntity createDispensedBlockEntity(Level level, Direction direction) {
+		return new FestiveBallEntity(this, level, direction);
 	}
 }
