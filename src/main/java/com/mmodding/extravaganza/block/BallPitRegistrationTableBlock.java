@@ -78,7 +78,7 @@ public class BallPitRegistrationTableBlock extends BaseEntityBlock {
 			return InteractionResult.FAIL;
 		}
 		else {
-			return InteractionResult.PASS;
+			return InteractionResult.TRY_WITH_EMPTY_HAND;
 		}
 	}
 

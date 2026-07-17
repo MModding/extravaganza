@@ -32,7 +32,7 @@ public class BallPitProtectionBlock extends Block {
 	}
 
 	@Override
-	protected VoxelShape getOcclusionShape(BlockState state) {
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return Shapes.empty();
 	}
 
