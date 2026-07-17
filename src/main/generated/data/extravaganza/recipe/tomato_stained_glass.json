@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "minecraft:glass",
+    "X": "extravaganza:tomato_dye"
+  },
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "result": {
+    "count": 8,
+    "id": "extravaganza:tomato_stained_glass"
+  }
+}

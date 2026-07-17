@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": "minecraft:cake",
+    "S": "minecraft:sugar"
+  },
+  "pattern": [
+    "SSS",
+    "SCS",
+    "SSS"
+  ],
+  "result": {
+    "id": "extravaganza:way_too_sugary_whitecake"
+  }
+}

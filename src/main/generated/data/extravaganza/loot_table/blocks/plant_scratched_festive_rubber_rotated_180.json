@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "extravaganza:plant_scratched_festive_rubber_rotated_180"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

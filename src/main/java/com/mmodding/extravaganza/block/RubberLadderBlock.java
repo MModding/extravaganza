@@ -1,27 +1,27 @@
 package com.mmodding.extravaganza.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LadderBlock;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.LadderBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class RubberLadderBlock extends LadderBlock {
 
-	public RubberLadderBlock(Settings settings) {
-		super(settings);
+	public RubberLadderBlock(Properties properties) {
+		super(properties);
 	}
 
 	@Override
-	protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-		return world.getBlockState(pos.up()).getBlock() instanceof RubberLadderBlock || super.canPlaceAt(state, world, pos);
+	protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+		return level.getBlockState(pos.above()).getBlock() instanceof RubberLadderBlock || super.canSurvive(state, level, pos);
 	}
 
 	@Override
-	protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		BlockState downState = world.getBlockState(pos.down());
-		if (!(newState.getBlock() instanceof RubberLadderBlock) && downState.getBlock() instanceof RubberLadderBlock && !state.canPlaceAt(world, pos.down())) {
-			world.breakBlock(pos.down(), true);
+	protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+		BlockState downState = level.getBlockState(pos.below());
+		if (downState.getBlock() instanceof RubberLadderBlock && !state.canSurvive(level, pos.below())) {
+			level.removeBlock(pos.below(), movedByPiston);
 		}
 	}
 }

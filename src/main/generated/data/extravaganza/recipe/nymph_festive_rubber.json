@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": "extravaganza:nymph_dye",
+    "R": "extravaganza:rubber"
+  },
+  "pattern": [
+    "CRC",
+    "RCR",
+    "CRC"
+  ],
+  "result": {
+    "count": 16,
+    "id": "extravaganza:nymph_festive_rubber"
+  }
+}

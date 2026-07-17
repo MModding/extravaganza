@@ -1,11 +1,41 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_ball_distributor": {
+    "has_black_festive_rubber": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:ball_distributor"
+            "items": "extravaganza:black_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_glass": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:glass"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_red_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:red_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_red_festive_rubber_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:red_festive_rubber_slab"
           }
         ]
       },
@@ -21,7 +51,10 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_ball_distributor"
+      "has_red_festive_rubber",
+      "has_red_festive_rubber_slab",
+      "has_glass",
+      "has_black_festive_rubber"
     ]
   ],
   "rewards": {

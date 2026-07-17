@@ -1,14 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building",
   "key": {
-    "R": {
-      "item": "extravaganza:lime_bent_festive_rubber"
-    }
+    "#": "extravaganza:lime_bent_festive_rubber"
   },
   "pattern": [
-    "RRR",
-    "RRR"
+    "###",
+    "###"
   ],
   "result": {
     "count": 6,

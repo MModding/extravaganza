@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:hevea_brasiliensis_planks",
+  "result": {
+    "id": "extravaganza:hevea_brasiliensis_stairs"
+  }
+}

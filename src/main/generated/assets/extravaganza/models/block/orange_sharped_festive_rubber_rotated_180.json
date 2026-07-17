@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "extravaganza:block/orange_sharped_festive_rubber_rotated_180"
+  }
+}

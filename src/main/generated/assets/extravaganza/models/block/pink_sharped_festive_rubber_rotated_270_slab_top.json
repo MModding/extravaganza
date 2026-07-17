@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "extravaganza:block/pink_sharped_festive_rubber_rotated_270",
+    "side": "extravaganza:block/pink_sharped_festive_rubber_rotated_270",
+    "top": "extravaganza:block/pink_sharped_festive_rubber_rotated_270"
+  }
+}

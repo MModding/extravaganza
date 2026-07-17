@@ -1,33 +1,38 @@
 package com.mmodding.extravaganza.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.PillarBlock;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
-public class HeveaBrasiliensisLog extends PillarBlock {
+public class HeveaBrasiliensisLog extends RotatedPillarBlock {
 
-	public static final BooleanProperty RUBBER = BooleanProperty.of("rubber");
+	public static final BooleanProperty RUBBER = BooleanProperty.create("rubber");
 
-	public HeveaBrasiliensisLog(Settings settings) {
-		super(settings);
-		this.setDefaultState(this.getDefaultState().with(HeveaBrasiliensisLog.RUBBER, false));
+	public HeveaBrasiliensisLog(Properties properties) {
+		super(properties);
+		this.registerDefaultState(this.defaultBlockState().setValue(HeveaBrasiliensisLog.RUBBER, false));
 	}
 
 	@Override
-	protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-		if (!state.get(HeveaBrasiliensisLog.RUBBER) && world.getRandom().nextFloat() < 0.25f) {
-			world.setBlockState(pos, state.with(HeveaBrasiliensisLog.RUBBER, true));
-		}
-	}
-
-	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		super.appendProperties(builder);
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
 		builder.add(HeveaBrasiliensisLog.RUBBER);
+	}
+
+	@Override
+	protected boolean isRandomlyTicking(BlockState state) {
+		return !state.getValue(HeveaBrasiliensisLog.RUBBER);
+	}
+
+	@Override
+	protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+		if (level.getRandom().nextFloat() < 0.25f) {
+			level.setBlock(pos, state.setValue(HeveaBrasiliensisLog.RUBBER, true), Block.UPDATE_ALL);
+		}
 	}
 }

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_gray_tiled_festive_rubber_stairs": {
+    "has_gray_tiled_festive_rubber": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:gray_tiled_festive_rubber_stairs"
+            "items": "extravaganza:gray_tiled_festive_rubber"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_gray_tiled_festive_rubber_stairs"
+      "has_gray_tiled_festive_rubber"
     ]
   ],
   "rewards": {

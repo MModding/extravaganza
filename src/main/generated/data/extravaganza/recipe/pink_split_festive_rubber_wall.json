@@ -1,14 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building",
   "key": {
-    "R": {
-      "item": "extravaganza:pink_split_festive_rubber"
-    }
+    "#": "extravaganza:pink_split_festive_rubber"
   },
   "pattern": [
-    "RRR",
-    "RRR"
+    "###",
+    "###"
   ],
   "result": {
     "count": 6,

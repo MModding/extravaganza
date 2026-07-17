@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "extravaganza:block/tomato_scratched_festive_rubber_rotated_180",
+    "side": "extravaganza:block/tomato_scratched_festive_rubber_rotated_180",
+    "top": "extravaganza:block/tomato_scratched_festive_rubber_rotated_180"
+  }
+}

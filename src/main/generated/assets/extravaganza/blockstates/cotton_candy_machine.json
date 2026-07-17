@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "extravaganza:block/cotton_candy_machine",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "extravaganza:block/cotton_candy_machine"
+    },
+    "facing=south": {
+      "model": "extravaganza:block/cotton_candy_machine",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "extravaganza:block/cotton_candy_machine",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "extravaganza:block/tear_festive_rubber_glass",
+    "side": "extravaganza:block/tear_festive_rubber_glass",
+    "top": "extravaganza:block/tear_festive_rubber_glass"
+  }
+}

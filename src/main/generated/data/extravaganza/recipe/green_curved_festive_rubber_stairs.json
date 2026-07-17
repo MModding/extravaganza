@@ -2,14 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "R": {
-      "item": "extravaganza:green_curved_festive_rubber"
-    }
+    "#": "extravaganza:green_curved_festive_rubber"
   },
   "pattern": [
-    "R  ",
-    "RR ",
-    "RRR"
+    "#  ",
+    "## ",
+    "###"
   ],
   "result": {
     "count": 4,

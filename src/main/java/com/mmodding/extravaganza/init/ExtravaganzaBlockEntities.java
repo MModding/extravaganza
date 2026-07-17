@@ -1,22 +1,26 @@
 package com.mmodding.extravaganza.init;
 
-import com.mmodding.extravaganza.Extravaganza;
-import com.mmodding.extravaganza.block.entity.BallPoolRegistrationTableBlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-
-import java.util.Set;
+import com.mmodding.extravaganza.block.entity.BallPitRegistrationTableBlockEntity;
+import com.mmodding.extravaganza.block.entity.CottonCandyMachineBlockEntity;
+import com.mmodding.library.core.api.AdvancedContainer;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class ExtravaganzaBlockEntities {
 
-	public static final BlockEntityType<BallPoolRegistrationTableBlockEntity> BALL_POOl_REGISTRATION_TABLE = new BlockEntityType<>(
-		BallPoolRegistrationTableBlockEntity::new,
-		Set.of(ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE),
-		null
-	);
+	public static final BlockEntityType<BallPitRegistrationTableBlockEntity> BALL_PIT_REGISTRATION_TABLE = FabricBlockEntityTypeBuilder.create(
+		BallPitRegistrationTableBlockEntity::new,
+		ExtravaganzaBlocks.BALL_PIT_REGISTRATION_TABLE
+	).build();
 
-	public static void register() {
-		Registry.register(Registries.BLOCK_ENTITY_TYPE, Extravaganza.createId("ball_pool_registration_table"), ExtravaganzaBlockEntities.BALL_POOl_REGISTRATION_TABLE);
+	public static final BlockEntityType<CottonCandyMachineBlockEntity> COTTON_CANDY_MACHINE = FabricBlockEntityTypeBuilder.create(
+		CottonCandyMachineBlockEntity::new,
+		ExtravaganzaBlocks.COTTON_CANDY_MACHINE
+	).build();
+
+	public static void register(AdvancedContainer mod) {
+		mod.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, "ball_pit_registration_table", BALL_PIT_REGISTRATION_TABLE);
+		mod.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, "cotton_candy_machine", COTTON_CANDY_MACHINE);
 	}
 }

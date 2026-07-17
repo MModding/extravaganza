@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_post",
+  "textures": {
+    "wall": "extravaganza:block/orange_aligned_festive_rubber"
+  }
+}

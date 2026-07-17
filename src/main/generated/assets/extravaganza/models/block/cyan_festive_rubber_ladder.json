@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/ladder",
+  "textures": {
+    "particle": "extravaganza:block/cyan_festive_rubber_ladder",
+    "texture": "extravaganza:block/cyan_festive_rubber_ladder"
+  }
+}

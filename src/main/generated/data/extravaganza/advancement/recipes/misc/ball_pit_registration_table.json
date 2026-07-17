@@ -1,0 +1,65 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_flower_pot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:flower_pot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_hevea_brasiliensis_planks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:hevea_brasiliensis_planks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_ink_sac": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:ink_sac"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_paper": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:paper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "extravaganza:ball_pit_registration_table"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_paper",
+      "has_ink_sac",
+      "has_flower_pot",
+      "has_hevea_brasiliensis_planks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "extravaganza:ball_pit_registration_table"
+    ]
+  }
+}

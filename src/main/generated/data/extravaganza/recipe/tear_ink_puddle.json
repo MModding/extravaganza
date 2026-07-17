@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "minecraft:ink_sac",
+    "extravaganza:tear_dye"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:tear_ink_puddle"
+  }
+}

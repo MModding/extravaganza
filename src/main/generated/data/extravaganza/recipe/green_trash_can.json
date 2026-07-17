@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "H": {
-      "item": "minecraft:hopper"
-    },
-    "R": {
-      "item": "extravaganza:green_festive_rubber"
-    }
+    "H": "minecraft:hopper",
+    "R": "extravaganza:green_festive_rubber"
   },
   "pattern": [
     "R R",

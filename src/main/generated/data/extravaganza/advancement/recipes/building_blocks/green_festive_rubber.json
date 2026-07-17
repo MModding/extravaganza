@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_green_festive_rubber": {
+    "has_green_dye": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:green_festive_rubber"
+            "items": "minecraft:green_dye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:rubber"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_green_festive_rubber"
+      "has_green_dye",
+      "has_rubber"
     ]
   ],
   "rewards": {

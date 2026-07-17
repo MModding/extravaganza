@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "minecraft:ink_sac",
+    "minecraft:yellow_dye",
+    "minecraft:blue_dye",
+    "minecraft:magenta_dye",
+    "minecraft:lime_dye",
+    "minecraft:red_dye"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:colorful_ink_puddle"
+  }
+}

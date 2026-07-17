@@ -1,19 +1,10 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "key": {
-    "B": {
-      "item": "minecraft:light_blue_dye"
-    },
-    "R": {
-      "item": "minecraft:red_dye"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    },
-    "Y": {
-      "item": "minecraft:yellow_dye"
-    }
+    "B": "minecraft:light_blue_dye",
+    "R": "minecraft:red_dye",
+    "S": "minecraft:stick",
+    "Y": "minecraft:yellow_dye"
   },
   "pattern": [
     "BSB",
@@ -21,7 +12,6 @@
     "RSR"
   ],
   "result": {
-    "count": 1,
     "id": "extravaganza:bat"
   }
 }

@@ -1,11 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "wooden_stairs",
   "key": {
-    "#": {
-      "item": "extravaganza:hevea_brasiliensis_planks"
-    }
+    "#": "extravaganza:hevea_brasiliensis_planks"
   },
   "pattern": [
     "#  ",

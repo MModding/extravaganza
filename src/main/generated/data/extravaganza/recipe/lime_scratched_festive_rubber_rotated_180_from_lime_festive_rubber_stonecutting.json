@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:lime_festive_rubber",
+  "result": {
+    "id": "extravaganza:lime_scratched_festive_rubber_rotated_180"
+  }
+}

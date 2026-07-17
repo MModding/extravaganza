@@ -1,21 +1,25 @@
 package com.mmodding.extravaganza.client.init;
 
 import com.mmodding.extravaganza.Extravaganza;
-import com.mmodding.extravaganza.client.entity.model.FestiveBallEntityModel;
-import com.mmodding.extravaganza.client.entity.model.HeliumBalloonEntityModel;
-import com.mmodding.extravaganza.client.entity.model.MerryGoRoundEntityModel;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
+import com.mmodding.library.core.api.AdvancedContainer;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.object.boat.BoatModel;
 
 public class ExtravaganzaModelLayers {
 
-	public static final EntityModelLayer FESTIVE_BALL = new EntityModelLayer(Extravaganza.createId("festive_ball"), "main");
-	public static final EntityModelLayer HELIUM_BALLOON = new EntityModelLayer(Extravaganza.createId("helium_balloon"), "main");
-	public static final EntityModelLayer TURNSTILE = new EntityModelLayer(Extravaganza.createId("turnstile"), "main");
+	public static final ModelLayerLocation HEVEA_BRASILIENSIS_BOAT = new ModelLayerLocation(Extravaganza.createId("boat/hevea_brasiliensis"), "main");
+	public static final ModelLayerLocation HEVEA_BRASILIENSIS_CHEST_BOAT = new ModelLayerLocation(Extravaganza.createId("chest_boat/hevea_brasiliensis"), "main");
 
-	public static void register() {
-		EntityModelLayerRegistry.registerModelLayer(ExtravaganzaModelLayers.FESTIVE_BALL, FestiveBallEntityModel::getTexturedModelData);
-		EntityModelLayerRegistry.registerModelLayer(ExtravaganzaModelLayers.HELIUM_BALLOON, HeliumBalloonEntityModel::getTexturedModelData);
-		EntityModelLayerRegistry.registerModelLayer(ExtravaganzaModelLayers.TURNSTILE, MerryGoRoundEntityModel::getTexturedModelData);
+	public static final ModelLayerLocation FESTIVE_BALL = new ModelLayerLocation(Extravaganza.createId("festive_ball"), "main");
+	public static final ModelLayerLocation HELIUM_BALLOON = new ModelLayerLocation(Extravaganza.createId("helium_balloon"), "main");
+	public static final ModelLayerLocation TURNSTILE = new ModelLayerLocation(Extravaganza.createId("turnstile"), "main");
+
+	public static void register(AdvancedContainer mod) {
+		ModelLayerRegistry.registerModelLayer(ExtravaganzaModelLayers.HEVEA_BRASILIENSIS_BOAT, BoatModel::createBoatModel);
+		ModelLayerRegistry.registerModelLayer(ExtravaganzaModelLayers.HEVEA_BRASILIENSIS_CHEST_BOAT, BoatModel::createChestBoatModel);
+		ModelLayerRegistry.registerModelLayer(ExtravaganzaModelLayers.FESTIVE_BALL, ExtravaganzaModels::createFestiveBall);
+		ModelLayerRegistry.registerModelLayer(ExtravaganzaModelLayers.HELIUM_BALLOON, ExtravaganzaModels::createHeliumBalloon);
+		ModelLayerRegistry.registerModelLayer(ExtravaganzaModelLayers.TURNSTILE, ExtravaganzaModels::createTurnstile);
 	}
 }

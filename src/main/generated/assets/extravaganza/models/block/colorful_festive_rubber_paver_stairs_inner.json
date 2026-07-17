@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "extravaganza:block/colorful_festive_rubber_pavers",
+    "side": "extravaganza:block/colorful_festive_rubber_pavers",
+    "top": "extravaganza:block/colorful_festive_rubber_pavers"
+  }
+}

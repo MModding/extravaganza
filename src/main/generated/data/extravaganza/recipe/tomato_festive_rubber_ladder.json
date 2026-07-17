@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "R": {
-      "item": "extravaganza:tomato_festive_rubber"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "R": "extravaganza:tomato_festive_rubber",
+    "S": "minecraft:stick"
   },
   "pattern": [
     "R R",

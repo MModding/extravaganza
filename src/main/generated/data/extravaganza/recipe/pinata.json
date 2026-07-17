@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "B": {
-      "item": "extravaganza:blue_festive_rubber"
-    },
-    "G": {
-      "item": "extravaganza:green_festive_rubber"
-    },
-    "O": {
-      "item": "extravaganza:orange_festive_rubber"
-    },
-    "R": {
-      "item": "extravaganza:red_festive_rubber"
-    },
-    "Y": {
-      "item": "extravaganza:yellow_festive_rubber"
-    }
+    "B": "extravaganza:blue_festive_rubber",
+    "G": "extravaganza:green_festive_rubber",
+    "O": "extravaganza:orange_festive_rubber",
+    "R": "extravaganza:red_festive_rubber",
+    "Y": "extravaganza:yellow_festive_rubber"
   },
   "pattern": [
     "  B",

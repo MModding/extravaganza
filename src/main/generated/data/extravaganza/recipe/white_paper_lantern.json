@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": "minecraft:white_dye",
+    "P": "minecraft:paper"
+  },
+  "pattern": [
+    "PCP",
+    "CPC",
+    "PCP"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:white_paper_lantern"
+  }
+}

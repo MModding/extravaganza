@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": "minecraft:magenta_dye",
+    "P": "minecraft:paper"
+  },
+  "pattern": [
+    "PCP",
+    "CPC",
+    "PCP"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:magenta_paper_lantern"
+  }
+}

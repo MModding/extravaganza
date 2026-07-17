@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "extravaganza:tomato_scratched_festive_rubber_rotated_90"
+  },
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:tomato_scratched_festive_rubber_rotated_90_stairs"
+  }
+}

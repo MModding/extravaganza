@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "minecraft:paper",
+    "minecraft:orange_dye"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:orange_confetti"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:iron_ingot",
+    "#extravaganza:candy_canes"
+  ],
+  "result": {
+    "id": "extravaganza:rubber_scraper"
+  }
+}

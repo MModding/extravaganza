@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_cyan_festive_rubber_slab": {
+    "has_cyan_festive_rubber": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:cyan_festive_rubber_slab"
+            "items": "extravaganza:cyan_festive_rubber"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_cyan_festive_rubber_slab"
+      "has_cyan_festive_rubber"
     ]
   ],
   "rewards": {

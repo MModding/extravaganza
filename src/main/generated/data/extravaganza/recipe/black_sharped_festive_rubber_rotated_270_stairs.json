@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "extravaganza:black_sharped_festive_rubber_rotated_270"
+  },
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:black_sharped_festive_rubber_rotated_270_stairs"
+  }
+}

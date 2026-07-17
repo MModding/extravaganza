@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "extravaganza:block/colorful_scratched_festive_rubber_rotated_90_slab"
+    },
+    "type=double": {
+      "model": "extravaganza:block/colorful_scratched_festive_rubber_rotated_90"
+    },
+    "type=top": {
+      "model": "extravaganza:block/colorful_scratched_festive_rubber_rotated_90_slab_top"
+    }
+  }
+}

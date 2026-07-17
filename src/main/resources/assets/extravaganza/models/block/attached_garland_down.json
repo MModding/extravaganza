@@ -2,7 +2,8 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"1": "extravaganza:block/garland",
-		"3": "extravaganza:block/hevea_brasiliensis_log"
+		"3": "extravaganza:block/hevea_brasiliensis_log",
+		"particle": "extravaganza:block/hevea_brasiliensis_log"
 	},
 	"elements": [
 		{

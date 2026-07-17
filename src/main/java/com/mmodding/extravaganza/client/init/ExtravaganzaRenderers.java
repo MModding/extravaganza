@@ -1,20 +1,25 @@
 package com.mmodding.extravaganza.client.init;
 
-import com.mmodding.extravaganza.client.block.entity.renderer.BallPoolRegistrationTableBlockEntityRenderer;
+import com.mmodding.extravaganza.client.block.entity.renderer.BallPitRegistrationTableBlockEntityRenderer;
 import com.mmodding.extravaganza.client.entity.renderer.FestiveBallEntityRenderer;
 import com.mmodding.extravaganza.client.entity.renderer.HeliumBalloonEntityRenderer;
 import com.mmodding.extravaganza.client.entity.renderer.MerryGoRoundEntityRenderer;
 import com.mmodding.extravaganza.init.ExtravaganzaBlockEntities;
+import com.mmodding.extravaganza.init.ExtravaganzaBlocks;
 import com.mmodding.extravaganza.init.ExtravaganzaEntities;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import com.mmodding.library.core.api.AdvancedContainer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.entity.BoatRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 
 public class ExtravaganzaRenderers {
 
-	public static void register() {
-		EntityRendererRegistry.register(ExtravaganzaEntities.FESTIVE_BALL, FestiveBallEntityRenderer::new);
-		EntityRendererRegistry.register(ExtravaganzaEntities.HELIUM_BALLOON, HeliumBalloonEntityRenderer::new);
-		EntityRendererRegistry.register(ExtravaganzaEntities.MERRY_GO_ROUND, MerryGoRoundEntityRenderer::new);
-		BlockEntityRendererFactories.register(ExtravaganzaBlockEntities.BALL_POOl_REGISTRATION_TABLE, ctx -> new BallPoolRegistrationTableBlockEntityRenderer());
+	public static void register(AdvancedContainer mod) {
+		EntityRenderers.register(ExtravaganzaBlocks.HEVEA_BRASILIENSIS.getBoatEntityType(), context -> new BoatRenderer(context, ExtravaganzaModelLayers.HEVEA_BRASILIENSIS_BOAT));
+		EntityRenderers.register(ExtravaganzaBlocks.HEVEA_BRASILIENSIS.getChestBoatEntityType(), context -> new BoatRenderer(context, ExtravaganzaModelLayers.HEVEA_BRASILIENSIS_CHEST_BOAT));
+		EntityRenderers.register(ExtravaganzaEntities.FESTIVE_BALL, FestiveBallEntityRenderer::new);
+		EntityRenderers.register(ExtravaganzaEntities.HELIUM_BALLOON, HeliumBalloonEntityRenderer::new);
+		EntityRenderers.register(ExtravaganzaEntities.MERRY_GO_ROUND, MerryGoRoundEntityRenderer::new);
+		BlockEntityRenderers.register(ExtravaganzaBlockEntities.BALL_PIT_REGISTRATION_TABLE, ctx -> new BallPitRegistrationTableBlockEntityRenderer());
 	}
 }

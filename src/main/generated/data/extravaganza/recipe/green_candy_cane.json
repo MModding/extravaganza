@@ -1,13 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
-    "R": {
-      "item": "minecraft:green_dye"
-    },
-    "S": {
-      "item": "minecraft:sugar"
-    }
+    "R": "minecraft:green_dye",
+    "S": "minecraft:sugar"
   },
   "pattern": [
     "RS ",
@@ -15,7 +10,6 @@
     "R  "
   ],
   "result": {
-    "count": 1,
     "id": "extravaganza:green_candy_cane"
   }
 }

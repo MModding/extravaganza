@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:lime_barred_festive_rubber",
+  "result": {
+    "count": 2,
+    "id": "extravaganza:lime_barred_festive_rubber_slab"
+  }
+}

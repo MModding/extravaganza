@@ -3,130 +3,180 @@ package com.mmodding.extravaganza.init;
 import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.ExtravaganzaColor;
 import com.mmodding.extravaganza.block.*;
-import net.minecraft.block.*;
-import net.minecraft.block.enums.DoubleBlockHalf;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContextParameterSet;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.BlockSoundGroup;
+import com.mmodding.library.block.api.catalog.SimpleHorizontalFacingBlock;
+import com.mmodding.library.block.api.util.BlockFactory;
+import com.mmodding.library.block.api.wrapper.BlockHeap;
+import com.mmodding.library.block.api.wrapper.BlockRelatives;
+import com.mmodding.library.core.api.AdvancedContainer;
+import com.mmodding.library.woodset.api.WoodSet;
+import com.mmodding.library.woodset.api.WoodSetBuilder;
+import com.mmodding.library.woodset.api.WoodSetSettings;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.BlockFamily;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.grower.TreeGrower;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.material.MapColor;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public class ExtravaganzaBlocks {
 
-	public static final BlockSetType HEVEA_BRASILIENSIS_TYPE = new BlockSetType("hevea_brasiliensis");
+	public static final WoodSet HEVEA_BRASILIENSIS = WoodSetBuilder.create(Extravaganza.namespace(), "hevea_brasiliensis", WoodTypeBuilder.copyOf(WoodType.OAK), BlockSetTypeBuilder.copyOf(BlockSetType.OAK))
+		.withNormalLogFactory(HeveaBrasiliensisLog::new)
+		.withSettings(WoodSetSettings.create(true, WoodSetSettings.LogDisplay.WITH_HORIZONTAL, () -> Blocks.IRON_CHAIN, true, false))
+		.withTreeGrower(new TreeGrower("hevea_brasiliensis", Optional.empty(), Optional.of(ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS), Optional.empty()))
+		.buildAndRegister();
 
-	public static final WoodType HEVEA_BRASILIENSIS = new WoodType("hevea_brasiliensis", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE);
+	public static final Block BALL_PIT_REGISTRATION_TABLE = register("ball_pit_registration_table", BallPitRegistrationTableBlock::new, BlockBehaviour.Properties.of().noOcclusion().strength(2.0f).sound(SoundType.WOOD)).registerItem();
+	public static final Block BALL_PIT_CONTENT = register("ball_pit_content", BallPitContentBlock::new, BlockBehaviour.Properties.of().noCollision().sound(SoundType.SLIME_BLOCK)).registerItem();
+	public static final Block BALL_PIT_PROTECTION = register("ball_pit_protection", BallPitProtectionBlock::new, BlockBehaviour.Properties.of().noCollision().isValidSpawn(Blocks::never).isRedstoneConductor(Blocks::never).isSuffocating(Blocks::never).isViewBlocking(Blocks::always).replaceable());
 
-	public static final Block HEVEA_BRASILIENSIS_LOG = new HeveaBrasiliensisLog(AbstractBlock.Settings.create().ticksRandomly().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
-	public static final Block HEVEA_BRASILIENSIS_WOOD = new PillarBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block BALL_DISTRIBUTOR = register("ball_distributor", BallDistributorBlock::new, BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(2.5f, 3.0f).noOcclusion().sound(SoundType.LANTERN)).registerItem();
 
-	public static final Block STRIPPED_HEVEA_BRASILIENSIS_LOG = new PillarBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
-	public static final Block STRIPPED_HEVEA_BRASILIENSIS_WOOD = new PillarBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
+	public static final Block POPCORN_MACHINE = register("popcorn_machine", SimpleHorizontalFacingBlock::new, BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(2.5f, 3.0f).noOcclusion().sound(SoundType.LANTERN)).registerItem();
 
-	public static final Block HEVEA_BRASILIENSIS_PLANKS = new Block(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
-	public static final Block HEVEA_BRASILIENSIS_STAIRS = new StairsBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS.getDefaultState(), AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
-	public static final Block HEVEA_BRASILIENSIS_SLAB = new SlabBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
-	public static final Block HEVEA_BRASILIENSIS_FENCE = new FenceBlock(AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
-	public static final Block HEVEA_BRASILIENSIS_FENCE_GATE = new FenceGateBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
-	public static final Block HEVEA_BRASILIENSIS_DOOR = new DoorBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable()) {
-		@Override
-		protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
-			return state.get(BallDistributorBlock.HALF).equals(DoubleBlockHalf.LOWER) ? super.getDroppedStacks(state, builder) : List.of();
-		}
-	};
-	public static final Block HEVEA_BRASILIENSIS_TRAPDOOR = new TrapdoorBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
-	public static final Block HEVEA_BRASILIENSIS_PRESSURE_PLATE = new PressurePlateBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE, AbstractBlock.Settings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD).burnable());
-	public static final Block HEVEA_BRASILIENSIS_BUTTON = Blocks.createWoodenButtonBlock(ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TYPE);
+	public static final Block COTTON_CANDY_MACHINE = register("cotton_candy_machine", CottonCandyMachineBlock::new, BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(2.5f, 3.0f).noOcclusion().sound(SoundType.LANTERN)).registerItem();
 
-	public static final Block HEVEA_BRASILIENSIS_LEAVES = Blocks.createLeavesBlock(BlockSoundGroup.AZALEA_LEAVES);
+	public static final Block GARLAND = register("garland", GarlandBlock::new, BlockBehaviour.Properties.of().strength(0.5f, 2.0f).noOcclusion().sound(SoundType.WOOD)).registerItem();
 
-	public static final Block HEVEA_BRASILIENSIS_SAPLING = new SaplingBlock(new SaplingGenerator("hevea_brasiliensis", Optional.empty(), Optional.of(ExtravaganzaWorldGeneration.HEVEA_BRASILIENSIS), Optional.empty()), AbstractBlock.Settings.create().noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.AZALEA_LEAVES));
+	public static final Block PINATA = register("pinata", PinataBlock::new, BlockBehaviour.Properties.of().strength(0.5f, 2.0f).noOcclusion().sound(SoundType.WOOL)).registerItem();
 
-	public static final Block BALL_POOL_REGISTRATION_TABLE = new BallPoolRegistrationTableBlock(AbstractBlock.Settings.create().nonOpaque().strength(2.0f).sounds(BlockSoundGroup.WOOD));
-	public static final Block BALL_POOL_CONTENT = new BallPoolContentBlock(AbstractBlock.Settings.create().noCollision().sounds(BlockSoundGroup.SLIME));
-	public static final Block BALL_POOL_PROTECTION = new BallPoolProtectionBlock(AbstractBlock.Settings.create().noCollision().allowsSpawning(Blocks::never).solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::always).replaceable());
+	public static final Block CAUTION_WET_FLOOR_SIGN = register("caution_wet_floor_sign", CautionWetFloorSignBlock::new, BlockBehaviour.Properties.of().strength(1.0f, 2.0f).mapColor(MapColor.COLOR_YELLOW).noOcclusion().sound(SoundType.WOOD)).registerItem();
 
-	public static final Block BALL_DISTRIBUTOR = new BallDistributorBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN));
+	// Not meant to be climbable.
+	public static final Block HANGING_LIGHTS = register("hanging_lights", LadderBlock::new, BlockBehaviour.Properties.of().instabreak().lightLevel(ignored -> 9).noOcclusion().sound(SoundType.WOOD)).registerItem();
 
-	public static final Block POPCORN_MACHINE = new PopcornMachineBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN));
+	public static final Block TEAR_STAINED_GLASS = register("tear_stained_glass", TransparentBlock::new, BlockBehaviour.Properties.of().strength(1.5f, 3.0f).noOcclusion().sound(SoundType.GLASS)).registerItem();
+	public static final Block PLANT_STAINED_GLASS = register("plant_stained_glass", TransparentBlock::new, BlockBehaviour.Properties.of().strength(1.5f, 3.0f).noOcclusion().sound(SoundType.GLASS)).registerItem();
+	public static final Block TOMATO_STAINED_GLASS = register("tomato_stained_glass", TransparentBlock::new, BlockBehaviour.Properties.of().strength(1.5f, 3.0f).noOcclusion().sound(SoundType.GLASS)).registerItem();
+	public static final Block NYMPH_STAINED_GLASS = register("nymph_stained_glass", TransparentBlock::new, BlockBehaviour.Properties.of().strength(1.5f, 3.0f).noOcclusion().sound(SoundType.GLASS)).registerItem();
 
-	public static final Block GARLAND = new GarlandBlock(AbstractBlock.Settings.create().strength(0.5f, 2.0f).nonOpaque().sounds(BlockSoundGroup.WOOD));
+	public static final ExtravaganzaColoredVariants FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants ALIGNED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("aligned_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants BARRED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("barred_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants BENT_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("bent_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants CURVED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("curved_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants DOTTED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("dotted_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants FESTIVE_RUBBER_GLASS = ExtravaganzaBlocks.registerColoredBlockSet("festive_rubber_glass", BlockBehaviour.Properties.of().noOcclusion().sound(SoundType.PACKED_MUD), TransparentBlock::new);
+	public static final ExtravaganzaColoredVariants FESTIVE_RUBBER_GRATE = ExtravaganzaBlocks.registerColoredBlockSet("festive_rubber_grate", BlockBehaviour.Properties.of().noOcclusion().sound(SoundType.PACKED_MUD), TransparentBlock::new);
+	public static final ExtravaganzaColoredVariants PADDED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("padded_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants PERFORATED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("perforated_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants PLANKED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("planked_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.WOOD));
+	public static final ExtravaganzaColoredVariants POURED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("poured_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants SCRATCHED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("scratched_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants SCRATCHED_FESTIVE_RUBBER_ROTATED_90 = ExtravaganzaBlocks.registerColoredBlockSet("scratched_festive_rubber_rotated_90", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants SCRATCHED_FESTIVE_RUBBER_ROTATED_180 = ExtravaganzaBlocks.registerColoredBlockSet("scratched_festive_rubber_rotated_180", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants SCRATCHED_FESTIVE_RUBBER_ROTATED_270 = ExtravaganzaBlocks.registerColoredBlockSet("scratched_festive_rubber_rotated_270", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants SCREWED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("screwed_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants SHARPED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("sharped_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants SHARPED_FESTIVE_RUBBER_ROTATED_90 = ExtravaganzaBlocks.registerColoredBlockSet("sharped_festive_rubber_rotated_90", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants SHARPED_FESTIVE_RUBBER_ROTATED_180 = ExtravaganzaBlocks.registerColoredBlockSet("sharped_festive_rubber_rotated_180", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants SHARPED_FESTIVE_RUBBER_ROTATED_270 = ExtravaganzaBlocks.registerColoredBlockSet("sharped_festive_rubber_rotated_270", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants SLIPPED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("slipped_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants SPLIT_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("split_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants STRIPED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("striped_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants TILED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("tiled_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD));
+	public static final ExtravaganzaColoredVariants TRAVERSABLE_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("traversable_festive_rubber", BlockBehaviour.Properties.of().isSuffocating(Blocks::never).noOcclusion().sound(SoundType.PACKED_MUD), TraversableRubberBlock::new, TraversableRubberStairsBlock::new, TraversableRubberSlabBlock::new, TraversableRubberWallBlock::new);
+	public static final ExtravaganzaColoredVariants WINDOWED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("windowed_festive_rubber", BlockBehaviour.Properties.of().noOcclusion().sound(SoundType.PACKED_MUD), TransparentBlock::new);
+	public static final ExtravaganzaColoredVariants WOODED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerColoredBlockSet("wooded_festive_rubber", BlockBehaviour.Properties.of().sound(SoundType.WOOD));
 
-	public static final Block PINATA = new PinataBlock(AbstractBlock.Settings.create().strength(0.5f, 2.0f).nonOpaque().sounds(BlockSoundGroup.WOOL));
+	public static final BlockHeap INK_PUDDLE = BlockHeap.register(FlattenedBlock::new, sColor -> sColor + "_ink_puddle", sColor -> BlockBehaviour.Properties.of().instabreak().friction(0.98f).noOcclusion().isRedstoneConductor(Blocks::never).sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS).registerBlockItems();
+	public static final BlockHeap CONFETTI = BlockHeap.register(FlattenedBlock::new, sColor -> sColor + "_confetti", sColor -> BlockBehaviour.Properties.of().instabreak().noOcclusion().isRedstoneConductor(Blocks::never).sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS).registerBlockItems();
+	public static final BlockHeap PAPER_LANTERN = BlockHeap.register(PaperLanternBlock::new, sColor -> sColor + "_paper_lantern", sColor -> BlockBehaviour.Properties.of().strength(1.5f, 3.0f).lightLevel(ignored -> 13).noOcclusion().sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS).registerBlockItems();
+	public static final BlockHeap TRASH_CAN = BlockHeap.register(TrashCanBlock::new, sColor -> sColor + "_trash_can", sColor -> BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(2.5f, 3.0f).noOcclusion().sound(SoundType.LANTERN).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS).registerBlockItems();
+	public static final BlockHeap FESTIVE_RUBBER_LADDER = BlockHeap.register(RubberLadderBlock::new, sColor -> sColor + "_festive_rubber_ladder", sColor -> BlockBehaviour.Properties.of().strength(1.5f, 3.0f).noOcclusion().sound(SoundType.PACKED_MUD).mapColor(ExtravaganzaColor.fromString(sColor).getMapColor()), Extravaganza.namespace(), ExtravaganzaColor.STRINGS).registerBlockItems();
 
-	public static final Block TEAR_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
-	public static final Block PLANT_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
-	public static final Block TOMATO_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
-	public static final Block NYMPH_STAINED_GLASS = new TransparentBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.GLASS));
+	public static final Supplier<BlockBehaviour.Properties> COLORFUL_SETTINGS = () -> BlockBehaviour.Properties.of().strength(1.5f, 3.0f).mapColor(MapColor.ICE).sound(SoundType.PACKED_MUD);
 
-	public static void register() {
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_log", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LOG);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_wood", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_WOOD);
-		ExtravaganzaBlocks.registerBlockWithItem("stripped_hevea_brasiliensis_log", ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_LOG);
-		ExtravaganzaBlocks.registerBlockWithItem("stripped_hevea_brasiliensis_wood", ExtravaganzaBlocks.STRIPPED_HEVEA_BRASILIENSIS_WOOD);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_planks", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PLANKS);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_stairs", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_STAIRS);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_slab", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SLAB);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_fence", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_fence_gate", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_FENCE_GATE);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_door", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_DOOR);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_trapdoor", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_TRAPDOOR);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_pressure_plate", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_PRESSURE_PLATE);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_button", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_BUTTON);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_leaves", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_LEAVES);
-		ExtravaganzaBlocks.registerBlockWithItem("hevea_brasiliensis_sapling", ExtravaganzaBlocks.HEVEA_BRASILIENSIS_SAPLING);
-		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_registration_table", ExtravaganzaBlocks.BALL_POOL_REGISTRATION_TABLE);
-		ExtravaganzaBlocks.registerBlockWithItem("ball_pool_content", ExtravaganzaBlocks.BALL_POOL_CONTENT);
-		Registry.register(Registries.BLOCK, "ball_pool_protection", ExtravaganzaBlocks.BALL_POOL_PROTECTION);
-		ExtravaganzaBlocks.registerBlockWithItem("ball_distributor", ExtravaganzaBlocks.BALL_DISTRIBUTOR);
-		ExtravaganzaBlocks.registerBlockWithItem("popcorn_machine", ExtravaganzaBlocks.POPCORN_MACHINE);
-		ExtravaganzaBlocks.registerBlockWithItem("garland", ExtravaganzaBlocks.GARLAND);
-		ExtravaganzaBlocks.registerBlockWithItem("pinata", ExtravaganzaBlocks.PINATA);
-		ExtravaganzaBlocks.registerBlockWithItem("tear_stained_glass", ExtravaganzaBlocks.TEAR_STAINED_GLASS);
-		ExtravaganzaBlocks.registerBlockWithItem("plant_stained_glass", ExtravaganzaBlocks.PLANT_STAINED_GLASS);
-		ExtravaganzaBlocks.registerBlockWithItem("tomato_stained_glass", ExtravaganzaBlocks.TOMATO_STAINED_GLASS);
-		ExtravaganzaBlocks.registerBlockWithItem("nymph_stained_glass", ExtravaganzaBlocks.NYMPH_STAINED_GLASS);
-		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_trash_can", new TrashCanBlock(AbstractBlock.Settings.create().requiresTool().strength(2.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.LANTERN))));
-		ExtravaganzaColor.VALUES.forEach(color -> ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_festive_rubber_ladder", new RubberLadderBlock(AbstractBlock.Settings.create().strength(1.5f, 3.0f).nonOpaque().sounds(BlockSoundGroup.PACKED_MUD))));
-		ExtravaganzaBlocks.registerColoredBlockSet("festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("striped_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("poured_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("sharped_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("scratched_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("dotted_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("screwed_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("split_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("wooded_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOD));
-		ExtravaganzaBlocks.registerColoredBlockSet("festive_rubber_grate", AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("barred_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("perforated_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("slipped_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("padded_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("curved_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("bent_festive_rubber", AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("windowed_festive_rubber", AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.PACKED_MUD));
-		ExtravaganzaBlocks.registerColoredBlockSet("tiled_festive_rubber", AbstractBlock.Settings.create().nonOpaque().sounds(BlockSoundGroup.PACKED_MUD));
+	public static final BlockRelatives COLORFUL_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_FESTIVE_RUBBER_BRICKS = ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber_bricks", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_FESTIVE_RUBBER_TILES = ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber_tiles", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_FESTIVE_RUBBER_PAVERS = ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber_pavers", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_BENT_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_bent_festive_rubber", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_CURVED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_curved_festive_rubber", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_FESTIVE_RUBBER_GLASS = ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber_glass", COLORFUL_SETTINGS.get().noOcclusion(), TransparentBlock::new);
+	public static final BlockRelatives COLORFUL_FESTIVE_RUBBER_GRATE = ExtravaganzaBlocks.registerBlockSet("colorful_festive_rubber_grate", COLORFUL_SETTINGS.get().noOcclusion(), TransparentBlock::new);
+	public static final BlockRelatives COLORFUL_PADDED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_padded_festive_rubber", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_PERFORATED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_perforated_festive_rubber", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_SCRATCHED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_scratched_festive_rubber", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_SCRATCHED_FESTIVE_RUBBER_ROTATED_90 = ExtravaganzaBlocks.registerBlockSet("colorful_scratched_festive_rubber_rotated_90", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_SCRATCHED_FESTIVE_RUBBER_ROTATED_180 = ExtravaganzaBlocks.registerBlockSet("colorful_scratched_festive_rubber_rotated_180", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_SCRATCHED_FESTIVE_RUBBER_ROTATED_270 = ExtravaganzaBlocks.registerBlockSet("colorful_scratched_festive_rubber_rotated_270", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_SCREWED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_screwed_festive_rubber", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_SLIPPED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_slipped_festive_rubber", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_STRIPED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_striped_festive_rubber", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_TILED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_tiled_festive_rubber", COLORFUL_SETTINGS.get());
+	public static final BlockRelatives COLORFUL_WINDOWED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_windowed_festive_rubber", COLORFUL_SETTINGS.get().noOcclusion(), TransparentBlock::new);
+	public static final BlockRelatives COLORFUL_CHISELED_FESTIVE_RUBBER = ExtravaganzaBlocks.registerBlockSet("colorful_chiseled_festive_rubber", COLORFUL_SETTINGS.get());
+
+	public static final Block COLORFUL_INK_PUDDLE = register("colorful_ink_puddle", FlattenedBlock::new, COLORFUL_SETTINGS.get().instabreak().friction(0.98f).noOcclusion().isRedstoneConductor(Blocks::never)).registerItem();
+	public static final Block COLORFUL_CONFETTI = register("colorful_confetti", FlattenedBlock::new, COLORFUL_SETTINGS.get().instabreak().noOcclusion().isRedstoneConductor(Blocks::never)).registerItem();
+	public static final Block COLORFUL_PAPER_LANTERN = register("colorful_paper_lantern", PaperLanternBlock::new, COLORFUL_SETTINGS.get().lightLevel(_ -> 13).noOcclusion()).registerItem();
+	public static final Block COLORFUL_FESTIVE_RUBBER_LADDER = register("colorful_festive_rubber_ladder", RubberLadderBlock::new, COLORFUL_SETTINGS.get().noOcclusion()).registerItem();
+
+	public static void register() {}
+
+	private static ExtravaganzaColoredVariants registerColoredBlockSet(String path, BlockBehaviour.Properties settings) {
+		return ExtravaganzaBlocks.registerColoredBlockSet(path, settings, Block::new);
 	}
 
-	private static void registerBlockWithItem(String path, Block block) {
-		Registry.register(Registries.BLOCK, Extravaganza.createId(path), block);
-		Registry.register(Registries.ITEM, Extravaganza.createId(path), new BlockItem(block, new Item.Settings()));
+	private static <T extends Block> ExtravaganzaColoredVariants registerColoredBlockSet(String path, BlockBehaviour.Properties settings, BlockFactory<T> blockFactory) {
+		return ExtravaganzaBlocks.registerColoredBlockSet(path, settings, blockFactory, StairBlock::new, SlabBlock::new, WallBlock::new);
 	}
 
-	private static void registerColoredBlockSet(String path, AbstractBlock.Settings settings) {
-		ExtravaganzaColor.VALUES.forEach(
-			color -> {
-				Block block = new Block(settings.strength(1.5f, 3.0f).mapColor(color.getMapColor()));
-				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path, block);
-				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path + "_stairs", new StairsBlock(block.getDefaultState(), settings));
-				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path + "_slab", new SlabBlock(settings));
-				ExtravaganzaBlocks.registerBlockWithItem(color.asString() + "_" + path + "_wall", new WallBlock(settings));
-			}
+	private static <T extends Block, S extends StairBlock, L extends SlabBlock, W extends WallBlock> ExtravaganzaColoredVariants registerColoredBlockSet(String path, BlockBehaviour.Properties settings, BlockFactory<T> blockFactory, BiFunction<BlockState, BlockBehaviour.Properties, S> stairsBlockFactory, BlockFactory<L> slabBlockFactory, BlockFactory<W> wallBlockFactory) {
+		Map<ExtravaganzaColor, BlockRelatives> variants = new Object2ObjectLinkedOpenHashMap<>();
+		ExtravaganzaColor.VALUES.forEach(color -> variants.put(color, ExtravaganzaBlocks.registerBlockSet(
+			color.getSerializedName() + "_" + path,
+			settings.strength(1.5f, 3.0f).mapColor(color.getMapColor()),
+			blockFactory,
+			stairsBlockFactory,
+			slabBlockFactory,
+			wallBlockFactory
+		)));
+		return new ExtravaganzaColoredVariants(variants);
+	}
+
+	private static BlockRelatives registerBlockSet(String path, BlockBehaviour.Properties settings) {
+		return ExtravaganzaBlocks.registerBlockSet(path, settings, Block::new);
+	}
+
+	private static <T extends Block> BlockRelatives registerBlockSet(String path, BlockBehaviour.Properties settings, BlockFactory<T> blockFactory) {
+		return ExtravaganzaBlocks.registerBlockSet(path, settings, blockFactory, StairBlock::new, SlabBlock::new, WallBlock::new);
+	}
+
+	private static <T extends Block, S extends StairBlock, L extends SlabBlock, W extends WallBlock> BlockRelatives registerBlockSet(String path, BlockBehaviour.Properties settings, BlockFactory<T> blockFactory, BiFunction<BlockState, BlockBehaviour.Properties, S> stairsBlockFactory, BlockFactory<L> slabBlockFactory, BlockFactory<W> wallBlockFactory) {
+		String tweaked = Extravaganza.nameTweak(path);
+		String suffix = !path.equals(tweaked) ? "s" : "";
+		BlockRelatives relatives = BlockRelatives.register(
+			Extravaganza.createId(tweaked),
+			BlockSetType.STONE,
+			settings,
+			suffix,
+			blockFactory
 		);
+		relatives.register(BlockFamily.Variant.STAIRS, properties -> stairsBlockFactory.apply(relatives.getMain().defaultBlockState(), properties));
+		relatives.register(BlockFamily.Variant.SLAB, slabBlockFactory);
+		relatives.register(BlockFamily.Variant.WALL, wallBlockFactory);
+		return relatives;
 	}
+
+	private static <T extends Block> Block register(String path, BlockFactory<T> factory, BlockBehaviour.Properties properties) {
+		return Blocks.register(ResourceKey.create(Registries.BLOCK, Extravaganza.createId(path)), factory::make, properties);
+	}
+
+	public static void register(AdvancedContainer mod) {}
+
+	public record ExtravaganzaColoredVariants(Map<ExtravaganzaColor, BlockRelatives> variants) {}
 }

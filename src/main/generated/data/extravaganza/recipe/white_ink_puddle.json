@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "minecraft:ink_sac",
+    "minecraft:white_dye"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:white_ink_puddle"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": "minecraft:light_gray_dye",
+    "P": "minecraft:paper"
+  },
+  "pattern": [
+    "PCP",
+    "CPC",
+    "PCP"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:light_gray_paper_lantern"
+  }
+}

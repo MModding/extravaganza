@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:nymph_festive_rubber_grate",
+  "result": {
+    "id": "extravaganza:nymph_festive_rubber_grate_stairs"
+  }
+}

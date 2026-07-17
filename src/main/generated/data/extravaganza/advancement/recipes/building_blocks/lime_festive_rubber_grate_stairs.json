@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_lime_festive_rubber_grate_stairs": {
+    "has_lime_festive_rubber_grate": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:lime_festive_rubber_grate_stairs"
+            "items": "extravaganza:lime_festive_rubber_grate"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_lime_festive_rubber_grate_stairs"
+      "has_lime_festive_rubber_grate"
     ]
   ],
   "rewards": {

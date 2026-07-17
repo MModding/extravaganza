@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:magenta_festive_rubber",
+  "result": {
+    "id": "extravaganza:magenta_scratched_festive_rubber_rotated_270"
+  }
+}

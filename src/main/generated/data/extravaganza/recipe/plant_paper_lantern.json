@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": "extravaganza:plant_dye",
+    "P": "minecraft:paper"
+  },
+  "pattern": [
+    "PCP",
+    "CPC",
+    "PCP"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:plant_paper_lantern"
+  }
+}

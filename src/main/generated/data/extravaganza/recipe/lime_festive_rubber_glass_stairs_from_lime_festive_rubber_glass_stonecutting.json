@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:lime_festive_rubber_glass",
+  "result": {
+    "id": "extravaganza:lime_festive_rubber_glass_stairs"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:tomato_sharped_festive_rubber",
+  "result": {
+    "id": "extravaganza:tomato_sharped_festive_rubber_stairs"
+  }
+}

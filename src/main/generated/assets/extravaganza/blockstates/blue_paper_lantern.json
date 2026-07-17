@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "extravaganza:block/blue_paper_lantern"
+    },
+    "hanging=true": {
+      "model": "extravaganza:block/blue_paper_lantern_hanging"
+    }
+  }
+}

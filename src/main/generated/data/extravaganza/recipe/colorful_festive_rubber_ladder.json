@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": "extravaganza:colorful_festive_rubber",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "R R",
+    "SRS",
+    "R R"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:colorful_festive_rubber_ladder"
+  }
+}

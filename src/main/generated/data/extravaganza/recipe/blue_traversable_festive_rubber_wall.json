@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": "extravaganza:blue_traversable_festive_rubber"
+  },
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extravaganza:blue_traversable_festive_rubber_wall"
+  }
+}

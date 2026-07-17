@@ -2,12 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "R": {
-      "item": "extravaganza:yellow_padded_festive_rubber"
-    }
+    "#": "extravaganza:yellow_padded_festive_rubber"
   },
   "pattern": [
-    "RRR"
+    "###"
   ],
   "result": {
     "count": 6,

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "extravaganza:block/magenta_festive_rubber_glass",
+    "side": "extravaganza:block/magenta_festive_rubber_glass",
+    "top": "extravaganza:block/magenta_festive_rubber_glass"
+  }
+}

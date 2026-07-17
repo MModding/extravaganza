@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "extravaganza:red_scratched_festive_rubber_rotated_90"
+  },
+  "pattern": [
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extravaganza:red_scratched_festive_rubber_rotated_90_slab"
+  }
+}

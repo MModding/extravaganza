@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": "minecraft:lime_dye",
+    "P": "minecraft:paper"
+  },
+  "pattern": [
+    "PCP",
+    "CPC",
+    "PCP"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:lime_paper_lantern"
+  }
+}

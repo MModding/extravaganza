@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_wall_hanging_sign",
+  "textures": {
+    "all": "extravaganza:block/hevea_brasiliensis_hanging_sign",
+    "particle": "extravaganza:block/stripped_hevea_brasiliensis_log"
+  }
+}

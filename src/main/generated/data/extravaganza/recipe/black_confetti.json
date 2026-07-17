@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "minecraft:paper",
+    "minecraft:black_dye"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:black_confetti"
+  }
+}

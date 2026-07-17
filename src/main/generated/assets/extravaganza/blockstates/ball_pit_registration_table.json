@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "extravaganza:block/ball_pit_registration_table",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "extravaganza:block/ball_pit_registration_table"
+    },
+    "facing=south": {
+      "model": "extravaganza:block/ball_pit_registration_table",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "extravaganza:block/ball_pit_registration_table",
+      "y": 270
+    }
+  }
+}

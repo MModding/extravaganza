@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_nymph_padded_festive_rubber_stairs": {
+    "has_nymph_padded_festive_rubber": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:nymph_padded_festive_rubber_stairs"
+            "items": "extravaganza:nymph_padded_festive_rubber"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_nymph_padded_festive_rubber_stairs"
+      "has_nymph_padded_festive_rubber"
     ]
   ],
   "rewards": {

@@ -1,0 +1,9 @@
+// 26.2	-999999999-01-01T00:00:00	Extravaganza!/Automated ResourceKey[minecraft:root / minecraft:block] Tags for minecraft:block
+cc72f8b8ff7be11adcf494719b83a4006e6eeb3a data/c/tags/block/glass_blocks/tinted.json
+97b73a2bd9868a34944e846b7ac4b98f29d68589 data/extravaganza/tags/block/confetti.json
+f3d40243906df8a86411541141c56f143c0c66b8 data/extravaganza/tags/block/festive_rubber_ladders.json
+ffd278a8fa1aa8365303917d03fe8de16ca9fbed data/extravaganza/tags/block/ink_puddles.json
+17a15460bcdbbdcd9b0f707ee6ea8743cf63a5d5 data/extravaganza/tags/block/paper_lanterns.json
+2d9295cb924359497ef7b21c3b4303469f4954ac data/extravaganza/tags/block/trash_cans.json
+f3d40243906df8a86411541141c56f143c0c66b8 data/minecraft/tags/block/climbable.json
+6681b288af23c3e71ed9830b2a0921b086ffc616 data/minecraft/tags/block/mineable/pickaxe.json

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": "extravaganza:yellow_sharped_festive_rubber_rotated_270"
+  },
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "extravaganza:yellow_sharped_festive_rubber_rotated_270_wall"
+  }
+}

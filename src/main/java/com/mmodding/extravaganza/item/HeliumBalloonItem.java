@@ -1,64 +1,65 @@
 package com.mmodding.extravaganza.item;
 
 import com.mmodding.extravaganza.entity.HeliumBalloonEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import com.mmodding.extravaganza.init.ExtravaganzaEntities;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
 public class HeliumBalloonItem extends Item {
 
 	private final String variant;
 
-	public HeliumBalloonItem(String variant, Settings settings) {
-		super(settings);
+	public HeliumBalloonItem(String variant, Properties properties) {
+		super(properties);
 		this.variant = variant;
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		ItemStack stack = user.getStackInHand(hand);
-		HitResult result = HeliumBalloonItem.raycast(world, user, RaycastContext.FluidHandling.ANY);
-		if (result.getType() == HitResult.Type.MISS) {
-			return TypedActionResult.pass(stack);
-		}
-		else {
-			if (result.getType() == HitResult.Type.BLOCK) {
-				HeliumBalloonEntity heliumBalloonEntity = this.createEntity(world, result, stack, user);
-				if (!world.isSpaceEmpty(heliumBalloonEntity, heliumBalloonEntity.getBoundingBox())) {
-					return TypedActionResult.fail(stack);
-				}
-				else {
-					if (!world.isClient) {
-						world.spawnEntity(heliumBalloonEntity);
-						world.emitGameEvent(user, GameEvent.ENTITY_PLACE, result.getPos());
-						stack.decrementUnlessCreative(1, user);
-					}
-
-					user.incrementStat(Stats.USED.getOrCreateStat(this));
-					return TypedActionResult.success(stack, world.isClient());
-				}
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
+		ItemStack stack = player.getItemInHand(hand);
+		HitResult result = HeliumBalloonItem.getPlayerPOVHitResult(level, player, ClipContext.Fluid.ANY);
+		if (result.getType() == HitResult.Type.BLOCK) {
+			HeliumBalloonEntity heliumBalloonEntity = this.createEntity(level, result.getLocation(), stack, player);
+			if (heliumBalloonEntity == null || !level.noCollision(heliumBalloonEntity, heliumBalloonEntity.getBoundingBox())) {
+				return InteractionResult.FAIL;
 			}
 			else {
-				return TypedActionResult.pass(stack);
+				if (!level.isClientSide()) {
+					level.addFreshEntity(heliumBalloonEntity);
+					level.gameEvent(player, GameEvent.ENTITY_PLACE, result.getLocation());
+					stack.consume(1, player);
+				}
+
+				player.awardStat(Stats.ITEM_USED.get(this));
+				return InteractionResult.SUCCESS;
 			}
+		}
+		else {
+			return InteractionResult.PASS;
 		}
 	}
 
-	private HeliumBalloonEntity createEntity(World world, HitResult hitResult, ItemStack stack, PlayerEntity player) {
-		Vec3d vec3d = hitResult.getPos();
-		HeliumBalloonEntity heliumBalloonEntity = new HeliumBalloonEntity(world, vec3d.x, vec3d.y, vec3d.z, this.variant);
-		if (world instanceof ServerWorld serverWorld) {
-			EntityType.copier(serverWorld, stack, player).accept(heliumBalloonEntity);
+	public HeliumBalloonEntity createEntity(Level level, Vec3 location, ItemStack stack, @Nullable Player player) {
+		HeliumBalloonEntity heliumBalloonEntity = ExtravaganzaEntities.HELIUM_BALLOON.create(level, EntitySpawnReason.SPAWN_ITEM_USE);
+		if (heliumBalloonEntity != null) {
+			if (level instanceof ServerLevel serverLevel) {
+				heliumBalloonEntity.setPos(location.x, location.y, location.z);
+				heliumBalloonEntity.getEntityData().set(HeliumBalloonEntity.VARIANT, this.variant);
+				EntityType.createDefaultStackConfig(serverLevel, stack, player).apply(heliumBalloonEntity);
+			}
 		}
 		return heliumBalloonEntity;
 	}

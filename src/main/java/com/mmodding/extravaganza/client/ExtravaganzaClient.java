@@ -1,38 +1,41 @@
 package com.mmodding.extravaganza.client;
 
 import com.mmodding.extravaganza.block.TrashCanBlock;
-import com.mmodding.extravaganza.client.init.ExtravaganzaModelLayers;
-import com.mmodding.extravaganza.client.init.ExtravaganzaParticles;
-import com.mmodding.extravaganza.client.init.ExtravaganzaRenderLayers;
-import com.mmodding.extravaganza.client.init.ExtravaganzaRenderers;
-import net.fabricmc.api.ClientModInitializer;
+import com.mmodding.extravaganza.client.init.*;
+import com.mmodding.library.core.api.AdvancedContainer;
+import com.mmodding.library.core.api.client.ExtendedClientModInitializer;
+import com.mmodding.library.core.api.management.ElementsManager;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
-public class ExtravaganzaClient implements ClientModInitializer {
+public class ExtravaganzaClient implements ExtendedClientModInitializer {
 
 	@Override
-	public void onInitializeClient() {
-		ExtravaganzaModelLayers.register();
-		ExtravaganzaParticles.register();
-		ExtravaganzaRenderers.register();
-		ExtravaganzaRenderLayers.register();
+	public void setupManager(ElementsManager manager) {
+		manager.content(ExtravaganzaModelLayers::register);
+		manager.content(ExtravaganzaParticles::register);
+		manager.content(ExtravaganzaRenderers::register);
+		manager.content(ExtravaganzaColorProviders::register);
+	}
+
+	@Override
+	public void onInitializeClient(AdvancedContainer mod) {
 		ItemTooltipCallback.EVENT.register(ExtravaganzaClient::itemTooltipCallback);
 	}
 
-	private static void itemTooltipCallback(ItemStack stack, Item.TooltipContext tooltipContext, TooltipType tooltipType, List<Text> lines) {
-		if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TrashCanBlock) {
-			lines.add(Text.translatable("message.extravaganza.trash_can.right_click").formatted(Formatting.GRAY));
-			lines.add(Text.translatable("message.extravaganza.trash_can.quick_throw").formatted(Formatting.GRAY));
-			lines.add(Text.translatable("message.extravaganza.trash_can.opening_trash").formatted(Formatting.GRAY));
-			lines.add(Text.translatable("message.extravaganza.trash_can.throw_whole_stack").formatted(Formatting.GRAY));
+	private static void itemTooltipCallback(ItemStack itemStack, Item.TooltipContext tooltipContext, TooltipFlag tooltipFlag, List<Component> components) {
+		if (itemStack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof TrashCanBlock) {
+			components.add(Component.translatable("message.extravaganza.trash_can.right_click").withStyle(ChatFormatting.GRAY));
+			components.add(Component.translatable("message.extravaganza.trash_can.quick_throw").withStyle(ChatFormatting.GRAY));
+			components.add(Component.translatable("message.extravaganza.trash_can.opening_trash").withStyle(ChatFormatting.GRAY));
+			components.add(Component.translatable("message.extravaganza.trash_can.throw_whole_stack").withStyle(ChatFormatting.GRAY));
 		}
 	}
 }

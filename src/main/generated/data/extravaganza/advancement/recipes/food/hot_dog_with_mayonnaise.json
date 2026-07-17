@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_hot_dog_with_mayonnaise": {
+    "has_egg": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:hot_dog_with_mayonnaise"
+            "items": "minecraft:egg"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_hot_dog": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:hot_dog"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_hot_dog_with_mayonnaise"
+      "has_hot_dog",
+      "has_egg"
     ]
   ],
   "rewards": {

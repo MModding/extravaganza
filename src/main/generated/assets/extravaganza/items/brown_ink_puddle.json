@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "extravaganza:item/ink_puddle",
+    "tints": [
+      {
+        "type": "extravaganza:color",
+        "default": "brown"
+      }
+    ]
+  }
+}

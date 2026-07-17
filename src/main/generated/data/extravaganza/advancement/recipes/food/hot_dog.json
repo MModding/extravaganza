@@ -1,11 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_hot_dog": {
+    "has_bread": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:hot_dog"
+            "items": "minecraft:bread"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_cooked_beef": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:cooked_beef"
           }
         ]
       },
@@ -21,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_hot_dog"
+      "has_cooked_beef",
+      "has_bread"
     ]
   ],
   "rewards": {

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "extravaganza:item/brown_paper_lantern"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "extravaganza:block/green_traversable_festive_rubber"
+  }
+}

@@ -1,58 +1,69 @@
 package com.mmodding.extravaganza;
 
 import com.mmodding.extravaganza.init.*;
-import net.fabricmc.api.ModInitializer;
+import com.mmodding.library.config.api.Config;
+import com.mmodding.library.config.api.content.ConfigSpec;
+import com.mmodding.library.core.api.AdvancedContainer;
+import com.mmodding.library.core.api.ExtendedModInitializer;
+import com.mmodding.library.core.api.management.ElementsManager;
 
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTables;
-import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.commands.Commands;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.phys.Vec3;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.function.Consumer;
-import java.util.stream.Stream;
-
-public class Extravaganza implements ModInitializer {
+public class Extravaganza implements ExtendedModInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("extravaganza");
 
+	public static final Config CONFIG = Config.builder(
+		"config.extravaganza",
+		"mmmodding/extravaganza",
+		ConfigSpec.create()
+			.bool("censored_death_messages", true)
+	).build(createId("config"));
+
 	@Override
-	public void onInitialize() {
+	public void setupManager(ElementsManager manager) {
+		manager.content(ExtravaganzaItems::register);
+		manager.content(ExtravaganzaBlocks::register);
+		manager.content(ExtravaganzaEntities::register);
+		manager.content(ExtravaganzaBlockEntities::register);
+		manager.content(ExtravaganzaGameRules::register);
+		manager.content(ExtravaganzaParticleTypes::register);
+		manager.content(ExtravaganzaDataAttachments::register);
+		manager.content(ExtravaganzaWorldGeneration::register);
+	}
+
+	@Override
+	public void onInitialize(AdvancedContainer mod) {
 		Extravaganza.getLogger().info("Time to add some extravaganza to your game!");
 
-		ExtravaganzaItems.register();
-		ExtravaganzaBlocks.register();
-		ExtravaganzaEntities.register();
-		ExtravaganzaBlockEntities.register();
-		ExtravaganzaGameRules.register();
-		ExtravaganzaParticleTypes.register();
-		ExtravaganzaWorldGeneration.register();
-		ExtravaganzaDataAttachments.register();
-		LootTableEvents.MODIFY.register((key, builder, source) -> {
-			if (LootTables.ABANDONED_MINESHAFT_CHEST.equals(key) && source.isBuiltin()) {
-				LootPool.Builder pool = LootPool.builder()
-					.with(ItemEntry.builder(ExtravaganzaItems.COMMON_FESTIVE_COIN).weight(20))
-					.with(ItemEntry.builder(ExtravaganzaItems.UNCOMMON_FESTIVE_COIN).weight(10))
-					.with(ItemEntry.builder(ExtravaganzaItems.GOLDEN_FESTIVE_COIN).weight(5));
-				builder.pool(pool);
+		LootTableEvents.MODIFY.register((key, builder, source, provider) -> {
+			if (BuiltInLootTables.ABANDONED_MINESHAFT.equals(key) && source.isBuiltin()) {
+				LootPool.Builder pool = LootPool.lootPool()
+					.add(LootItem.lootTableItem(ExtravaganzaItems.COMMON_FESTIVE_COIN).setWeight(20))
+					.add(LootItem.lootTableItem(ExtravaganzaItems.UNCOMMON_FESTIVE_COIN).setWeight(10))
+					.add(LootItem.lootTableItem(ExtravaganzaItems.GOLDEN_FESTIVE_COIN).setWeight(5));
+				builder.pool(pool.build());
 			}
 		});
 		CommandRegistrationCallback.EVENT.register(
-			(dispatcher, registries, environment) -> dispatcher.register(CommandManager.literal("before-entering-poll").executes(context -> {
-				if (context.getSource().getPlayer() != null && context.getSource().getPlayer().hasAttached(ExtravaganzaDataAttachments.BEFORE_ENTERING_POOL)) {
-					Vec3d position = context.getSource().getPlayer().getAttached(ExtravaganzaDataAttachments.BEFORE_ENTERING_POOL);
+			(dispatcher, registries, environment) -> dispatcher.register(Commands.literal("leave-ball-pit").executes(context -> {
+				if (context.getSource().getPlayer() != null && context.getSource().getPlayer().hasAttached(ExtravaganzaDataAttachments.BEFORE_BALL_PIT)) {
+					Vec3 position = context.getSource().getPlayer().getAttached(ExtravaganzaDataAttachments.BEFORE_BALL_PIT);
 					assert position != null;
-					context.getSource().getPlayer().teleport(position.getX(), position.getY(), position.getZ(), false);
-					context.getSource().getPlayer().removeAttached(ExtravaganzaDataAttachments.BEFORE_ENTERING_POOL);
+					context.getSource().getPlayer().teleportTo(position.x(), position.y(), position.z());
+					context.getSource().getPlayer().removeAttached(ExtravaganzaDataAttachments.BEFORE_BALL_PIT);
 					return 1;
 				}
 				else {
@@ -60,38 +71,34 @@ public class Extravaganza implements ModInitializer {
 				}
 			}))
 		);
-		if (FabricLoader.getInstance().isModLoaded("ouch")) ExtravaganzaDamageTypes.ouch();
+
+		if (FabricLoader.getInstance().isModLoaded("ouch")) {
+			ExtravaganzaDamageTypes.ouch();
+		}
 	}
 
 	public static Logger getLogger() {
 		return Extravaganza.LOGGER;
 	}
 
-	public static String id() {
+	public static String namespace() {
 		return "extravaganza";
 	}
 
 	public static Identifier createId(String path) {
-		return Identifier.of(Extravaganza.id(), path);
+		return Identifier.fromNamespaceAndPath(namespace(), path);
 	}
 
-	public static <T> Stream<RegistryKey<T>> extractKeyFromRegistry(Registry<T> registry) {
-		return registry.streamEntries()
-			.filter(ref -> ref.registryKey().getValue().getNamespace().equals(Extravaganza.id()))
-			.map(RegistryEntry.Reference::registryKey);
+	public static <T> ResourceKey<T> createKey(ResourceKey<? extends Registry<T>> registry, String path) {
+		return ResourceKey.create(registry, createId(path));
 	}
 
-	public static <T> void executeKeyForRegistry(Registry<T> registry, Consumer<RegistryKey<T>> action) {
-		Extravaganza.extractKeyFromRegistry(registry).forEach(action);
-	}
-
-	public static <T> Stream<T> extractFromRegistry(Registry<T> registry) {
-		return registry.streamEntries()
-			.filter(ref -> ref.registryKey().getValue().getNamespace().equals(Extravaganza.id()))
-			.map(ref -> registry.get(ref.registryKey()));
-	}
-
-	public static <T> void executeForRegistry(Registry<T> registry, Consumer<T> action) {
-		Extravaganza.extractFromRegistry(registry).forEach(action);
+	public static String nameTweak(String name) {
+		if (name.endsWith("s") && !name.endsWith("ss")) {
+			return name.substring(0, name.length() - 1);
+		}
+		else {
+			return name;
+		}
 	}
 }

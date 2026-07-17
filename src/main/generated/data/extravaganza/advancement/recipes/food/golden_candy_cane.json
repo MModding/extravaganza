@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_golden_candy_cane": {
+    "has_sugar": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:golden_candy_cane"
+            "items": "minecraft:sugar"
           }
         ]
       },
@@ -16,12 +16,23 @@
         "recipe": "extravaganza:golden_candy_cane"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_yellow_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:yellow_dye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_golden_candy_cane"
+      "has_yellow_dye",
+      "has_sugar"
     ]
   ],
   "rewards": {

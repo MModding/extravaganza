@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "G": "minecraft:glass",
+    "S": "extravaganza:purple_festive_rubber_slab",
+    "W": "extravaganza:purple_festive_rubber_wall"
+  },
+  "pattern": [
+    "G",
+    "W",
+    "S"
+  ],
+  "result": {
+    "id": "extravaganza:cotton_candy_machine"
+  }
+}

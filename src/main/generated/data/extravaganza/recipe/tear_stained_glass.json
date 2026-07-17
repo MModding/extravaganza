@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "minecraft:glass",
+    "X": "extravaganza:tear_dye"
+  },
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "result": {
+    "count": 8,
+    "id": "extravaganza:tear_stained_glass"
+  }
+}

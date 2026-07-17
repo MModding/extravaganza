@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:cyan_slipped_festive_rubber",
+  "result": {
+    "id": "extravaganza:cyan_slipped_festive_rubber_wall"
+  }
+}

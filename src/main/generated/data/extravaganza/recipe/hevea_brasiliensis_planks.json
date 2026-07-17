@@ -3,20 +3,7 @@
   "category": "building",
   "group": "planks",
   "ingredients": [
-    [
-      {
-        "item": "extravaganza:hevea_brasiliensis_log"
-      },
-      {
-        "item": "extravaganza:hevea_brasiliensis_wood"
-      },
-      {
-        "item": "extravaganza:stripped_hevea_brasiliensis_log"
-      },
-      {
-        "item": "extravaganza:stripped_hevea_brasiliensis_wood"
-      }
-    ]
+    "#extravaganza:hevea_brasiliensis_logs"
   ],
   "result": {
     "count": 4,

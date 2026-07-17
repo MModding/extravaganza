@@ -1,16 +1,26 @@
 package com.mmodding.extravaganza.init;
 
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
-import net.minecraft.world.GameRules;
+import com.mmodding.library.core.api.AdvancedContainer;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.gamerules.GameRule;
+import net.minecraft.world.level.gamerules.GameRuleCategory;
 
 public class ExtravaganzaGameRules {
 
-	public static final GameRules.Key<GameRules.IntRule> FESTIVE_BALL_AGE_PERCENTAGE_BEFORE_PICKING = new GameRules.Key<>("festiveBallAgePercentageBeforePicking", GameRules.Category.MOBS);
-	public static final GameRules.Key<GameRules.BooleanRule> PLAYERS_INTO_TRASH = new GameRules.Key<>("playersIntoTrash", GameRules.Category.PLAYER);
+	public static final GameRule<Integer> FESTIVE_BALL_AGE_PERCENTAGE_BEFORE_PICKING = GameRuleBuilder.forInteger(50)
+		.range(0, 100)
+		.category(GameRuleCategory.MOBS)
+		.build();
 
-	public static void register() {
-		GameRuleRegistry.register("festiveBallAgePercentageBeforePicking", GameRules.Category.MOBS, GameRuleFactory.createIntRule(50, 0, 100));
-		GameRuleRegistry.register("playersIntoTrash", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(false));
+	public static final GameRule<Boolean> PLAYERS_INTO_TRASH = GameRuleBuilder.forBoolean(false)
+		.category(GameRuleCategory.PLAYER)
+		.build();
+
+	public static void register(AdvancedContainer mod) {
+		mod.register(BuiltInRegistries.GAME_RULE, factory -> {
+			factory.register("festive_ball_age_percentage_before_picking", FESTIVE_BALL_AGE_PERCENTAGE_BEFORE_PICKING);
+			factory.register("players_into_trash", PLAYERS_INTO_TRASH);
+		});
 	}
 }

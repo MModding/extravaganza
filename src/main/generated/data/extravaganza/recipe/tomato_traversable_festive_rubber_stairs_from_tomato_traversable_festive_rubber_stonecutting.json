@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:tomato_traversable_festive_rubber",
+  "result": {
+    "id": "extravaganza:tomato_traversable_festive_rubber_stairs"
+  }
+}

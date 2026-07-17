@@ -1,11 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
-  "group": "wooden_trapdoor",
   "key": {
-    "#": {
-      "item": "extravaganza:hevea_brasiliensis_planks"
-    }
+    "#": "extravaganza:hevea_brasiliensis_planks"
   },
   "pattern": [
     "###",

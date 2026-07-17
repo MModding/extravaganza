@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_gray_sharped_festive_rubber_slab": {
+    "has_gray_sharped_festive_rubber": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:gray_sharped_festive_rubber_slab"
+            "items": "extravaganza:gray_sharped_festive_rubber"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_gray_sharped_festive_rubber_slab"
+      "has_gray_sharped_festive_rubber"
     ]
   ],
   "rewards": {

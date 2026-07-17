@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_plant_festive_rubber_grate_slab": {
+    "has_plant_festive_rubber_grate": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:plant_festive_rubber_grate_slab"
+            "items": "extravaganza:plant_festive_rubber_grate"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_plant_festive_rubber_grate_slab"
+      "has_plant_festive_rubber_grate"
     ]
   ],
   "rewards": {

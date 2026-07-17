@@ -1,11 +1,41 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_pinata": {
+    "has_blue_festive_rubber": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:pinata"
+            "items": "extravaganza:blue_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_green_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:green_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_orange_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:orange_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_red_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:red_festive_rubber"
           }
         ]
       },
@@ -16,12 +46,26 @@
         "recipe": "extravaganza:pinata"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_yellow_festive_rubber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "extravaganza:yellow_festive_rubber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_pinata"
+      "has_blue_festive_rubber",
+      "has_green_festive_rubber",
+      "has_yellow_festive_rubber",
+      "has_orange_festive_rubber",
+      "has_red_festive_rubber"
     ]
   ],
   "rewards": {

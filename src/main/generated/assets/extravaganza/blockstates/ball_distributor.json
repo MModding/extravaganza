@@ -1,12 +1,10 @@
 {
   "variants": {
     "facing=east,half=lower": {
-      "model": "extravaganza:block/ball_distributor_down",
-      "y": 90
+      "model": "extravaganza:block/ball_distributor_down"
     },
     "facing=east,half=upper": {
-      "model": "extravaganza:block/ball_distributor_up",
-      "y": 90
+      "model": "extravaganza:block/ball_distributor_up"
     },
     "facing=north,half=lower": {
       "model": "extravaganza:block/ball_distributor_down"

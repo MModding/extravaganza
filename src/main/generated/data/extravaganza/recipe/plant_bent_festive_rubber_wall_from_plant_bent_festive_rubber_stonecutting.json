@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "extravaganza:plant_bent_festive_rubber",
+  "result": {
+    "id": "extravaganza:plant_bent_festive_rubber_wall"
+  }
+}

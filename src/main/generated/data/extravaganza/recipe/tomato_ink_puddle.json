@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "minecraft:ink_sac",
+    "extravaganza:tomato_dye"
+  ],
+  "result": {
+    "count": 4,
+    "id": "extravaganza:tomato_ink_puddle"
+  }
+}

@@ -25,20 +25,20 @@
     {
       "apply": {
         "model": "extravaganza:block/green_trash_can_lid_open",
-        "y": 180
+        "y": 90
       },
       "when": {
-        "facing": "south",
+        "facing": "east",
         "open": "true"
       }
     },
     {
       "apply": {
         "model": "extravaganza:block/green_trash_can_lid_open",
-        "y": 90
+        "y": 180
       },
       "when": {
-        "facing": "east",
+        "facing": "south",
         "open": "true"
       }
     },

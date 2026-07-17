@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "extravaganza:block/yellow_scratched_festive_rubber_rotated_180",
+    "side": "extravaganza:block/yellow_scratched_festive_rubber_rotated_180",
+    "top": "extravaganza:block/yellow_scratched_festive_rubber_rotated_180"
+  }
+}

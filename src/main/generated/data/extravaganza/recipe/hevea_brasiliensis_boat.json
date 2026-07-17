@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "boat",
+  "key": {
+    "#": "extravaganza:hevea_brasiliensis_planks"
+  },
+  "pattern": [
+    "# #",
+    "###"
+  ],
+  "result": {
+    "id": "extravaganza:hevea_brasiliensis_boat"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": "minecraft:bread",
+    "C": "minecraft:cooked_beef",
+    "M": "minecraft:milk_bucket"
+  },
+  "pattern": [
+    " M ",
+    "BCB",
+    " M "
+  ],
+  "result": {
+    "id": "extravaganza:beesechurger"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "extravaganza:pink_scratched_festive_rubber_rotated_270_stairs"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

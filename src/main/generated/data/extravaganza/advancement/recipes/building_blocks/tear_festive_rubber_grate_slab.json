@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_tear_festive_rubber_grate_slab": {
+    "has_tear_festive_rubber_grate": {
       "conditions": {
         "items": [
           {
-            "items": "extravaganza:tear_festive_rubber_grate_slab"
+            "items": "extravaganza:tear_festive_rubber_grate"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_tear_festive_rubber_grate_slab"
+      "has_tear_festive_rubber_grate"
     ]
   ],
   "rewards": {

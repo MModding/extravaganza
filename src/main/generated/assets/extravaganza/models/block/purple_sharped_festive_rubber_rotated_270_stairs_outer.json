@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "extravaganza:block/purple_sharped_festive_rubber_rotated_270",
+    "side": "extravaganza:block/purple_sharped_festive_rubber_rotated_270",
+    "top": "extravaganza:block/purple_sharped_festive_rubber_rotated_270"
+  }
+}

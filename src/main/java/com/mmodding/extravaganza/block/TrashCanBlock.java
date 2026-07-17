@@ -2,91 +2,82 @@ package com.mmodding.extravaganza.block;
 
 import com.mmodding.extravaganza.init.ExtravaganzaDamageTypes;
 import com.mmodding.extravaganza.init.ExtravaganzaGameRules;
-import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
+import com.mmodding.library.block.api.catalog.SimpleHorizontalFacingBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
-public class TrashCanBlock extends HorizontalFacingBlock {
+public class TrashCanBlock extends SimpleHorizontalFacingBlock {
 
-	public static final MapCodec<TrashCanBlock> CODEC = TrashCanBlock.createCodec(TrashCanBlock::new);
+	public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
-	public static final BooleanProperty OPEN = Properties.OPEN;
+	public static final BooleanProperty LOCKED = BlockStateProperties.LOCKED;
 
-	public static final BooleanProperty LOCKED = Properties.LOCKED;
-
-	public TrashCanBlock(Settings settings) {
-		super(settings);
-		this.setDefaultState(this.getDefaultState().with(TrashCanBlock.FACING, Direction.NORTH).with(TrashCanBlock.OPEN, false).with(TrashCanBlock.LOCKED, false));
+	public TrashCanBlock(Properties properties) {
+		super(properties);
+		this.registerDefaultState(
+			this.defaultBlockState()
+				.setValue(TrashCanBlock.FACING, Direction.NORTH)
+				.setValue(TrashCanBlock.OPEN, false)
+				.setValue(TrashCanBlock.LOCKED, false)
+		);
 	}
 
 	@Override
-	protected MapCodec<? extends HorizontalFacingBlock> getCodec() {
-		return TrashCanBlock.CODEC;
-	}
-
-	@Override
-	protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-		if (!state.get(TrashCanBlock.LOCKED)) {
-			world.setBlockState(pos, state.with(TrashCanBlock.OPEN, !state.get(TrashCanBlock.OPEN)));
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+		if (!state.getValue(TrashCanBlock.LOCKED)) {
+			level.setBlock(pos, state.setValue(TrashCanBlock.OPEN, !state.getValue(TrashCanBlock.OPEN)), Block.UPDATE_ALL);
 		}
-		return ActionResult.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
-	protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (player.getStackInHand(hand).isOf(Items.DEBUG_STICK)) {
-			return ItemActionResult.FAIL;
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		if (player.getItemInHand(hand).is(Items.DEBUG_STICK)) {
+			return InteractionResult.FAIL;
 		}
-		else if (!player.getStackInHand(hand).isEmpty() && player.isSneaking()) {
-			stack.decrement(1);
-			player.setStackInHand(hand, stack);
-			return ItemActionResult.SUCCESS;
+		else if (!player.getItemInHand(hand).isEmpty() && player.isShiftKeyDown()) {
+			stack.shrink(1);
+			player.setItemInHand(hand, stack);
+			return InteractionResult.SUCCESS;
 		}
 		else {
-			return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return InteractionResult.TRY_WITH_EMPTY_HAND;
 		}
 	}
 
 	@Override
-	public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-		if (world.getBlockState(pos).get(TrashCanBlock.OPEN) && (!(entity instanceof PlayerEntity) || world.getGameRules().getBoolean(ExtravaganzaGameRules.PLAYERS_INTO_TRASH))) {
+	public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
+		if (level instanceof ServerLevel serverLevel && level.getBlockState(pos).getValue(TrashCanBlock.OPEN) && (!(entity instanceof Player) || level.getServer().getGameRules().get(ExtravaganzaGameRules.PLAYERS_INTO_TRASH))) {
 			DamageSource source;
-			if (entity instanceof LivingEntity livingEntity && livingEntity.getPrimeAdversary() != null) {
-				source = world.getDamageSources().create(ExtravaganzaDamageTypes.TRASH, livingEntity.getPrimeAdversary());
+			if (entity instanceof LivingEntity livingEntity && livingEntity.getKillCredit() != null) {
+				source = level.damageSources().source(ExtravaganzaDamageTypes.TRASH, livingEntity.getKillCredit());
 			}
 			else {
-				source = world.getDamageSources().create(ExtravaganzaDamageTypes.TRASH);
+				source = level.damageSources().source(ExtravaganzaDamageTypes.TRASH);
 			}
-			entity.damage(source, 1000000.0f);
+			entity.hurtServer(serverLevel, source, 1000000.0f);
 		}
 	}
 
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(TrashCanBlock.FACING, ctx.getHorizontalPlayerFacing().getOpposite());
-	}
-
-	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(TrashCanBlock.FACING);
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
 		builder.add(TrashCanBlock.OPEN);
 		builder.add(TrashCanBlock.LOCKED);
 	}
