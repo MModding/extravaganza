@@ -1,6 +1,8 @@
 package com.mmodding.extravaganza;
 
 import com.mmodding.extravaganza.init.*;
+import com.mmodding.library.config.api.Config;
+import com.mmodding.library.config.api.content.ConfigSpec;
 import com.mmodding.library.core.api.AdvancedContainer;
 import com.mmodding.library.core.api.ExtendedModInitializer;
 import com.mmodding.library.core.api.management.ElementsManager;
@@ -22,6 +24,13 @@ import org.slf4j.LoggerFactory;
 public class Extravaganza implements ExtendedModInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("extravaganza");
+
+	public static final Config CONFIG = Config.builder(
+		"config.extravaganza",
+		"mmmodding/extravaganza",
+		ConfigSpec.create()
+			.bool("censored_death_messages", true)
+	).build(createId("config"));
 
 	@Override
 	public void setupManager(ElementsManager manager) {

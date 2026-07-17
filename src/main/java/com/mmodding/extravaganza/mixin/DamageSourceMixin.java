@@ -1,6 +1,10 @@
 package com.mmodding.extravaganza.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.mmodding.extravaganza.Extravaganza;
 import com.mmodding.extravaganza.init.ExtravaganzaDamageTypes;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
@@ -12,13 +16,15 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.random.RandomGenerator;
 
 @Debug(export = true)
 @Mixin(DamageSource.class)
 public class DamageSourceMixin {
+
+	@Unique
+	private static final IntSet CENSORED_VARIANTS = IntSet.of(0, 11, 12, 13);
 
 	@Unique
 	private int variant = -1;
@@ -40,16 +46,24 @@ public class DamageSourceMixin {
 		}
 	}
 
-	@Inject(method = "getLocalizedDeathMessage", at = @At("HEAD"), cancellable = true)
-	private void injectVariant(LivingEntity victim, CallbackInfoReturnable<Component> cir) {
+	@WrapMethod(method = "getLocalizedDeathMessage")
+	private Component injectVariant(LivingEntity victim, Operation<Component> original) {
 		if (this.variant != -1) {
 			if (this.self) {
-				cir.setReturnValue(Component.translatable("death.trash." + this.variant, victim.getDisplayName()));
+				if (Extravaganza.CONFIG.getContent().bool("censored_death_messages") || !CENSORED_VARIANTS.contains(this.variant)) {
+					return Component.translatable("death.trash." + this.variant, victim.getDisplayName());
+				}
+				else {
+					return Component.translatable("death.trash." + this.variant + ".uncensored", victim.getDisplayName());
+				}
 			}
 			else {
 				assert this.causingEntity != null;
-				cir.setReturnValue(Component.translatable("death.trash.player." + this.variant, victim.getDisplayName(), this.causingEntity.getDisplayName()));
+				return Component.translatable("death.trash.player." + this.variant, victim.getDisplayName(), this.causingEntity.getDisplayName());
 			}
+		}
+		else {
+			return original.call(victim);
 		}
 	}
 }
