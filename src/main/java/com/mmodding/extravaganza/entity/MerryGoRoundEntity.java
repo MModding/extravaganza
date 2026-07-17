@@ -25,21 +25,16 @@ public class MerryGoRoundEntity extends VehicleEntity {
 
 	private static final EntityDataAccessor<Byte> POWER = SynchedEntityData.defineId(MerryGoRoundEntity.class, EntityDataSerializers.BYTE);
 
-	private final InterpolationHandler interpolation;
+	private final InterpolationHandler interpolation = new InterpolationHandler(this, 3);
 
 	public MerryGoRoundEntity(EntityType<?> entityType, Level level) {
 		super(entityType, level);
-		this.interpolation = new InterpolationHandler(this, this::onInterpolation);
 	}
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder entityData) {
 		super.defineSynchedData(entityData);
 		entityData.define(POWER, (byte) 1);
-	}
-
-	private void onInterpolation(InterpolationHandler interpolation) {
-		this.setRot(interpolation.xRot(), interpolation.yRot());
 	}
 
 	@Override
@@ -65,13 +60,17 @@ public class MerryGoRoundEntity extends VehicleEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		this.interpolation.setInterpolationLength(11 - this.entityData.get(MerryGoRoundEntity.POWER));
+
+		if (!this.getPassengers().isEmpty()) {
+			this.setYRot(this.getYRot() + 3 * this.entityData.get(POWER));
+		}
 	}
 
-	/* @Override
-	public @Nullable InterpolationHandler getInterpolation() {
+	@Override
+	@Nullable
+	public InterpolationHandler getInterpolation() {
 		return this.interpolation;
-	} */
+	}
 
 	@Override
 	public boolean canBeCollidedWith(Entity other) {
